@@ -31,15 +31,14 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_candidatura")
+@Table(name = "doc_candidatura", schema="documentos")
 @Entity
 public class Candidatura extends BaseEntity {
     
     @ManyToOne
     @JoinColumn(name = "fk_documento")
     private Documento documento;
-    
-    
+
     enum CandidaturaDecisao{
         ENQUADRADO, //ESTA ENQUADRADO
         DESENQUADRADO;

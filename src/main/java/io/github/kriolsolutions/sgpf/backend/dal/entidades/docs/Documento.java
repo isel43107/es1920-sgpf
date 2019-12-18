@@ -20,6 +20,8 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,10 +34,12 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "documento_cabecalho")
+@Table(name = "documento", schema="documentos")
 @Entity
 public class Documento extends BaseEntity{
     
+    @ManyToOne
+    @JoinColumn(name = "fk_projeto")
     private Projeto projeto;
     
     @Enumerated(EnumType.STRING)

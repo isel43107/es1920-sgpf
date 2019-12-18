@@ -33,9 +33,10 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_desp_fin_incentivo")
+@Table(name = "doc_desp_fin_incentivo", schema="documentos")
 @Entity
 public class DespachoFinIncentivo extends BaseEntity{
+    
     @ManyToOne
     @JoinColumn(name = "fk_documento")
     private Documento documento;

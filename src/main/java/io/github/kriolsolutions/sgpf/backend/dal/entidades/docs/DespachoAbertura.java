@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_desp_abertura")
+@Table(name = "doc_desp_abertura", schema="documentos")
 @Entity
 public class DespachoAbertura extends BaseEntity{
     
