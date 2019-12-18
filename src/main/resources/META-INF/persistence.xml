@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <!--
+    <persistence-unit name="sgpf-pu2" transaction-type="RESOURCE_LOCAL">
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:sgpf_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" />
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value="sa"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+        </properties>
+       
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:sgpf_db"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value="sa"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+        </properties>
+        
+    </persistence-unit>
+        -->
+  <!-- 
+    <persistence-unit name="sgpf-pu-postgres" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>jdbc/sgpf_datasource</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="tomee.jpa.factory.lazy" value="true" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+        </properties>
+    </persistence-unit>
+    -->
+  <persistence-unit name="sgpf-pu" transaction-type="JTA">
+    <description>Persistence with Hibernate JPA</description>
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <jta-data-source>jdbc/sgpf_datasource</jta-data-source>
+    <class>io.github.kriolsolutions.sgpf.web.ui.projeto.ProjetoManager</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="tomee.jpa.factory.lazy" value="true"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
+    </properties>
+  </persistence-unit>
+</persistence>

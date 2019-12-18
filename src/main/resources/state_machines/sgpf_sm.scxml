@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2019 KriolSolutions.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<scxml xmlns="http://www.w3.org/2005/07/scxml" 
+       xmlns:cs="http://commons.apache.org/scxml"
+       version="1.0" 
+       name="SGPF_Workflow" 
+       initialstate="EM_CANDIDATURA">
+
+    <state id="EM_CANDIDATURA">
+        <!--  -->
+        <transition event="ENQUADRADO" target="DESPACHO_ABERTURA" />
+        <transition event="DESENQUADRADO" target="PROJETO_ARQUIVADO" />
+    </state>
+
+    <state id="DESPACHO_ABERTURA">
+        <transition event="APROVADO" target="PARECER_TECNICO" />
+        <!-- 
+        <transition event="REJEITADO" target="ARQUIVADO" />
+        -->
+    </state>
+
+    <state id="PARECER_TECNICO">
+        <transition event="FAVORAVEL" target="DESPACHO_FINANCIAMENTO" />
+        <transition event="DESFAVORAVEL" target="PROJETO_ARQUIVADO" />
+    </state>
+
+    <state id="DESPACHO_FINANCIAMENTO">
+        <transition event="APROVADO" target="EM_PAGAMENTO" />
+        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+    </state>
+        
+        
+    <state id="PROJETO_ARQUIVADO">
+        <transition event="REENQUADRADO" target="EM_CANDIDATURA" />
+    </state>
+        
+    <state id="DESPACHO_FINANCIAMENTO">
+
+        <transition event="APROVADO" target="EM_FINANCIAMENTO" />
+        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+    </state>
+    
+    <state id="DESPACHO_REFORCO">
+
+        <transition event="APROVADO" target="PAG_HISTORICO" />
+        <transition event="REJEITADO" target="PAG_HISTORICO" />
+    </state>
+    
+    <state id="EM_FINANCIAMENTO">
+
+        <initial>
+            <transition target="PAG_HISTORICO"/>
+        </initial>
+        <history id="PAG_HISTORICO" type="shallow">
+            <transition target="PAGAMENTO"/>
+        </history>
+            
+        <state id="EM_PAGAMENTO">
+            <transition event="FIM_PAGAMENTO" target="PROJETO_FECHADO"/>
+        </state>
+        
+        <state id="PROJETO_FECHADO"/>
+        
+        <transition event="REFORCO" target="DESPACHO_REFORCO" />
+        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+    </state>
+
+    <state id="PROJETO_REJEITADO" final="true">
+        <!--  -->
+    </state>
+
+</scxml>
