@@ -15,6 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import io.github.kriolsolutions.sgpf.web.ui.projeto.AbstractProjetoForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
