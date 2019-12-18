@@ -37,26 +37,45 @@ public class Projeto extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @Column(name = "proj_designacao")
     private String projDesignacao;
+    
+    @Column(name = "proj_numero")
     private String projNumero;
+    
+    @Column(name = "proj_nib")
     private String projNIB;
+    
+    @Column(name = "proj_mnt_solicitado")
     private double projMontanteSolicitado;
+    
+    @Column(name = "proj_descricao")
     private String projDescricao;
 
-    @Column(name = "projeto_tipo")
+    @Column(name = "proj_tipo")
     @Enumerated(EnumType.STRING)
     private ProjetoTipo projTipo;   
     
-    @Column(name = "projeto_estado")
+    @Column(name = "proj_estado")
     @Enumerated(EnumType.STRING)
     private ProjetoEstado projEstado;
     
+    @Column(name = "promotor_designacao")
     private String promotorDesignacao;
+    
+    @Column(name = "promotor_nif")
     private String promotorNIF;
+    
+    @Column(name = "promotor_nacionalidade")
     private String promotorNacionalidade;
     
+    @Column(name = "contato_nome")
     private String contatoNome;
+    
+    @Column(name = "contato_email")
     private String contatoEmail;
+    
+    @Column(name = "contato_telefone")
     private String contatoTelefone;
     
     public static enum ProjetoTipo {

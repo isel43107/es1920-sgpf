@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 //@AllArgsConstructor
-@Table(name = "historico")
+@Table(name = "projeto_historico")
 @Entity
 public class Historico extends BaseEntity {
 

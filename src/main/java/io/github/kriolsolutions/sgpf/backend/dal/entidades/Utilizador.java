@@ -15,13 +15,9 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal.entidades;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "utilizador") // Para Evitar colisões em SGBP estupido 
+@Table(name = "utilizador")
 @Entity
 public class Utilizador extends BaseEntity{
 
