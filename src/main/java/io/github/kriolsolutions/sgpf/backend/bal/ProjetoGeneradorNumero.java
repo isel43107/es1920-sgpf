@@ -15,6 +15,8 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal;
 
+import java.time.LocalDate; 
+
 /**
  *
  * @author pauloborges
@@ -29,6 +31,13 @@ public class ProjetoGeneradorNumero {
      *  SequenciaInicial: 1 devera ser o valor Omissão se não definido 
      *  SequenciaActual: obter o numero actual se existir ? incrementar 1 : e guardar o novo
      *  Formato ${Prefixo}${SequenciaActual}
+     * @param numero
+     * @return 
      */
+    public String gerarNumeroProjeto(Long numero){
+        long ano = LocalDate.now().getYear();
+        String formatted = String.format("%d-%07d",ano, numero);
+        return formatted;
+    }
     
 }

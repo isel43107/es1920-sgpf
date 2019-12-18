@@ -15,19 +15,14 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.projeto;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.provider.DataProvider;
 import io.github.kriolsolutions.sgpf.backend.dal.ProjetoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.CandidaturaForm;
-import java.util.List;
 
 /**
  *
@@ -35,13 +30,11 @@ import java.util.List;
  */
 public class ProjetoManager  extends VerticalLayout {
 
-    private final ProjetoRepository projetoRepository;
     private final ProjetoGrid projetoGrid;
     
     public ProjetoManager(ProjetoRepository projetoRepository){
     
-        this.projetoGrid = new ProjetoGrid();
-        this.projetoRepository = projetoRepository;
+        this.projetoGrid = new ProjetoGrid(projetoRepository);
         
         addActionsButtons();
         addGrid();
@@ -69,29 +62,6 @@ public class ProjetoManager  extends VerticalLayout {
     }
     
     private void addGrid(){
-        
-        DataProvider<Projeto, Void> projetoDataProvider
-                = DataProvider.fromCallbacks(
-                        // First callback fetches items based on a query
-                        query -> {
-                            // The index of the first item to load
-                            int offset = query.getOffset();
-
-                            // The number of items to load
-                            int limit = query.getLimit();
-
-                            List<Projeto> projetos = projetoRepository.findAll(offset, limit);
-                            return projetos.stream();
-                        },
-                        query -> projetoRepository.count().intValue()
-                );
-        
-        //projetoGrid.setItems(projetoRepository.findAll());
-        
-        this.projetoGrid.setDataProvider(projetoDataProvider);
-        
-        
         this.add(this.projetoGrid);
     }
-    
 }

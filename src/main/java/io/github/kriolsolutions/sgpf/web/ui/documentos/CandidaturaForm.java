@@ -18,13 +18,7 @@ package io.github.kriolsolutions.sgpf.web.ui.documentos;
 import io.github.kriolsolutions.sgpf.web.ui.projeto.AbstractProjetoForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
-import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
 
 /**
  *
@@ -34,10 +28,10 @@ public class CandidaturaForm extends AbstractProjetoForm {
 
     public CandidaturaForm() {
         super();
-        buildCandidaturaButtons();
+        buildActionsButtons();
     }
 
-    private void buildCandidaturaButtons(){
+    private void buildActionsButtons(){
         /* */
         // Button bar
         Button aceitarButton = new Button("Aceitar");

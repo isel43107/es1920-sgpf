@@ -15,10 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.projeto;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -32,6 +29,22 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
 public abstract class AbstractProjetoForm extends FormLayout {
 
     private final Binder<Projeto> binder = new Binder<>(Projeto.class);
+    
+    // FIELD TRANSLATION - SHOULD GO TO resource files, but now put here 
+    // NOT WORK YET: getTranslation("AbstractProjetoForm.projDesignacao.label")
+    private final static String TX_PROJ_DESIGNACAO = "";
+    private final static String TX_PROJ_MNT_SOLICITADO = "";
+    private final static String TX_PROJ_NIB = "";
+    private final static String TX_PROJ_DESCRICAO = "";
+    
+    private final static String TX_PROMOTOR_DESIGNACAO = "";
+    private final static String TX_PROMOTOR_NIF = "";
+    private final static String TX_PROMOTOR_NACIONALIDADE = "";
+    
+    private final static String TX_CONTATO_NOME = "";
+    private final static String TX_CONTATO_TEL = "";
+    private final static String TX_CONTATO_EMAIL = "";
+    
 
     //Campos relativo a informação projeto
     TextField projDesignacao = new TextField();
@@ -64,20 +77,30 @@ public abstract class AbstractProjetoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("25em", 1),
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
-
+        //
+        projDesignacao.setLabel("Designação do projeto");
         projDesignacao.setPlaceholder("Designação do projeto");
+        projMontanteSolicitado.setLabel("Montante solicitado");
         projMontanteSolicitado.setPlaceholder("Montante solicitado");
+        projNIB.setLabel("NIB");
         projNIB.setPlaceholder("NIB");
+        projDescricao.setLabel("Descrição do projeto");
         projDescricao.setPlaceholder("Descrição do projeto");
 
-        //Campos - PROMOTOR
+        //Campos - 
+        promotorDesignacao.setLabel("Designação do promotor");
         promotorDesignacao.setPlaceholder("Designação do promotor");
+        promotorNIF.setLabel("NIF do promotor");
         promotorNIF.setPlaceholder("NIF do promotor");
+        promotorNacionalidade.setLabel("Nacionalidade do promotor");
         promotorNacionalidade.setPlaceholder("Nacionalidade do promotor");
 
         //Campos - CONTACTO
+        contatoNome.setLabel("Nome do contato");
         contatoNome.setPlaceholder("Nome do contato");
+        contatoTelefone.setLabel("Telefone do contato");
         contatoTelefone.setPlaceholder("Telefone do contato");
+        contatoEmail.setLabel("E-mail do contato");
         contatoEmail.setPlaceholder("E-mail do contato");
 
         this.add(projDesignacao, projMontanteSolicitado, projNIB, projDescricao);

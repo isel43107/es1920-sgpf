@@ -1,0 +1,2 @@
+CREATE SCHEMA documentos;
+CREATE SCHEMA auth;

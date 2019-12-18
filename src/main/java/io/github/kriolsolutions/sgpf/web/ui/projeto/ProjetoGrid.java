@@ -19,15 +19,21 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.data.provider.DataProvider;
+import io.github.kriolsolutions.sgpf.backend.dal.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
 import java.text.DecimalFormat;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  *
@@ -35,10 +41,18 @@ import java.util.Comparator;
  */
 public class ProjetoGrid extends Grid<Projeto> {
 
-    public ProjetoGrid() {
+    private final ProjetoRepository projetoRepository;
+
+    public ProjetoGrid(ProjetoRepository projetoRepository) {
+        this.projetoRepository = projetoRepository;
 
         setSizeFull();
+        initComponent();
+        setDataprovider();
+        setupEditor();
+    }
 
+    private void initComponent() {
         addColumn(Projeto::getProjNumero).setHeader("Numero projeto")
                 .setFlexGrow(10).setSortable(true).setKey("projNumero");
 
@@ -73,6 +87,19 @@ public class ProjetoGrid extends Grid<Projeto> {
         // (e.g. switching from portrait to landscape mode)
         UI.getCurrent().getPage().addBrowserWindowResizeListener(
                 e -> setColumnVisibility(e.getWidth()));
+    }
+
+    private void setupEditor() {
+
+        ProjetoEditorForm projetoEditor = new ProjetoEditorForm();
+        Dialog projetoDialog = new Dialog(projetoEditor);
+
+        this.getEditor().addOpenListener((editoOpenEvent) -> {
+            Projeto projeto = editoOpenEvent.getItem();
+            projetoEditor.getBinder().readBean(projeto);
+            projetoDialog.open();
+        });
+        this.getEditor().setBinder(projetoEditor.getBinder());
     }
 
     private void setColumnVisibility(int width) {
@@ -147,29 +174,34 @@ public class ProjetoGrid extends Grid<Projeto> {
                     despachoAberturaOptions(projeto);
                 });
                 break;
-                
+
             case DESPACHO_FINANCIAMENTO:
                 button.addClickListener(clickEvent -> {
                     despachoFinanciamentoOptions(projeto);
                 });
                 break;
-            case DESPACHO_REFORCO:button.addClickListener(clickEvent -> {
+            case DESPACHO_REFORCO:
+                button.addClickListener(clickEvent -> {
                     Notification.show("DESPACHO_REFORCO sera implementado brevemente");
                 });
                 break;
-            case EM_PAGAMENTO:button.addClickListener(clickEvent -> {
+            case EM_PAGAMENTO:
+                button.addClickListener(clickEvent -> {
                     Notification.show("EM_PAGAMENTO sera implementado brevemente");
                 });
                 break;
-            case PROJETO_ARQUIVADO:button.addClickListener(clickEvent -> {
+            case PROJETO_ARQUIVADO:
+                button.addClickListener(clickEvent -> {
                     Notification.show("PROJETO_ARQUIVADO sera implementado brevemente");
                 });
                 break;
-            case PROJETO_REJEITADO:button.addClickListener(clickEvent -> {
+            case PROJETO_REJEITADO:
+                button.addClickListener(clickEvent -> {
                     Notification.show("PROJETO_REJEITADO sera implementado brevemente");
                 });
                 break;
-            case PROJETO_SUSPENSO:button.addClickListener(clickEvent -> {
+            case PROJETO_SUSPENSO:
+                button.addClickListener(clickEvent -> {
                     Notification.show("PROJETO_SUSPENSO sera implementado brevemente");
                 });
                 break;
@@ -178,15 +210,13 @@ public class ProjetoGrid extends Grid<Projeto> {
         //TODO Depende do estado do projeto
         return button;
     }
-    
+
     //TODO - visto a copia do codio para cria opções podemos de certeza
     //Sera possivel criar uma interface/abstrac que defina o conceito de Options/Opções
     //Action 
     //  - CandidaturaAction {Aceitar, Abrir, Arquivar}
     //  - DespachoAberturaAction {Aprovar, Rejeitar}
     //
-    
-    
     private Component candidaturaOptions(Projeto projeto) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.addItem("Abrir projeto",
@@ -199,28 +229,68 @@ public class ProjetoGrid extends Grid<Projeto> {
 
         return contextMenu;
     }
-    
+
     private Component despachoAberturaOptions(Projeto projeto) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.addItem("Emitir despacho abertura",
                 event -> Notification.show(
                         "Emitir despacho abertura, devera abrir o formulario de abertura. "
-                +"Formulario DespachoAberturaForm devera contem as opções: "
-                +"APROVADO, REJEITADO(NAO TEM esta opção)"));
+                        + "Formulario DespachoAberturaForm devera contem as opções: "
+                        + "APROVADO, REJEITADO(NAO TEM esta opção)"));
         contextMenu.setVisible(true);
 
         return contextMenu;
     }
-    
+
     private Component despachoFinanciamentoOptions(Projeto projeto) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.addItem("Emitir despacho financiamento",
                 event -> Notification.show(
                         "Devera abrir o formulario do despacho de acordo com tipo projeto: "
-                +"DespachoFinIncentivoForm, DespachoFinBonificacaoForm"));
+                        + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm"));
 
         contextMenu.setVisible(true);
 
         return contextMenu;
+    }
+
+    private void setDataprovider() {
+
+        DataProvider<Projeto, Void> projetoDataProvider
+                = DataProvider.fromCallbacks(
+                        // First callback fetches items based on a query
+                        query -> {
+                            // The index of the first item to load
+                            int offset = query.getOffset();
+
+                            // The number of items to load
+                            int limit = query.getLimit();
+
+                            List<Projeto> projetos = projetoRepository.findAll(offset, limit);
+                            return projetos.stream();
+                        },
+                        query -> projetoRepository.count().intValue()
+                );
+
+        //projetoGrid.setItems(projetoRepository.findAll());
+        this.setDataProvider(projetoDataProvider);
+
+    }
+
+    class ProjetoEditorForm extends AbstractProjetoForm {
+
+        public ProjetoEditorForm() {
+            super();
+        }
+
+        private void buildActionsButtons() {
+            // Button bar
+            Button aceitarButton = new Button("Guardar");
+            aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            HorizontalLayout actions = new HorizontalLayout();
+            actions.add(aceitarButton);
+            actions.getStyle().set("marginRight", "10px");
+            this.add(actions);
+        }
     }
 }

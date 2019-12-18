@@ -139,7 +139,7 @@ public class ExampleUI extends VerticalLayout {
     }
 
     private Component createProjetoGrid() {
-        ProjetoGrid grid = new ProjetoGrid();
+        ProjetoGrid grid = new ProjetoGrid(this.projetoRepository);
 
         DataProvider<Projeto, Void> dataProvider
                 = DataProvider.fromCallbacks(
