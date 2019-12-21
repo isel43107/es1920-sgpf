@@ -3,6 +3,7 @@ package io.github.kriolsolutions.sgpf.web.ui.auth;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.notification.Notification;
@@ -56,15 +57,17 @@ public class LoginScreen extends FlexLayout {
         VerticalLayout loginInformation = new VerticalLayout();
         loginInformation.setClassName("login-information");
 
-        H1 loginInfoHeader = new H1("Login to SGPF");
+        H1 loginInfoHeader = new H1("SGPF");
         loginInfoHeader.setWidth("100%");
-        Span loginInfoText0 = new Span("Log in with \"admin\" to have full access.");
-        Span loginInfoText1 = new Span("Log in with any other tc1/gf1/cf1 to have read-only access.");
-        Span loginInfoText2 = new Span("For all users, the password is same as the username.");
+        H2 loginInfoH = new H2("Utilizadores de test");
+        Span loginInfoText0 = new Span("* tecnico/tecnico");
+        Span loginInfoText1 = new Span("* Gestor Financiamento: gfin/gfin");
+        Span loginInfoText2 = new Span("* Comissão Financiamento: cfin/cfin");
         loginInfoText0.setWidth("100%");
         
         
         loginInformation.add(loginInfoHeader);
+        loginInformation.add(loginInfoH);
         loginInformation.add(loginInfoText0);
         loginInformation.add(loginInfoText1);
         loginInformation.add(loginInfoText2);

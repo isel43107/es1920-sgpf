@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "utilizador")
+@Table(name = "utilizador", schema="projeto")
 @Entity
 public class Utilizador extends BaseEntity{
 

@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 public class ParecerTecnico extends BaseEntity{
     
     @ManyToOne
-    @JoinColumn(name = "fk_documento")
+    @JoinColumn(name = "fk_documento_parecer_tecnico_documento")
     private Documento documento;
 
     @Enumerated(EnumType.STRING)

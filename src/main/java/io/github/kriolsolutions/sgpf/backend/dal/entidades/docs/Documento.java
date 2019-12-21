@@ -39,7 +39,7 @@ import lombok.NoArgsConstructor;
 public class Documento extends BaseEntity{
     
     @ManyToOne
-    @JoinColumn(name = "fk_projeto")
+    @JoinColumn(name = "fk_documento_projeto")
     private Projeto projeto;
     
     @Enumerated(EnumType.STRING)

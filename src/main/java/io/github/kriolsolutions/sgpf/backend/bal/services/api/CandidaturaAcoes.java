@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.bal;
+package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
 /**
  *
  * @author pauloborges
  */
-public class AceitacaoProjetoAcoes {
+public class CandidaturaAcoes {
+ 
     
-    public void aceitar(){
+    public void abir(){}
     
-    }
+    public void arquivar(){}
 }

@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "projeto")
+@Table(name = "projeto", schema="projeto")
 @Entity
 public class Projeto extends BaseEntity {
 

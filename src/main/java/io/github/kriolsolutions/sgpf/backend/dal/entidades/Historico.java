@@ -17,12 +17,8 @@ package io.github.kriolsolutions.sgpf.backend.dal.entidades;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto.ProjetoEstado;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento;
-import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -38,7 +34,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 //@AllArgsConstructor
-@Table(name = "projeto_historico")
+@Table(name = "projeto_historico", schema="projeto")
 @Entity
 public class Historico extends BaseEntity {
 
