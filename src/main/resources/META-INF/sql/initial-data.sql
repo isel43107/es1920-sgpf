@@ -1,0 +1,3 @@
+-- inserção projeto exemplo
+-- INSERT 
+INSERT INTO projeto.projeto( id, created_date, last_modified_date, version, contato_email, contato_nome, contato_telefone, proj_descricao, proj_designacao, proj_estado, proj_mnt_solicitado, proj_nib, proj_numero, proj_tipo, promotor_designacao, promotor_nif, promotor_nacionalidade ) values(null, 1541845201, 1541845201, 1, 'lui@example.com', 'Luis', '91111111111', 'FET-Open project ChipScope and the new tiny microscopes', 'ChipScope', 'EM_CANDIDATURA', 2000000.0, 'NIB 1234', '2019-00001', 'INCENTIVO', 'UNIVERSIDADE DE BARCELONA', '111111111', 'Espanha');

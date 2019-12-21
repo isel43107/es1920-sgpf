@@ -1,2 +1,3 @@
 CREATE SCHEMA documentos;
 CREATE SCHEMA auth;
+CREATE SCHEMA projeto;

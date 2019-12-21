@@ -77,7 +77,6 @@ limitations under the License.
         <state id="PROJETO_FECHADO"/>
         
         <transition event="REFORCO" target="DESPACHO_REFORCO" />
-        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
     </state>
 
     <state id="PROJETO_REJEITADO" final="true">

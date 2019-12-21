@@ -26,6 +26,6 @@ limitations under the License.
 		datasource-classname="org.hsqldb.jdbc.JDBCPool">
 		<property name="user" value="sa" />
 		<property name="password" value="sa" />
-		<property name="url" value="jdbc:hsqldb:file:~/.sgpf/sgpf_database" />
+		<property name="url" value="jdbc:hsqldb:file:~/sgpf/sgpf_database" />
 	</jdbc-connection-pool>
 </resources>
