@@ -36,6 +36,16 @@ public class DespachoAberturaForm extends FormLayout {
 
     //Campos - PROMOTOR
     private NumberField utilizadorGestorFin = new NumberField();
+    Button aceitarButton = new Button("Aprovar");
+    Button arquivarButton = new Button("Arquivar");
+
+    public Button getAceitarButton() {
+        return aceitarButton;
+    }
+
+    public Button getArquivarButton() {
+        return arquivarButton;
+    }
     private final DespachoAberturaAcoes aberturaAccoes;
     
     public DespachoAberturaForm( DespachoAberturaAcoes aberturaAccoes){
@@ -61,15 +71,14 @@ public class DespachoAberturaForm extends FormLayout {
     private void buildActionsButtons(){
         /* */
         // Button bar
-        Button aceitarButton = new Button("Aprovar");
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
-            //Projeto proj = getBinder().getBean();
-            //aceitacaoCandidaturaAcoes.aceitar(proj);
+            Projeto proj = getBinder().getBean();
+            this.aberturaAccoes.aprovar(proj);
         });
         
         
-        Button arquivarButton = new Button("Arquivar");
+        
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         
         HorizontalLayout actions = new HorizontalLayout();
