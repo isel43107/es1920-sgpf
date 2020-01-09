@@ -49,6 +49,8 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
+import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinIncentivoForm;
+import io.github.kriolsolutions.sgpf.web.ui.documentos.ParecerTecnicoForm;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -383,7 +385,7 @@ public class ProjetoManagerView extends VerticalLayout {
                             + "Formulario DespachoAberturaForm devera contem as opções: "
                             + "APROVADO, REJEITADO(NAO TEM esta opção)");
 
-                    DespachoAberturaForm candForm = new DespachoAberturaForm(sgpfacade.getDespachoAberturaAcoes());
+                    DespachoAberturaForm candForm = new DespachoAberturaForm(sgpfacade.getDespachoAberturaAcoes(), projeto);
                     Dialog candDialog = new Dialog(candForm);
                     candDialog.open();
 
@@ -403,10 +405,22 @@ public class ProjetoManagerView extends VerticalLayout {
     private Component parecerTecnicoOptions(Component component, Projeto projeto) {
         ContextMenu contextMenu = new ContextMenu(component);
         contextMenu.addItem("Emitir parecer Tecnico",
-                event -> Notification.show(
-                        "Parecer tecnico "
-                        + "Formulario ParecerTecnicoForm devera contem as opções: "
-                        + "FAVORAVEL, DESFAVORAVEL"));
+                event
+                -> {
+            Notification.show(
+                    "Parecer tecnico "
+                    + "Formulario ParecerTecnicoForm devera contem as opções: "
+                    + "FAVORAVEL, DESFAVORAVEL");
+
+            ParecerTecnicoForm candForm = new ParecerTecnicoForm(sgpfacade.getParecerTecnicoAcoes(), projeto);
+            Dialog candDialog = new Dialog(candForm);
+            candDialog.open();
+
+            candForm.getFavoravelButton().addClickListener((e) -> {
+                candDialog.close();
+            });
+        }
+        );
         contextMenu.setVisible(true);
 
         //workaround for issue vaadin-context-menu-flow/issues/47
@@ -414,14 +428,26 @@ public class ProjetoManagerView extends VerticalLayout {
 
         return contextMenu;
     }
-    
 
     private Component despachoFinanciamentoOptions(Component component, Projeto projeto) {
         ContextMenu contextMenu = new ContextMenu(component);
         contextMenu.addItem("Emitir despacho financiamento",
-                event -> Notification.show(
-                        "Devera abrir o formulario do despacho de acordo com tipo projeto: "
-                        + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm"));
+                event -> {
+                    Notification.show(
+                            "Devera abrir o formulario do despacho de acordo com tipo projeto: "
+                            + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm");
+                    /* 
+                DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getParecerTecnicoAcoes(), projeto);
+            Dialog candDialog = new Dialog(candForm);
+            candDialog.open();
+
+            candForm.getFavoravelButton().addClickListener((e) -> {
+                candDialog.close();
+            });
+                     */
+                }
+        );
+
         contextMenu.setVisible(true);
 
         //workaround for issue vaadin-context-menu-flow/issues/47

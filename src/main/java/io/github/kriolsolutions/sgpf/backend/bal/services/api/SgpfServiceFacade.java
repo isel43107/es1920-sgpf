@@ -40,6 +40,8 @@ public class SgpfServiceFacade {
 
     //@Inject
     private ProjetoActivacaoAcoes projetoAcoes;
+    
+    private ParecerTecnicoAcoes parecerTecnicoAcoes;
 
     public AceitacaoCandidaturaAcoes getAceitacaoCandidaturaAcoes() {
         return aceitacaoCandidaturaAcoes;
@@ -64,5 +66,11 @@ public class SgpfServiceFacade {
     public ProjetoActivacaoAcoes getProjetoAcoes() {
         return projetoAcoes;
     }
+
+    public ParecerTecnicoAcoes getParecerTecnicoAcoes() {
+        return parecerTecnicoAcoes;
+    }
+    
+    
 
 }
