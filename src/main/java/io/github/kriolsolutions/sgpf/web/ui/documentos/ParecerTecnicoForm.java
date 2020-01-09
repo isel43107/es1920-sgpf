@@ -15,10 +15,14 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.ParecerTecnicoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
@@ -28,11 +32,29 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 public class ParecerTecnicoForm extends FormLayout {
     private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
 
-    private NumberField utilizadorGestorFin = new NumberField();
+    Button favoravelButton = new Button("Favoravel");
+    Button desfavoravelButton = new Button("Desfavoravel");
+    private NumberField projMontanteSolicitado = new NumberField();
+    private Projeto projecto;
+    private ParecerTecnicoAcoes parecerAccoes;
+
+    public ParecerTecnicoForm ( ParecerTecnicoAcoes parecerAccoes  , Projeto projecto ) {
+        this.projecto = projecto ; 
+        this.parecerAccoes = parecerAccoes; 
+    }
+
+    public Button getFavoravelButton() {
+        return favoravelButton;
+    }
+
+    public Button getDesfavoravelButton() {
+        return desfavoravelButton;
+    }
     
-    public ParecerTecnicoForm(){
+    public ParecerTecnicoForm( ){
     
         init();
+        buildActionsButtons();
     }
 
     private void init() {
@@ -42,12 +64,35 @@ public class ParecerTecnicoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
         
-        utilizadorGestorFin.setLabel("Gestor de financiamento");
+        projMontanteSolicitado.setLabel("Montante Solicitado");
         binder.bindInstanceFields(this);
+        binder.readBean(this.projecto);
+        
+        
     }
     
     
     public Binder<Projeto> getBinder() {
         return binder;
+    }
+    
+    private void buildActionsButtons(){
+        /* */
+        // Button bar
+        favoravelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        favoravelButton.addClickListener((event) -> {
+            Projeto proj = getBinder().getBean();
+            this.parecerAccoes.favoravel(proj);
+        });
+        desfavoravelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        desfavoravelButton.addClickListener((event) -> {
+            Projeto proj = getBinder().getBean();
+            this.parecerAccoes.desfavoravel(proj);
+        });
+        
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(favoravelButton, desfavoravelButton);
+        actions.getStyle().set("marginRight", "10px");
+        //this.add(actions);
     }
 }

@@ -15,7 +15,10 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -34,8 +37,12 @@ public class DespachoFinBonificacaoForm extends FormLayout {
 
     private NumberField utilizadorGestorFin = new NumberField();
     
-    public DespachoFinBonificacaoForm(){
+    Button aceitarButton = new Button("Aprovar");
+    Button arquivarButton = new Button("Arquivar");
+    private final Projeto projeto;
     
+    public DespachoFinBonificacaoForm( Projeto projeto ){
+        this.projeto = projeto;
         init();
     }
 
@@ -47,12 +54,28 @@ public class DespachoFinBonificacaoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("40em", 3));
         
         utilizadorGestorFin.setLabel("Gestor de financiamento");
-                binder.bindInstanceFields(this);
+        binder.bindInstanceFields(this);
+        binder.readBean(this.projeto);
     }
     
     public Binder<Projeto> getBinder() {
         return binder;
     }
     
+    private void buildActionsButtons(){
+        /* */
+        // Button bar
+        aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        aceitarButton.addClickListener((event) -> {
+            Projeto proj = getBinder().getBean();
+            //this.aberturaAccoes.aprovar(proj);
+        });
+        arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(aceitarButton, arquivarButton);
+        actions.getStyle().set("marginRight", "10px");
+        //this.add(actions);
+    }
     
 }

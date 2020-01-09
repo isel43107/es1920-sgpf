@@ -38,6 +38,7 @@ public class DespachoAberturaForm extends FormLayout {
     private NumberField utilizadorGestorFin = new NumberField();
     Button aceitarButton = new Button("Aprovar");
     Button arquivarButton = new Button("Arquivar");
+    private final Projeto projeto;
 
     public Button getAceitarButton() {
         return aceitarButton;
@@ -48,9 +49,11 @@ public class DespachoAberturaForm extends FormLayout {
     }
     private final DespachoAberturaAcoes aberturaAccoes;
     
-    public DespachoAberturaForm( DespachoAberturaAcoes aberturaAccoes){
+    public DespachoAberturaForm( DespachoAberturaAcoes aberturaAccoes , Projeto projeto){
         this.aberturaAccoes = aberturaAccoes;
+        this.projeto = projeto;
         init();
+        buildActionsButtons();
     }
 
     private void init() {
@@ -62,6 +65,7 @@ public class DespachoAberturaForm extends FormLayout {
         
         utilizadorGestorFin.setLabel("Gestor de financiamento");
         binder.bindInstanceFields(this);
+        binder.readBean(this.projeto);
     }
     
     public Binder<Projeto> getBinder() {
@@ -76,9 +80,6 @@ public class DespachoAberturaForm extends FormLayout {
             Projeto proj = getBinder().getBean();
             this.aberturaAccoes.aprovar(proj);
         });
-        
-        
-        
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         
         HorizontalLayout actions = new HorizontalLayout();
