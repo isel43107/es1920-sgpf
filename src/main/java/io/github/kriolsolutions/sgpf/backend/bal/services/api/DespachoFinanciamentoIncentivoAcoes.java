@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.web.ui;
-
-import com.vaadin.cdi.annotation.VaadinSessionScoped;
+package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
 /**
- * Data provider bean scoped for each user session.
+ *
+ * @author pauloborges
  */
-@VaadinSessionScoped
-public class MessageBean {
-
-    private int counter;
-    /**
-     * Gets message data.
-     *
-     * @return a message
-     */
-    public String getMessage() {
-        return new StringBuilder("Message requested ").append(++counter).append(" times.").toString();
-    }
+public interface DespachoFinanciamentoIncentivoAcoes extends DespachoFinanciamentoAcoes{
+    
+    public void transformarBonificacao();
 }

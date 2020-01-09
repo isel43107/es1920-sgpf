@@ -15,10 +15,14 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
-import io.github.kriolsolutions.sgpf.web.ui.projeto.AbstractProjetoForm;
+import com.vaadin.cdi.annotation.UIScoped;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.data.binder.ValidationException;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.AceitacaoCandidaturaAcoes;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
  *
@@ -26,21 +30,60 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
  */
 public class CandidaturaForm extends AbstractProjetoForm {
 
-    public CandidaturaForm() {
+    private final AceitacaoCandidaturaAcoes aceitacaoCandidaturaAcoes;
+
+    private final Projeto projeto = new Projeto();
+    
+    private final Button aceitarButton = new Button("Aceitar");
+    private final Button arquivarButton = new Button("Canelar");
+
+    public CandidaturaForm(AceitacaoCandidaturaAcoes aceitacaoCandidaturaAcoes) {
         super();
+        this.aceitacaoCandidaturaAcoes = aceitacaoCandidaturaAcoes;
         buildActionsButtons();
     }
 
-    private void buildActionsButtons(){
+    private void buildActionsButtons() {
+
+        this.getBinder().readBean(projeto);
         /* */
         // Button bar
-        Button aceitarButton = new Button("Aceitar");
+        
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        Button arquivarButton = new Button("Arquivar");
+        aceitarButton.addClickListener((event) -> {
+
+            try {
+                this.getBinder().writeBean(projeto);
+
+                if (getBinder().validate().isOk()) {
+                    aceitacaoCandidaturaAcoes.aceitar(projeto);
+                    Notification.show("Candidatura foi aceite com sucesso");
+                }
+            } catch (ValidationException e) {
+                notifyValidationException(e);
+                
+            }
+        });
+
+        
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(aceitarButton, arquivarButton);
         actions.getStyle().set("marginRight", "10px");
         this.add(actions);
     }
+
+    private void notifyValidationException(ValidationException e) {
+        Notification.show("Erro ao aceitar candidatura");
+    }
+
+    public Button getAceitarButton() {
+        return aceitarButton;
+    }
+
+    public Button getArquivarButton() {
+        return arquivarButton;
+    }
+    
 }

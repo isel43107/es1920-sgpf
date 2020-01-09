@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 kriolSolutions.
+ * Copyright 2020 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
+package io.github.kriolsolutions.sgpf.backend.dal.repo;
+
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento;
+import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.Repository;
 
 /**
  *
  * @author pauloborges
  */
-public class DespachoFin {
-    
-    
-    public static enum DespachoDecisao {
-        APROVADO,
-        REJEITADO
-    }
-}
+@Repository
+public interface DocumentoRepository extends EntityRepository<Documento, Long>{}

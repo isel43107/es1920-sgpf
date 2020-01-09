@@ -72,6 +72,7 @@ public abstract class BaseEntity implements Serializable {
     @PrePersist
     public void prePersist() {
         createdDate = new Date();
+        lastModifiedDate = new Date();
     }
     
     @PreUpdate

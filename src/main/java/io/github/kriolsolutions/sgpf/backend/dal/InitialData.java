@@ -15,9 +15,9 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal;
 
-import io.github.kriolsolutions.sgpf.backend.dal.ProjetoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto.ProjetoTipo;
+import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoTipo;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;

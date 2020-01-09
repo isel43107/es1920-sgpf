@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 kriolSolutions.
+ * Copyright 2020 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.dal.entidades;
+package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,21 +32,14 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "utilizador", schema="projeto")
+@Table(name = "doc_pagamento", schema="documentos")
 @Entity
-public class Utilizador extends BaseEntity{
-
-    private static final long serialVersionUID = 1L;
-
-    private String username;
-    private String password;
+public class Pagamento extends BaseEntity{
     
-    @Enumerated(EnumType.STRING)
-    private UtilizadorPerfil perfil;
+    @Column(name = "pag_valor")
+    private double pagValor;
 
-    public static enum UtilizadorPerfil {
-        TECNICO,
-        GESTOR_FINANCIAMENTO,
-        COMISAO_FINANCIAMENTO
-    }
+    @ManyToOne
+    @JoinColumn(name = "fk_documento")
+    private Documento documento;
 }

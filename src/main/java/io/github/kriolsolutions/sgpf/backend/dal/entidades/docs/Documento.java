@@ -16,7 +16,8 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,20 +40,20 @@ import lombok.NoArgsConstructor;
 public class Documento extends BaseEntity{
     
     @ManyToOne
-    @JoinColumn(name = "fk_documento_projeto")
+    @JoinColumn(name = "fk_projeto")
     private Projeto projeto;
     
+    @Column(name = "doc_tipo")
     @Enumerated(EnumType.STRING)
     private DocumentoTipo docTipo;
 
-    enum DocumentoTipo {
-        
+    public static enum DocumentoTipo {
         CANDIDATURA,
         PARECER_TECNICO,
         DESPACHO_ABERTURA,
         DESPACHO_FIN_BONIFICACAO,
         DESPACHO_FIN_INCENTIVO,
         DESPACHO_FIN_REFORCO,
-        
+        PAGAMENTO,
     }
 }

@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.web.ui.projeto;
+package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
+import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.data.validator.RegexpValidator;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
  *
@@ -28,39 +32,25 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
  */
 public abstract class AbstractProjetoForm extends FormLayout {
 
-    private final Binder<Projeto> binder = new Binder<>(Projeto.class);
-    
-    // FIELD TRANSLATION - SHOULD GO TO resource files, but now put here 
-    // NOT WORK YET: getTranslation("AbstractProjetoForm.projDesignacao.label")
-    private final static String TX_PROJ_DESIGNACAO = "";
-    private final static String TX_PROJ_MNT_SOLICITADO = "";
-    private final static String TX_PROJ_NIB = "";
-    private final static String TX_PROJ_DESCRICAO = "";
-    
-    private final static String TX_PROMOTOR_DESIGNACAO = "";
-    private final static String TX_PROMOTOR_NIF = "";
-    private final static String TX_PROMOTOR_NACIONALIDADE = "";
-    
-    private final static String TX_CONTATO_NOME = "";
-    private final static String TX_CONTATO_TEL = "";
-    private final static String TX_CONTATO_EMAIL = "";
-    
+    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
 
     //Campos relativo a informação projeto
-    TextField projDesignacao = new TextField();
-    NumberField projMontanteSolicitado = new NumberField();
-    TextField projNIB = new TextField();
-    TextField projDescricao = new TextField();
+    private TextField projDesignacao = new TextField();
+    private NumberField projMontanteSolicitado = new NumberField();
+    private TextField projNIB = new TextField();
+    private TextArea projDescricao = new TextArea();
+    //private ComboBox<ProjetoTipo> projTipos = new ComboBox<>();
+    private RadioButtonGroup<Projeto.ProjetoTipo> projTipo = new RadioButtonGroup<>();
 
     //Campos - PROMOTOR
-    TextField promotorDesignacao = new TextField();
-    TextField promotorNIF = new TextField();
-    TextField promotorNacionalidade = new TextField();
+    private TextField promotorDesignacao = new TextField();
+    private TextField promotorNIF = new TextField();
+    private TextField promotorNacionalidade = new TextField();
 
     //Campos - CONTACTO
-    TextField contatoNome = new TextField();
-    TextField contatoTelefone = new TextField();
-    TextField contatoEmail = new TextField();
+    private TextField contatoNome = new TextField();
+    private TextField contatoTelefone = new TextField();
+    private TextField contatoEmail = new TextField();
 
     public AbstractProjetoForm() {
         init();
@@ -68,10 +58,7 @@ public abstract class AbstractProjetoForm extends FormLayout {
 
     private void init() {
 
-        RadioButtonGroup<Projeto.ProjetoTipo> projTipo = new RadioButtonGroup<>();
         //projTipo.setRenderer(new TextRenderer<>(Projeto.ProjetoTipo::));
-        projTipo.setItems(Projeto.ProjetoTipo.values());
-
         // Setting the desired responsive steps for the columns in the layout
         this.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("25em", 1),
@@ -86,6 +73,8 @@ public abstract class AbstractProjetoForm extends FormLayout {
         projNIB.setPlaceholder("NIB");
         projDescricao.setLabel("Descrição do projeto");
         projDescricao.setPlaceholder("Descrição do projeto");
+        projTipo.setLabel("Tipo");
+        projTipo.setItems(Projeto.ProjetoTipo.values());
 
         //Campos - 
         promotorDesignacao.setLabel("Designação do promotor");
@@ -103,16 +92,37 @@ public abstract class AbstractProjetoForm extends FormLayout {
         contatoEmail.setLabel("E-mail do contato");
         contatoEmail.setPlaceholder("E-mail do contato");
 
-        this.add(projDesignacao, projMontanteSolicitado, projNIB, projDescricao);
+        this.add(projDesignacao, projMontanteSolicitado, projNIB, projTipo, projDescricao);
         this.setColspan(projDescricao, 3);
 
         this.add(promotorDesignacao, promotorNIF, promotorNacionalidade);
         this.add(contatoNome, contatoTelefone, contatoEmail);
 
+        //Binding automatico baseado, visto que os nomes dos campos são identicos aos do bean
         binder.bindInstanceFields(this);
+
+        //binding Customizado
+        binder.forField(contatoEmail)
+                .withValidator(new EmailValidator("Formato e-mail invalido"))
+                .bind(Projeto::getContatoEmail, Projeto::setContatoEmail);
+
+/*
+        binder.forField(projMontanteSolicitado)
+                .withValidator(new MontandValidator("Montando deve conter duas casas decimais"))
+                .bind(Projeto::getProjMontanteSolicitado, Projeto::setrojMontanteSolicitado);
+*/
     }
 
     public Binder<Projeto> getBinder() {
         return binder;
+    }
+
+    class MontandValidator{
+
+        private static final String PATTERN = "^@[0-9]+\\.[0-9]{1,2}$";
+
+        public MontandValidator(String errorMessage) {
+            //super(errorMessage, PATTERN);
+        }
     }
 }

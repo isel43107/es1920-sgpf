@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.bal.services.api;
+package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import java.time.LocalDate; 
 
@@ -34,7 +34,7 @@ public class ProjetoGeneradorNumero {
      * @param numero
      * @return 
      */
-    public String gerarNumeroProjeto(Long numero){
+    public static String gerarNumeroProjeto(Long numero){
         long ano = LocalDate.now().getYear();
         String formatted = String.format("%d-%07d",ano, numero);
         return formatted;

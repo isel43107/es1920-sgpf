@@ -15,39 +15,30 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui;
 
-import io.github.kriolsolutions.sgpf.web.ui.projeto.ProjetoManager;
+import io.github.kriolsolutions.sgpf.web.ui.projeto.ProjetoManagerView_;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
-import io.github.kriolsolutions.sgpf.backend.dal.ProjetoRepository;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.SgpfServiceFacade;
 import javax.inject.Inject;
 
 /**
  * Main view
  */
-@Route("")
-@PWA(name = "Sistema de Gestão de Projeto de Financiamento", shortName = "SGPF")
-@Theme(value = Lumo.class, variant = Lumo.DARK)
-public class MainView extends VerticalLayout {
 
-    private final ProjetoRepository projetoRepository;
+@Route(value = "", layout = MainLayout.class)
+@PageTitle("Home")
+public class HomeView extends VerticalLayout {
+    
+    public static final String VIEW_NAME = "Home";
 
-    @Inject
-    public MainView(ProjetoRepository projetoRepository) {
-        if (projetoRepository == null) {
-            throw new IllegalArgumentException("Parameter projetoRepository must not be null");
-        }
-        
-        this.projetoRepository = projetoRepository;
-
+    public HomeView() {
         initComponent();
 
     }
 
     private void initComponent() {
-        add(new ProjetoManager(projetoRepository));
+        //add(new ProjetoManagerView_(sgpfacade));
         //add(new ExampleUI(projetoRepository));
     }
 

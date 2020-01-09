@@ -19,6 +19,8 @@ package io.github.kriolsolutions.sgpf.backend.bal.services.api;
  *
  * @author pauloborges
  */
-public class DespachoFinanciamentoAcoes {
+public interface DespachoFinanciamentoAcoes {
     
+    public void aprovar();
+    public void rejeitar();
 }

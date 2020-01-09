@@ -57,7 +57,7 @@ body {
     color: var(--lumo-secondary-text-color);
 }
 
-.product-form {
+.projeto-form {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -67,7 +67,7 @@ body {
     box-shadow: var(--overlay-box-shadow);
 }
 
-.product-form-content {
+.projeto-form-content {
     margin-top: var(--_vaadin-app-layout-navbar-offset-size);
 }
 
@@ -92,7 +92,7 @@ body {
 
 @media (max-width: 550px) {
 
-    .product-form {
+    .projeto-form {
         width: 100%;
 
         /* Prevent text-fields from overflowing on narrow screens */
@@ -100,15 +100,27 @@ body {
     }
 }
 
-/* Color codes for the availability statuses of the products */
-.Available {
-    color: #2dd085;
+/* Color codes for the availability statuses of the projeto */
+.projeto-estado-candidatura {
+    color: #4993f5;
 }
 
-.Coming {
+.projeto-estado-despacho {
+    color: #5549F5;
+}
+
+.projeto-estado-despacho {
+    color: #AA49F5;
+}
+
+.projeto-estado-arquivado {
     color: #ffc66e;
 }
 
-.Discontinued {
-    color: #f54993;
+.projeto-estado-fechado {
+    color: #f55349;
+}
+
+.projeto-estado-supenso {
+    color: #F5AA49;
 }

@@ -94,6 +94,12 @@ limitations under the License.
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        
+        <!-- Provide SCXML - BUT should be removed-->
+        <repository>
+            <id>OneHippo Repository</id>
+            <url>https://maven.onehippo.com/maven2/</url>
+        </repository>
     </repositories>
 
     <dependencyManagement>
@@ -152,6 +158,10 @@ limitations under the License.
                 <exclusion>
                     <groupId>org.webjars.bowergithub.webcomponents</groupId>
                     <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-grid-pro-flow</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -242,6 +252,12 @@ limitations under the License.
             <version>2.5.0</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <scope>runtime</scope>
+        </dependency>
         
         <!-- Spice up your java on compile time: 
         Automatic Resource Management, automatic generation of getters, setters,
@@ -274,6 +290,27 @@ limitations under the License.
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
+        </dependency>
+        
+        <!-- A Java Implementation of a State Chart XML Engine  -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-scxml2</artifactId>
+            <version>2.0-M1</version>
+        </dependency>
+        
+        <!-- NEED For: Groovy support on commons-scxml2 -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>2.5.8</version>
+        </dependency>
+        
+        <!-- NEED for: EL support on commons-scxml2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl</artifactId>
+            <version>2.1.1</version>
         </dependency>
     </dependencies>
 

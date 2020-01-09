@@ -16,6 +16,7 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -38,13 +39,13 @@ import lombok.NoArgsConstructor;
 public class ParecerTecnico extends BaseEntity{
     
     @ManyToOne
-    @JoinColumn(name = "fk_documento_parecer_tecnico_documento")
+    @JoinColumn(name = "fk_documento")
     private Documento documento;
 
+    @Column(name = "desicao")
     @Enumerated(EnumType.STRING)
     private ParecerTecnicoDecisao decisao; 
-    
-    
+
     public static enum ParecerTecnicoDecisao{
         FAVORAVEL,
         DESFAVORAVEL

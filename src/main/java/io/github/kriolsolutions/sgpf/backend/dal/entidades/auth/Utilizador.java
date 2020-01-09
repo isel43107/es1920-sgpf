@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
+package io.github.kriolsolutions.sgpf.backend.dal.entidades.auth;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,15 +32,24 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_desp_abertura", schema="documentos")
+@Table(name = "utilizador", schema="projeto")
 @Entity
-public class DespachoAbertura extends BaseEntity{
+public class Utilizador extends BaseEntity{
+
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+    @Column(name = "password", nullable = false)
+    private String password;
     
-    @ManyToOne
-    @JoinColumn(name = "fk_documento")
-    private Documento documento;
-    
-    @Column(name = "desicao")
+    @Column(name = "perfil")
     @Enumerated(EnumType.STRING)
-    private Despacho.DespachoDecisao decisao;
+    private UtilizadorPerfil perfil;
+
+    public static enum UtilizadorPerfil {
+        TECNICO,
+        GESTOR_FINANCIAMENTO,
+        COMISAO_FINANCIAMENTO
+    }
 }

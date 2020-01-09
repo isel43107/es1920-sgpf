@@ -16,10 +16,13 @@
 package io.github.kriolsolutions.sgpf.backend;
 
 import com.vaadin.cdi.annotation.VaadinSessionScoped;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -31,16 +34,14 @@ import javax.persistence.PersistenceUnit;
 @ApplicationScoped
 public class EntityManagerProducer {
 
-    
     @PersistenceUnit(unitName = "sgpf-pu")
     private EntityManagerFactory emf;
     //private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sgpf-pu");
 
-    
     @Default
-    @VaadinSessionScoped
+    //@Dependent
     @Produces
-    public EntityManager entityManager() {
+    public EntityManager createEntityManager() {
         return emf.createEntityManager();
     }
 
@@ -49,9 +50,21 @@ public class EntityManagerProducer {
      *
      * @param manager
      */
-    public void close(@Disposes @Default EntityManager manager) {
+    public void closeEntityManager(@Disposes @Default EntityManager manager) {
         if (manager.isOpen()) {
+            manager.flush();
             manager.close();
+        }
+    }
+
+    /**
+     * Closes the entity manager factory instance so that the CDI container can
+     * be gracefully shutdown
+     */
+    @PreDestroy
+    public void closeFactory() {
+        if (emf.isOpen()) {
+            emf.close();
         }
     }
 }

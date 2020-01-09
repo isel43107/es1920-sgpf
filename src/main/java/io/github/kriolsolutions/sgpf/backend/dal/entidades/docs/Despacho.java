@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.bal.services.api;
-
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 /**
  *
  * @author pauloborges
  */
-public interface AceitacaoCandidaturaAcoes {
-    
-    public void aceitar(Projeto projeto);
-    
-        
-    public void abir(Projeto projeto);
-    
-    public void arquivar(Projeto projeto);
+public class Despacho {
+
+    public static enum DespachoDecisao {
+        APROVADO,
+        REJEITADO
+    }
 }

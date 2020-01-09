@@ -16,54 +16,41 @@
 package io.github.kriolsolutions.sgpf.web.ui.projeto;
 
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.contextmenu.ContextMenu;
-import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.crud.CrudGrid;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.data.provider.DataProvider;
-import io.github.kriolsolutions.sgpf.backend.dal.ProjetoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import java.text.DecimalFormat;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  *
  * @author pauloborges
  */
-public class ProjetoGrid extends Grid<Projeto> {
+public class ProjetoGrid extends CrudGrid<Projeto> {
 
-    private final ProjetoRepository projetoRepository;
+    private final ProjectoOptions projectoOptions = new ProjectoOptions();
 
-    public ProjetoGrid(ProjetoRepository projetoRepository) {
-        this.projetoRepository = projetoRepository;
-
+    public ProjetoGrid() {
+        super(Projeto.class, false);
         setSizeFull();
-        initComponent();
-        setDataprovider();
-        setupEditor();
+        init();
+        //setupEditor();
     }
 
-    private void initComponent() {
+    private void init() {
+        this.removeAllColumns();
         addColumn(Projeto::getProjNumero).setHeader("Numero projeto")
-                .setFlexGrow(10).setSortable(true).setKey("projNumero");
+                .setFlexGrow(10).setSortable(false).setKey("projNumero");
 
         addColumn(Projeto::getProjDesignacao).setHeader("Designação projeto")
-                .setFlexGrow(20).setSortable(true).setKey("projDesignacao");
+                .setFlexGrow(20).setSortable(false).setKey("projDesignacao");
 
         addColumn(Projeto::getProjDesignacao).setHeader("Estado projeto")
-                .setFlexGrow(20).setSortable(true).setKey("projEstado");
+                .setFlexGrow(20).setSortable(false).setKey("projEstado");
 
         addColumn(Projeto::getProjDesignacao).setHeader("Tipo projeto")
-                .setFlexGrow(20).setSortable(true).setKey("projTipo");
+                .setFlexGrow(20).setSortable(false).setKey("projTipo");
 
         final DecimalFormat decimalFormat = new DecimalFormat();
         decimalFormat.setMaximumFractionDigits(2);
@@ -72,16 +59,16 @@ public class ProjetoGrid extends Grid<Projeto> {
         addColumn(product -> decimalFormat.format(product.getProjMontanteSolicitado()))
                 .setHeader("Mnt. Solicitado").setTextAlign(ColumnTextAlign.END)
                 .setComparator(Comparator.comparing(Projeto::getProjMontanteSolicitado))
-                .setFlexGrow(3).setKey("projMontanteSolicitado");
+                .setFlexGrow(3).setSortable(false).setKey("projMontanteSolicitado");
 
         addColumn(Projeto::getPromotorDesignacao).setHeader("Promotor projeto")
-                .setFlexGrow(20).setSortable(true).setKey("promotorDesignacao");
+                .setFlexGrow(20).setSortable(false).setKey("promotorDesignacao");
 
         addColumn(Projeto::getContatoNome).setHeader("Contato projeto")
-                .setFlexGrow(20).setSortable(true).setKey("contatoNome");
+                .setFlexGrow(20).setSortable(false).setKey("contatoNome");
 
-        addComponentColumn(item -> createOptionsButton(item))
-                .setHeader("Ações").setKey("acoesDisponiveis");;
+        addComponentColumn(item -> this.projectoOptions.createOptionsButton(item))
+                .setHeader("Ações").setKey("acoesDisponiveis");
 
         // If the browser window size changes, check if all columns fit on screen
         // (e.g. switching from portrait to landscape mode)
@@ -89,6 +76,7 @@ public class ProjetoGrid extends Grid<Projeto> {
                 e -> setColumnVisibility(e.getWidth()));
     }
 
+    /*
     private void setupEditor() {
 
         ProjetoEditorForm projetoEditor = new ProjetoEditorForm();
@@ -101,6 +89,7 @@ public class ProjetoGrid extends Grid<Projeto> {
         });
         this.getEditor().setBinder(projetoEditor.getBinder());
     }
+    */
 
     private void setColumnVisibility(int width) {
         if (width > 800) {
@@ -150,147 +139,5 @@ public class ProjetoGrid extends Grid<Projeto> {
 
     public void refresh(Projeto product) {
         getDataCommunicator().refresh(product);
-    }
-
-    private Button createOptionsButton(Projeto projeto) {
-        Button button = new Button(new Icon(VaadinIcon.OPTIONS));
-
-        switch (projeto.getProjEstado()) {
-
-            case EM_CANDIDATURA:
-                button.addClickListener(clickEvent -> {
-                    candidaturaOptions(projeto);
-                });
-                break;
-
-            case DESPACHO_ABERTURA:
-                button.addClickListener(clickEvent -> {
-                    despachoAberturaOptions(projeto);
-                });
-                break;
-
-            case PARECER_TECNICO:
-                button.addClickListener(clickEvent -> {
-                    despachoAberturaOptions(projeto);
-                });
-                break;
-
-            case DESPACHO_FINANCIAMENTO:
-                button.addClickListener(clickEvent -> {
-                    despachoFinanciamentoOptions(projeto);
-                });
-                break;
-            case DESPACHO_REFORCO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("DESPACHO_REFORCO sera implementado brevemente");
-                });
-                break;
-            case EM_PAGAMENTO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("EM_PAGAMENTO sera implementado brevemente");
-                });
-                break;
-            case PROJETO_ARQUIVADO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("PROJETO_ARQUIVADO sera implementado brevemente");
-                });
-                break;
-            case PROJETO_REJEITADO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("PROJETO_REJEITADO sera implementado brevemente");
-                });
-                break;
-            case PROJETO_SUSPENSO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("PROJETO_SUSPENSO sera implementado brevemente");
-                });
-                break;
-        }
-
-        //TODO Depende do estado do projeto
-        return button;
-    }
-
-    //TODO - visto a copia do codio para cria opções podemos de certeza
-    //Sera possivel criar uma interface/abstrac que defina o conceito de Options/Opções
-    //Action 
-    //  - CandidaturaAction {Aceitar, Abrir, Arquivar}
-    //  - DespachoAberturaAction {Aprovar, Rejeitar}
-    //
-    private Component candidaturaOptions(Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu();
-        contextMenu.addItem("Abrir projeto",
-                event -> Notification.show("Abrir projeto sera implementado brevemente"));
-
-        contextMenu.addItem("Arquivar projeto",
-                event -> Notification.show("Arquivar projeto sera implementado brevemente"));
-
-        contextMenu.setVisible(true);
-
-        return contextMenu;
-    }
-
-    private Component despachoAberturaOptions(Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu();
-        contextMenu.addItem("Emitir despacho abertura",
-                event -> Notification.show(
-                        "Emitir despacho abertura, devera abrir o formulario de abertura. "
-                        + "Formulario DespachoAberturaForm devera contem as opções: "
-                        + "APROVADO, REJEITADO(NAO TEM esta opção)"));
-        contextMenu.setVisible(true);
-
-        return contextMenu;
-    }
-
-    private Component despachoFinanciamentoOptions(Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu();
-        contextMenu.addItem("Emitir despacho financiamento",
-                event -> Notification.show(
-                        "Devera abrir o formulario do despacho de acordo com tipo projeto: "
-                        + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm"));
-
-        contextMenu.setVisible(true);
-
-        return contextMenu;
-    }
-
-    private void setDataprovider() {
-
-        DataProvider<Projeto, Void> projetoDataProvider
-                = DataProvider.fromCallbacks(
-                        // First callback fetches items based on a query
-                        query -> {
-                            // The index of the first item to load
-                            int offset = query.getOffset();
-
-                            // The number of items to load
-                            int limit = query.getLimit();
-
-                            List<Projeto> projetos = projetoRepository.findAll(offset, limit);
-                            return projetos.stream();
-                        },
-                        query -> projetoRepository.count().intValue()
-                );
-
-        //projetoGrid.setItems(projetoRepository.findAll());
-        this.setDataProvider(projetoDataProvider);
-
-    }
-
-    class ProjetoEditorForm extends AbstractProjetoForm {
-
-        public ProjetoEditorForm() {
-            super();
-        }
-
-        private void buildActionsButtons() {
-            // Button bar
-            Button aceitarButton = new Button("Guardar");
-            aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-            HorizontalLayout actions = new HorizontalLayout();
-            actions.add(aceitarButton);
-            actions.getStyle().set("marginRight", "10px");
-            this.add(actions);
-        }
     }
 }

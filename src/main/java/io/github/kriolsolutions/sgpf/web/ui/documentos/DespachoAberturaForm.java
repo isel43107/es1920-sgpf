@@ -15,10 +15,51 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+
 /**
  *
  * @author pauloborges
  */
-public class DespachoAberturaForm {
+public class DespachoAberturaForm extends FormLayout {
     
+    //private final Binder<Projeto> binder = new Binder<>(Projeto.class);
+    
+    public DespachoAberturaForm(){
+    
+        init();
+    }
+
+    private void init() {
+
+        //projTipo.setRenderer(new TextRenderer<>(Projeto.ProjetoTipo::));
+
+        // Setting the desired responsive steps for the columns in the layout
+        this.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("25em", 1),
+                new FormLayout.ResponsiveStep("32em", 2),
+                new FormLayout.ResponsiveStep("40em", 3));
+    }
+    private void buildActionsButtons(){
+        /* */
+        // Button bar
+        Button aceitarButton = new Button("Aceitar");
+        aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        aceitarButton.addClickListener((event) -> {
+            //Projeto proj = getBinder().getBean();
+            //aceitacaoCandidaturaAcoes.aceitar(proj);
+        });
+        
+        
+        Button arquivarButton = new Button("Arquivar");
+        arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(aceitarButton, arquivarButton);
+        actions.getStyle().set("marginRight", "10px");
+        //this.add(actions);
+    }
 }

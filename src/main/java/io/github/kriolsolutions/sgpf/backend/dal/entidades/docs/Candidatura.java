@@ -16,7 +16,10 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -36,11 +39,15 @@ import lombok.NoArgsConstructor;
 public class Candidatura extends BaseEntity {
     
     @ManyToOne
-    @JoinColumn(name = "fk_doc_candidatura_documento")
+    @JoinColumn(name = "fk_documento")
     private Documento documento;
+    
+    @Column(name = "desicao")
+    @Enumerated(EnumType.STRING)
+    private CandidaturaDecisao decisao;
 
-    enum CandidaturaDecisao{
-        ENQUADRADO, //ESTA ENQUADRADO
+    public static enum CandidaturaDecisao{
+        ENQUADRADO,
         DESENQUADRADO;
     }
 }

@@ -16,7 +16,8 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFin.DespachoDecisao;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Despacho.DespachoDecisao;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,9 +40,10 @@ import lombok.NoArgsConstructor;
 public class DespachoFinBonificacao extends BaseEntity{
     
     @ManyToOne
-    @JoinColumn(name = "fk_doc_desp_fin_bonificacao_documento")
+    @JoinColumn(name = "fk_documento")
     private Documento documento;
     
+    @Column(name = "desicao")
     @Enumerated(EnumType.STRING)
     private DespachoDecisao decisao;
 }

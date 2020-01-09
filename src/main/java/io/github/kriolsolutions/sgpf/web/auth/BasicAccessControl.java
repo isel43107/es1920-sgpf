@@ -1,5 +1,6 @@
 package io.github.kriolsolutions.sgpf.web.auth;
 
+import io.github.kriolsolutions.sgpf.backend.auth.AuthenticatedUser;
 import io.github.kriolsolutions.sgpf.backend.auth.AccessControl;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinRequest;
@@ -33,7 +34,7 @@ public class BasicAccessControl implements AccessControl {
         
         List<String> roles = Arrays.asList("TECNICO", "GESTOR_FINANCIAMENTO", "COMISSAO_FINANCIAMENTO");
         
-        AuthenticatedUser AuthenticatedUser = new AuthenticatedUser(username, roles);
+        AuthenticatedUser AuthenticatedUser = new AuthenticatedUser(1L, username, roles);
 
         set(AuthenticatedUser);
         return true;
@@ -108,5 +109,15 @@ public class BasicAccessControl implements AccessControl {
             throw new IllegalStateException("No request bound to current thread.");
         }
         return request;
+    }
+
+    @Override
+    public Long getUserId() {
+        return get().getId();
+    }
+
+    @Override
+    public List<String> getUserRoles() {
+       return get().getRoles();
     }
 }

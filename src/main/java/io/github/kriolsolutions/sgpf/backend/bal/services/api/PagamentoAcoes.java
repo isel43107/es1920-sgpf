@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 kriolSolutions.
+ * Copyright 2020 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,10 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-
 /**
  *
  * @author pauloborges
  */
-public interface AceitacaoCandidaturaAcoes {
+public interface PagamentoAcoes {
     
-    public void aceitar(Projeto projeto);
-    
-        
-    public void abir(Projeto projeto);
-    
-    public void arquivar(Projeto projeto);
 }

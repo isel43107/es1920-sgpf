@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 kriolSolutions.
+ * Copyright 2020 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,9 @@ package io.github.kriolsolutions.sgpf.backend.bal.entidades;
  *
  * @author pauloborges
  */
-public class Candidatura {
+public abstract class AbstractDocumento {
     
+    private Long userOwner;
+    private Long projetoId;
     
-    String designacao;
 }

@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.dal.entidades;
+package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.Projeto.ProjetoEstado;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoEstado;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento;
 import java.time.LocalDate;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,24 +37,37 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 //@AllArgsConstructor
-@Table(name = "projeto_historico", schema="projeto")
+@Table(name = "historico", schema="projeto")
 @Entity
 public class Historico extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
+    
+    @ManyToOne
+    @JoinColumn(name = "fk_projeto", nullable = false)
+    private Projeto projeto;
+    
+    //Para encontrar mostrar o projeto e nao usar eager loader
+    @Column(name = "proj_numero", nullable = false)
+    private String projNumero;
 
-    private LocalDate dataOcorrencia;
+    @Column(name = "descricao", nullable = true)
     private String descricao;
-    private ProjetoEstado estado;
+    
+    @Column(name = "stm_estado_anterior", nullable = true)
+    private ProjetoEstado estadoAnterior;
+    
+    @Column(name = "stm_estado_atual", nullable = false)
+    private ProjetoEstado estadoAtual;
+
+    @Column(name = "stm_evento", nullable = false)
+    private String evento; //TODO devera ser alterado para "enum SgpfEvent"
     
     /**
-     * Relação unidirecional, ou seja, chave estrangeira do documento
-     * Um 
-     * TODO devera ser provavelmente do tipo OneToOne
+     * Chave estrangeira (Uidirecional) header do documento
+     * TODO MAY BETTER ser provavelmente do tipo OneToOne(MUST: Documento Imutavel)
      */
     @ManyToOne
-    @JoinColumn(name = "fk_documento")
-    private Documento documento;
-    
-    
+    @JoinColumn(name = "fk_documento", nullable = true)
+    private Documento documento; 
 }

@@ -19,7 +19,7 @@ limitations under the License.
 <resources>
     <Resource id="jdbc/sgpf_datasource" type="javax.sql.DataSource">
         JdbcDriver org.hsqldb.jdbcDriver
-        JdbcUrl jdbc:hsqldb:file:~/sgpf/sgpf_database
+        JdbcUrl jdbc:hsqldb:file:./sgpf/sgpf_database;create=true;shutdown=true
         UserName sa
         Password sa
         JtaManaged true

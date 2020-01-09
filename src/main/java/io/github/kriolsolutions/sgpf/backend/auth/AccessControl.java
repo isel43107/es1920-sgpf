@@ -1,19 +1,24 @@
 package io.github.kriolsolutions.sgpf.backend.auth;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * Simple interface for authentication and authorization checks.
+ * Provide Authentication and Authorization checks.
  */
 public interface AccessControl extends Serializable {
 
-    boolean signIn(String username, String password);
+    public boolean signIn(String username, String password);
 
-    boolean isUserSignedIn();
+    public void signOut();
 
-    boolean isUserInRole(String role);
+    public boolean isUserSignedIn();
 
-    String getPrincipalName();
+    public boolean isUserInRole(String role);
 
-    void signOut();
+    public String getPrincipalName();
+    
+    public Long getUserId();
+    
+    public List<String> getUserRoles();
 }

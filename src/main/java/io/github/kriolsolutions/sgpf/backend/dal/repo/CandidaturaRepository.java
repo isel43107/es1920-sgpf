@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 kriolSolutions.
+ * Copyright 2020 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.bal.services.api;
+package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Candidatura;
+import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.Repository;
 
 /**
  *
  * @author pauloborges
  */
-public interface AceitacaoCandidaturaAcoes {
-    
-    public void aceitar(Projeto projeto);
-    
-        
-    public void abir(Projeto projeto);
-    
-    public void arquivar(Projeto projeto);
-}
+@Repository
+public interface CandidaturaRepository  extends EntityRepository<Candidatura, Long>{}

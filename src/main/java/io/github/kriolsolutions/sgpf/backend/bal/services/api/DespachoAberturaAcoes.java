@@ -15,10 +15,15 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
+import io.github.kriolsolutions.sgpf.backend.bal.entidades.DespachoAberturaDoc;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+
 /**
  *
  * @author pauloborges
  */
-public class DespachoAberturaAcoes {
-    
+public interface DespachoAberturaAcoes {
+ 
+    public void abrir(Projeto projeto);
+    public void arquivar(Projeto projeto);
 }

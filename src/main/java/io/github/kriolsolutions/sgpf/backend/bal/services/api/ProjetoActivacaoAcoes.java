@@ -19,9 +19,9 @@ package io.github.kriolsolutions.sgpf.backend.bal.services.api;
  *
  * @author pauloborges
  */
-public class ProjetoAcoes {
+public interface ProjetoActivacaoAcoes {
 
-    public void suspender(){}
+    public void suspender();
     
-    public void reenquadrar(){}
+    public void reenquadrar();
 }

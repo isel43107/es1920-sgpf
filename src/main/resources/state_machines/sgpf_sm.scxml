@@ -14,8 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <scxml xmlns="http://www.w3.org/2005/07/scxml" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.w3schools.com/RedsDevils https://www.w3.org/2011/04/SCXML/scxml.xsd"
        xmlns:cs="http://commons.apache.org/scxml"
        version="1.0" 
        name="SGPF_Workflow" 
@@ -44,19 +45,16 @@ limitations under the License.
         <transition event="REJEITADO" target="PROJETO_REJEITADO" />
     </state>
         
-        
     <state id="PROJETO_ARQUIVADO">
         <transition event="REENQUADRADO" target="EM_CANDIDATURA" />
     </state>
         
-    <state id="DESPACHO_FINANCIAMENTO">
-
+    <state id="DESPACHO_FINANCIAMENTO_BONIFICACAO">
         <transition event="APROVADO" target="EM_FINANCIAMENTO" />
         <transition event="REJEITADO" target="PROJETO_REJEITADO" />
     </state>
     
     <state id="DESPACHO_REFORCO">
-
         <transition event="APROVADO" target="PAG_HISTORICO" />
         <transition event="REJEITADO" target="PAG_HISTORICO" />
     </state>

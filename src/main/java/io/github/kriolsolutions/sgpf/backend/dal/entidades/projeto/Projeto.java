@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.dal.entidades;
+package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.auth.Utilizador;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -37,21 +43,26 @@ public class Projeto extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "proj_designacao")
+    @NotNull
+    @Column(name = "proj_designacao", nullable = false)
     private String projDesignacao;
     
-    @Column(name = "proj_numero")
+    //@NotNull Gerado na camanda de negocio
+    @Column(name = "proj_numero", nullable = false, unique = true)
     private String projNumero;
     
+    @NotNull
     @Column(name = "proj_nib")
     private String projNIB;
     
+    @NotNull
     @Column(name = "proj_mnt_solicitado")
     private double projMontanteSolicitado;
     
     @Column(name = "proj_descricao")
     private String projDescricao;
 
+    @NotNull
     @Column(name = "proj_tipo")
     @Enumerated(EnumType.STRING)
     private ProjetoTipo projTipo;   
@@ -60,6 +71,7 @@ public class Projeto extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProjetoEstado projEstado;
     
+    @NotNull
     @Column(name = "promotor_designacao")
     private String promotorDesignacao;
     
@@ -68,15 +80,24 @@ public class Projeto extends BaseEntity {
     
     @Column(name = "promotor_nacionalidade")
     private String promotorNacionalidade;
-    
+
     @Column(name = "contato_nome")
     private String contatoNome;
     
+    @NotNull @Email
     @Column(name = "contato_email")
     private String contatoEmail;
     
     @Column(name = "contato_telefone")
     private String contatoTelefone;
+    
+    @ManyToOne
+    @JoinColumn(name = "fk_utilizador_tecnico", updatable = true, nullable = true)
+    private Utilizador utilizadorTecnico;
+    
+    @ManyToOne
+    @JoinColumn(name = "fk_utilizador_gestorfin", updatable = true, nullable = true)
+    private Utilizador utilizadorGestorFin;
     
     public static enum ProjetoTipo {
         BONIFICAO,
