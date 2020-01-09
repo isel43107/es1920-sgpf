@@ -15,11 +15,13 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+
 /**
  *
  * @author pauloborges
  */
 public interface DespachoFinanciamentoIncentivoAcoes extends DespachoFinanciamentoAcoes{
     
-    public void transformarBonificacao();
+    public void transformarBonificacao(Projeto projeto);
 }

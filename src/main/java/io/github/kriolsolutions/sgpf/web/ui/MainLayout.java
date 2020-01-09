@@ -33,7 +33,7 @@ import io.github.kriolsolutions.sgpf.web.ui.projeto.HistoricoView;
 /**
  * The main layout. Contains the navigation menu.
  */
-@Theme(value = Lumo.class, variant = Lumo.DARK)
+@Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @PWA(name = "Sistema de Gestão de Projeto de Financiamento", shortName = "SGPF")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/menu-buttons.css", themeFor = "vaadin-button")

@@ -33,7 +33,7 @@ public class SgpfServiceFacade {
     private DespachoFinanciamentoBonificacaoAcoes despachoBonificacaoAcoes;
 
     //@Inject
-    private DespachoFinanciamentoAcoes despachoFinanciamentoAcoes;
+    private DespachoFinanciamentoIncentivoAcoes despachoFinanciamentoIncentivoAcoes;
 
     //@Inject
     private DespachoReforcoAcoes despachoReforcoAcoes;
@@ -55,8 +55,8 @@ public class SgpfServiceFacade {
         return despachoBonificacaoAcoes;
     }
 
-    public DespachoFinanciamentoAcoes getDespachoFinanciamentoAcoes() {
-        return despachoFinanciamentoAcoes;
+    public DespachoFinanciamentoIncentivoAcoes getDespachoIncentivoAcoes() {
+        return despachoFinanciamentoIncentivoAcoes;
     }
 
     public DespachoReforcoAcoes getDespachoReforcoAcoes() {

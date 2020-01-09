@@ -15,12 +15,16 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+
 /**
  *
  * @author pauloborges
  */
 public interface DespachoFinanciamentoAcoes {
     
-    public void aprovar();
-    public void rejeitar();
+    //TODO Melhor seria receber um objecto de Dominio contendo o i iD do projeto e outras informas
+    //
+    public void aprovar(Projeto projeto);
+    public void rejeitar(Projeto projeto);
 }

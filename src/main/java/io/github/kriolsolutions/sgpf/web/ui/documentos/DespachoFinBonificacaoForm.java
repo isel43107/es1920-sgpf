@@ -37,8 +37,8 @@ public class DespachoFinBonificacaoForm extends FormLayout {
 
     private NumberField utilizadorGestorFin = new NumberField();
     
-    Button aceitarButton = new Button("Aprovar");
-    Button arquivarButton = new Button("Arquivar");
+    private Button aceitarButton = new Button("Aprovar");
+    private Button arquivarButton = new Button("Arquivar");
     private final Projeto projeto;
     
     public DespachoFinBonificacaoForm( Projeto projeto ){

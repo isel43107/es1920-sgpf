@@ -359,10 +359,17 @@ public class ProjetoManagerView extends VerticalLayout {
     private Component candidaturaOptions(Component component, Projeto projeto) {
         ContextMenu contextMenu = new ContextMenu(component);
         contextMenu.addItem("Abrir projeto",
-                event -> Notification.show("Abrir projeto sera implementado brevemente"));
+                event -> {
+                    Notification.show("Abrir projeto sera implementado brevemente");
+                    sgpfacade.getAceitacaoCandidaturaAcoes().abir(projeto);
+                });
 
         contextMenu.addItem("Arquivar projeto",
-                event -> Notification.show("Arquivar projeto sera implementado brevemente"));
+                event -> {
+                    Notification.show("Arquivar projeto sera implementado brevemente");
+                    sgpfacade.getAceitacaoCandidaturaAcoes().arquivar(projeto);
+                }
+        );
 
         contextMenu.addItem("Editar projeto",
                 event -> Notification.show("Editar projeto sera implementado brevemente"));
@@ -436,15 +443,13 @@ public class ProjetoManagerView extends VerticalLayout {
                     Notification.show(
                             "Devera abrir o formulario do despacho de acordo com tipo projeto: "
                             + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm");
-                    /* 
-                DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getParecerTecnicoAcoes(), projeto);
-            Dialog candDialog = new Dialog(candForm);
-            candDialog.open();
+                    /* */
+                    DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
+                    Dialog candDialog = new Dialog(candForm);
+                    candDialog.open();
 
-            candForm.getFavoravelButton().addClickListener((e) -> {
-                candDialog.close();
-            });
-                     */
+                    //TODO candForm.getFavoravelButton().addClickListener((e) -> {  candDialog.close();});
+
                 }
         );
 
