@@ -19,6 +19,12 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
  *
@@ -26,27 +32,36 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
  */
 public class DespachoAberturaForm extends FormLayout {
     
-    //private final Binder<Projeto> binder = new Binder<>(Projeto.class);
+    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+
+    //Campos - PROMOTOR
+    private NumberField utilizadorGestorFin = new NumberField();
+    private final DespachoAberturaAcoes aberturaAccoes;
     
-    public DespachoAberturaForm(){
-    
+    public DespachoAberturaForm( DespachoAberturaAcoes aberturaAccoes){
+        this.aberturaAccoes = aberturaAccoes;
         init();
     }
 
     private void init() {
-
-        //projTipo.setRenderer(new TextRenderer<>(Projeto.ProjetoTipo::));
-
-        // Setting the desired responsive steps for the columns in the layout
+        
         this.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("25em", 1),
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
+        
+        utilizadorGestorFin.setLabel("Gestor de financiamento");
+        binder.bindInstanceFields(this);
     }
+    
+    public Binder<Projeto> getBinder() {
+        return binder;
+    }
+    
     private void buildActionsButtons(){
         /* */
         // Button bar
-        Button aceitarButton = new Button("Aceitar");
+        Button aceitarButton = new Button("Aprovar");
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
             //Projeto proj = getBinder().getBean();

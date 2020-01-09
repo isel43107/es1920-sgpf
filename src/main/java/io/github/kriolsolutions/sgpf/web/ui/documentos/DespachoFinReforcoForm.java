@@ -15,10 +15,39 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+
 /**
  *
  * @author pauloborges
  */
-public class DespachoFinReforcoForm {
+public class DespachoFinReforcoForm extends FormLayout{
+    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+
+    private NumberField utilizadorGestorFin = new NumberField();
     
+    public DespachoFinReforcoForm(){
+    
+        init();
+    }
+
+    private void init() {
+        
+        this.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("25em", 1),
+                new FormLayout.ResponsiveStep("32em", 2),
+                new FormLayout.ResponsiveStep("40em", 3));
+        
+        utilizadorGestorFin.setLabel("Gestor de financiamento");
+        binder.bindInstanceFields(this);
+    }
+    
+    
+    public Binder<Projeto> getBinder() {
+        return binder;
+    }
 }

@@ -24,6 +24,6 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
  */
 public interface DespachoAberturaAcoes {
  
-    public void abrir(Projeto projeto);
-    public void arquivar(Projeto projeto);
+    public void aprovar(Projeto projeto);
+    //public void arquivar(Projeto projeto);
 }

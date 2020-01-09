@@ -29,12 +29,7 @@ public class DespachoAberturaAcoesImpl implements DespachoAberturaAcoes{
     //CurrentUser currentUser;
 
     @Override
-    public void abrir(Projeto projeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void arquivar(Projeto projeto) {
+    public void aprovar(Projeto projeto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
