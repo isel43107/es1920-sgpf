@@ -16,21 +16,43 @@
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
+import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
+import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
+import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import javax.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
-public class DespachoAberturaAcoesImpl implements DespachoAberturaAcoes{
-    
-    
-    //Injection
-    //CurrentUser currentUser;
+public class DespachoAberturaAcoesImpl implements DespachoAberturaAcoes {
+
+    @Inject
+    private SgpfRepositoryFacade repositoryFace;
 
     @Override
     public void aprovar(Projeto projeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
+
+        Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+
+        projeto.setProjEstado(Projeto.ProjetoEstado.PARECER_TECNICO);
+        projetoRepository.saveAndFlush(projeto);
+
+        // Guardar no historico o evento(Evolução maquina estado)
+        Historico his = new Historico();
+        //his.setDocumento(doc);
+        his.setProjeto(projeto);
+        his.setProjNumero(projeto.getProjNumero());
+        his.setEstadoAnterior(estadoAnterior);
+        his.setEstadoAtual(projeto.getProjEstado());
+        his.setEvento(SGPFStateMachine.EVENT_APROVADO);
+        historicoRepo.saveAndFlush(his);
     }
-    
+
 }

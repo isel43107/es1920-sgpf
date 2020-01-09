@@ -23,6 +23,7 @@ import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
 import com.vaadin.flow.component.crud.CrudEditor;
 import com.vaadin.flow.component.crud.CrudFilter;
@@ -30,7 +31,9 @@ import com.vaadin.flow.component.crud.CrudGrid;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -40,10 +43,12 @@ import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.SgpfServiceFacade;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
+import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -189,8 +194,6 @@ public class ProjetoManagerView extends VerticalLayout {
 
     private void setupGrid(Grid<Projeto> grid) {
 
-        final ProjectoOptions projectoOptions = new ProjectoOptions();
-
         grid.removeAllColumns();
 
         grid.addColumn(Projeto::getProjNumero).setHeader("Numero projeto")
@@ -220,7 +223,7 @@ public class ProjetoManagerView extends VerticalLayout {
         grid.addColumn(Projeto::getContatoNome).setHeader("Contato projeto")
                 .setFlexGrow(20).setSortable(false).setKey("contatoNome");
 
-        grid.addComponentColumn(item -> projectoOptions.createOptionsButton(item))
+        grid.addComponentColumn(item -> this.createOptionsButton(item))
                 .setHeader("Ações").setKey("acoesDisponiveis");
 
         //Dataprovider
@@ -283,5 +286,147 @@ public class ProjetoManagerView extends VerticalLayout {
         UI.getCurrent().getPage().retrieveExtendedClientDetails(e -> {
             setColumnVisibility(projetoGrid, e.getBodyClientWidth());
         });
+    }
+
+    public Button createOptionsButton(Projeto projeto) {
+
+        Button button = new Button(new Icon(VaadinIcon.OPTIONS));
+
+        switch (projeto.getProjEstado()) {
+
+            case EM_CANDIDATURA:
+                button.addClickListener(clickEvent -> {
+                    candidaturaOptions(button, projeto);
+                });
+                break;
+
+            case DESPACHO_ABERTURA:
+                button.addClickListener(clickEvent -> {
+                    despachoAberturaOptions(button, projeto);
+                });
+                break;
+
+            case PARECER_TECNICO:
+                button.addClickListener(clickEvent -> {
+                    parecerTecnicoOptions(button, projeto);
+                });
+                break;
+
+            case DESPACHO_FINANCIAMENTO:
+                button.addClickListener(clickEvent -> {
+                    despachoFinanciamentoOptions(button, projeto);
+                });
+                break;
+            case DESPACHO_REFORCO:
+                button.addClickListener(clickEvent -> {
+                    Notification.show("DESPACHO_REFORCO sera implementado brevemente");
+                });
+                break;
+            case EM_PAGAMENTO:
+                button.addClickListener(clickEvent -> {
+                    Notification.show("EM_PAGAMENTO sera implementado brevemente");
+                });
+                break;
+            case PROJETO_ARQUIVADO:
+                button.addClickListener(clickEvent -> {
+                    Notification.show("PROJETO_ARQUIVADO sera implementado brevemente");
+                });
+                break;
+            case PROJETO_REJEITADO:
+                button.addClickListener(clickEvent -> {
+                    Notification.show("PROJETO_REJEITADO sera implementado brevemente");
+                });
+                break;
+            case PROJETO_SUSPENSO:
+                button.addClickListener(clickEvent -> {
+                    Notification.show("PROJETO_SUSPENSO sera implementado brevemente");
+                });
+                break;
+        }
+
+        //TODO Depende do estado do projeto
+        return button;
+    }
+
+    //TODO - visto a copia do codio para cria opções podemos de certeza
+    //Sera possivel criar uma interface/abstrac que defina o conceito de Options/Opções
+    //Action 
+    //  - CandidaturaAction {Aceitar, Abrir, Arquivar}
+    //  - DespachoAberturaAction {Aprovar, Rejeitar}
+    //
+    private Component candidaturaOptions(Component component, Projeto projeto) {
+        ContextMenu contextMenu = new ContextMenu(component);
+        contextMenu.addItem("Abrir projeto",
+                event -> Notification.show("Abrir projeto sera implementado brevemente"));
+
+        contextMenu.addItem("Arquivar projeto",
+                event -> Notification.show("Arquivar projeto sera implementado brevemente"));
+
+        contextMenu.addItem("Editar projeto",
+                event -> Notification.show("Editar projeto sera implementado brevemente"));
+
+        contextMenu.setVisible(true);
+
+        //workaround for issue vaadin-context-menu-flow/issues/47
+        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
+
+        return contextMenu;
+    }
+
+    private Component despachoAberturaOptions(Component component, Projeto projeto) {
+        ContextMenu contextMenu = new ContextMenu(component);
+        contextMenu.addItem("Emitir despacho abertura",
+                event -> {
+
+                    Notification.show(
+                            "Emitir despacho abertura, devera abrir o formulario de abertura. "
+                            + "Formulario DespachoAberturaForm devera contem as opções: "
+                            + "APROVADO, REJEITADO(NAO TEM esta opção)");
+
+                    DespachoAberturaForm candForm = new DespachoAberturaForm(sgpfacade.getDespachoAberturaAcoes());
+                    Dialog candDialog = new Dialog(candForm);
+                    candDialog.open();
+
+                    candForm.getArquivarButton().addClickListener((e) -> {
+                        candDialog.close();
+                    });
+                }
+        );
+        contextMenu.setVisible(true);
+
+        //workaround for issue vaadin-context-menu-flow/issues/47
+        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
+
+        return contextMenu;
+    }
+
+    private Component parecerTecnicoOptions(Component component, Projeto projeto) {
+        ContextMenu contextMenu = new ContextMenu(component);
+        contextMenu.addItem("Emitir parecer Tecnico",
+                event -> Notification.show(
+                        "Parecer tecnico "
+                        + "Formulario ParecerTecnicoForm devera contem as opções: "
+                        + "FAVORAVEL, DESFAVORAVEL"));
+        contextMenu.setVisible(true);
+
+        //workaround for issue vaadin-context-menu-flow/issues/47
+        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
+
+        return contextMenu;
+    }
+    
+
+    private Component despachoFinanciamentoOptions(Component component, Projeto projeto) {
+        ContextMenu contextMenu = new ContextMenu(component);
+        contextMenu.addItem("Emitir despacho financiamento",
+                event -> Notification.show(
+                        "Devera abrir o formulario do despacho de acordo com tipo projeto: "
+                        + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm"));
+        contextMenu.setVisible(true);
+
+        //workaround for issue vaadin-context-menu-flow/issues/47
+        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
+
+        return contextMenu;
     }
 }

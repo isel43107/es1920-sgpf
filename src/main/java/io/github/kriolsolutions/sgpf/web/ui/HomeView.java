@@ -15,12 +15,9 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui;
 
-import io.github.kriolsolutions.sgpf.web.ui.projeto.ProjetoManagerView_;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.SgpfServiceFacade;
-import javax.inject.Inject;
 
 /**
  * Main view
