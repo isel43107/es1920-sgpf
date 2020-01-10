@@ -19,11 +19,11 @@ jobs:
     - name: Install Frontend Maven
       run: mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.13.0"
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B -P production package tomee:build --file pom.xml
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
         # Artifact name
-        name: es-sgpf.*
+        name: es-sgpf.zip
         # Directory containing files to upload
         path: ./target
