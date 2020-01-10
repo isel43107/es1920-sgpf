@@ -17,14 +17,11 @@ package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.dto.AbstractDespachoFinDto;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoIncentivoAcoes;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
-import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import java.util.Optional;
 import javax.inject.Inject;
 
 /**
@@ -37,18 +34,41 @@ public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinancia
     private SgpfRepositoryFacade repositoryFace;
 
     @Override
-    public void transformarBonificacao(DespachoFinIncentivoDto projeto) {
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.transformarBonificacao()");
+    public void transformarBonificacao(DespachoFinIncentivoDto despacho) {
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        
+        projetoOptional.ifPresent(projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_BONIFICACAO);
+            projetoRepository.saveAndFlush(projeto);
+        });
     }
 
     @Override
-    public void aprovar(AbstractDespachoFinDto projeto) {
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.aprovar()");
+    public void aprovar(AbstractDespachoFinDto despacho) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        
+        projetoOptional.ifPresent(projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
+            projetoRepository.saveAndFlush(projeto);
+        });
     }
 
     @Override
-    public void rejeitar(AbstractDespachoFinDto projeto) {
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.rejeitar()");
+    public void rejeitar(AbstractDespachoFinDto despacho) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        
+        projetoOptional.ifPresent(projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
+            projetoRepository.saveAndFlush(projeto);
+        });
     }
 
 }
