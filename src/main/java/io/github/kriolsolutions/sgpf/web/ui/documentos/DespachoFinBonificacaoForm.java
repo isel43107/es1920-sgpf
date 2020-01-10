@@ -84,6 +84,7 @@ public class DespachoFinBonificacaoForm extends FormLayout {
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         arquivarButton.addClickListener((event) -> {
             DespachoFinBonificacaoDto despacho = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
             this.bonificacaoAccoes.rejeitar(despacho);
         });
         

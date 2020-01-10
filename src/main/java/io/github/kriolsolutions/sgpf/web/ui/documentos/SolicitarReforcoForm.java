@@ -39,15 +39,19 @@ public class SolicitarReforcoForm extends FormLayout {
     
     Button solicitarButton = new Button("Solicitar");
     Button cancelarButton = new Button("Cancelar");
+    
+    private Projeto projeto ; 
 
     public Button getCancelarButton() {
         return cancelarButton;
     }
     private final DespachoFinanciamentoReforcoAcoes despachoAccoes;
     
-    public SolicitarReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes){
+    public SolicitarReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes, Projeto projeto){
     
         this.despachoAccoes = despachoAccoes;
+        this.projeto = projeto;
+        
         init();
     }
 
@@ -69,6 +73,7 @@ public class SolicitarReforcoForm extends FormLayout {
         solicitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         solicitarButton.addClickListener((event) -> {
             PedidoReforcoDto pedido = getBinder().getBean();
+            pedido.setProjetoId(this.projeto.getId());
             pedido.setDataPedido(Calendar.getInstance().getTime());
             despachoAccoes.solicitar(pedido);
         });

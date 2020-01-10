@@ -41,11 +41,12 @@ public class DespachoFinReforcoForm extends FormLayout{
     Button aprovarButton = new Button("Aprovar");
     Button rejeitarButton = new Button("Rejeitar");
     private final DespachoFinanciamentoReforcoAcoes despachoAccoes;
+    private final Projeto projeto;
     
-    public DespachoFinReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes , PedidoReforcoDto pedido ){
+    public DespachoFinReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes , Projeto projeto ){
     
         this.despachoAccoes = despachoAccoes;
-        binder.readBean(pedido);
+        this.projeto = projeto ; 
         init();
     }
 
@@ -72,12 +73,14 @@ public class DespachoFinReforcoForm extends FormLayout{
         aprovarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aprovarButton.addClickListener((event) -> {
             PedidoReforcoDto despacho  = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
             this.despachoAccoes.aprovar(despacho);
         });
         
         rejeitarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         rejeitarButton.addClickListener((event) -> {
             PedidoReforcoDto despacho  = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
             this.despachoAccoes.rejeitar(despacho);
         });
         

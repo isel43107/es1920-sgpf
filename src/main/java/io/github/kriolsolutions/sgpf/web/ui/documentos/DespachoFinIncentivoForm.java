@@ -78,18 +78,21 @@ public class DespachoFinIncentivoForm extends FormLayout {
         aprovarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aprovarButton.addClickListener((event) -> {
             DespachoFinIncentivoDto despacho  = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
             this.despachoAcoes.aprovar(despacho);
         });
         
         rejeitarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         rejeitarButton.addClickListener((event) -> {
             DespachoFinIncentivoDto despacho  = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
             this.despachoAcoes.rejeitar(despacho);
         });
         
         transformarButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
         transformarButton.addClickListener((event) -> {
             DespachoFinIncentivoDto despacho  = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
             this.despachoAcoes.transformarBonificacao(despacho);
         });
         
