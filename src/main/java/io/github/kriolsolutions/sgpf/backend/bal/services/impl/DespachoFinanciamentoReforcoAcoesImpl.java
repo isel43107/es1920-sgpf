@@ -28,6 +28,7 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import java.util.Optional;
 import javax.inject.Inject;
 
 /**
@@ -41,17 +42,42 @@ public class DespachoFinanciamentoReforcoAcoesImpl implements DespachoFinanciame
 
 
     @Override
-    public void aprovar(PedidoReforcoDto projeto) {
+    public void aprovar(PedidoReforcoDto despacho) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
+            projetoRepository.saveAndFlush(projeto);
+        });
+        
         System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.aprovar()");
     }
 
     @Override
-    public void rejeitar(PedidoReforcoDto projeto) {
+    public void rejeitar(PedidoReforcoDto despacho) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
+            projetoRepository.saveAndFlush(projeto);
+        });
+        
         System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.rejeitar()");
     }
 
     @Override
-    public void solicitar(PedidoReforcoDto pedido) {
+    public void solicitar(PedidoReforcoDto despacho) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_REFORCO);
+            projetoRepository.saveAndFlush(projeto);
+        });
+        
+        
         System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoReforcoAcoesImpl.solicitar()");
     }
 

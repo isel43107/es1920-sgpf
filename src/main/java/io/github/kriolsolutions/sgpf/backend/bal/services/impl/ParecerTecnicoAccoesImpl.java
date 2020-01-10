@@ -30,6 +30,7 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
 import java.util.Date;
+import java.util.Optional;
 import javax.inject.Inject;
 
 /**
@@ -43,11 +44,30 @@ public class ParecerTecnicoAccoesImpl implements ParecerTecnicoAcoes{
 
     @Override
     public void favoravel(ParecerTecnicoDto parecer) {
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(parecer.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            if(projeto.getProjTipo() == Projeto.ProjetoTipo.BONIFICAO){
+               projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_BONIFICACAO); 
+            }
+            else{
+                projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_INCENTIVO);
+            }
+            projetoRepository.saveAndFlush(projeto);
+        });
+        
+        
+        
         System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.ParecerTecnicoAccoesImpl.favoravel()");
     }
 
     @Override
     public void desfavoravel(ParecerTecnicoDto parecer) {
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.ParecerTecnicoAccoesImpl.desfavoravel()");
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(parecer.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
+            projetoRepository.saveAndFlush(projeto);
+        });
     }
 }

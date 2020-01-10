@@ -26,6 +26,7 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import java.util.Optional;
 import javax.inject.Inject;
 
 /**
@@ -39,12 +40,27 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl implements DespachoFinanc
 
 
     @Override
-    public void aprovar(AbstractDespachoFinDto projeto) {
+    public void aprovar(AbstractDespachoFinDto despacho ) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
+            projetoRepository.saveAndFlush(projeto);
+        });
         System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.aprovar()");
     }
 
     @Override
-    public void rejeitar(AbstractDespachoFinDto projeto) {
+    public void rejeitar(AbstractDespachoFinDto despacho) {
+        
+        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
+            projetoRepository.saveAndFlush(projeto);
+        });
+        
         System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.rejeitar()");
     }
 
