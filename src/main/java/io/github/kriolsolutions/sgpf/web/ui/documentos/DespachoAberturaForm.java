@@ -19,6 +19,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -36,7 +37,7 @@ public class DespachoAberturaForm extends FormLayout {
     private final BeanValidationBinder<DespachoAberturaDto> binder = new BeanValidationBinder<>(DespachoAberturaDto.class);
 
     //Campos - PROMOTOR
-    private NumberField gestorFinanciamentoId = new NumberField();
+    private IntegerField gestorFinanciamentoId = new IntegerField();
     
     
     Button aceitarButton = new Button("Aprovar");
