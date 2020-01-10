@@ -93,7 +93,7 @@ public class HistoricoView extends VerticalLayout {
         filterText.addFocusShortcut(Key.KEY_F, KeyModifier.CONTROL);
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
-        //filterText.addValueChangeListener(e -> listarHistoricos(historicoGrid, e.getValue()));
+        filterText.addValueChangeListener(e -> listarHistoricos(grid, e.getValue()));
 
         Button refreshButton = new Button("Refresh");
         //refreshButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -167,6 +167,9 @@ public class HistoricoView extends VerticalLayout {
 
         grid.addColumn(Historico::getEvento).setHeader("Evento")
                 .setFlexGrow(20).setSortable(false).setKey("evento");
+       
+        grid.addColumn(Historico::getCreatedDate).setHeader("Data")
+                .setFlexGrow(20).setSortable(false).setKey("dateCreation");
 
         /*
         // O documento podera ser null importante verificar antes de aceder
