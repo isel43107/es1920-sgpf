@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 kriolSolutions.
+ * Copyright 2020 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.bal.services.api;
+package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import io.github.kriolsolutions.sgpf.backend.bal.dto.ParecerTecnicoDto;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.util.Date;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  *
- * @author pauloborges
+ * @author Rafael Delgado
  */
-public interface ParecerTecnicoAcoes {
-    
-    public void favoravel(ParecerTecnicoDto projeto);
-    
-    public void desfavoravel(ParecerTecnicoDto projeto);
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class ParecerTecnicoDto extends AbstractBaseDto{
+    @NotNull
+    private String texto;
 }

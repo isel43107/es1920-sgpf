@@ -20,8 +20,10 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.ParecerTecnicoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.ParecerTecnicoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
@@ -30,11 +32,11 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
  * @author pauloborges
  */
 public class ParecerTecnicoForm extends FormLayout {
-    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+    private final BeanValidationBinder<ParecerTecnicoDto> binder = new BeanValidationBinder<>(ParecerTecnicoDto.class);
 
     Button favoravelButton = new Button("Favoravel");
     Button desfavoravelButton = new Button("Desfavoravel");
-    private NumberField projMontanteSolicitado = new NumberField();
+    private TextField texto = new TextField();
     private Projeto projecto;
     private ParecerTecnicoAcoes parecerAccoes;
 
@@ -64,15 +66,14 @@ public class ParecerTecnicoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
         
-        projMontanteSolicitado.setLabel("Montante Solicitado");
+        texto.setLabel("Texto");
         binder.bindInstanceFields(this);
-        binder.readBean(this.projecto);
-        
-        
+        this.add(texto);
+        buildActionsButtons();        
     }
     
     
-    public Binder<Projeto> getBinder() {
+    public Binder<ParecerTecnicoDto> getBinder() {
         return binder;
     }
     
@@ -81,13 +82,15 @@ public class ParecerTecnicoForm extends FormLayout {
         // Button bar
         favoravelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         favoravelButton.addClickListener((event) -> {
-            Projeto proj = getBinder().getBean();
-            this.parecerAccoes.favoravel(proj);
+            ParecerTecnicoDto parecer = getBinder().getBean();
+            parecer.setProjetoId(this.projecto.getId());
+            this.parecerAccoes.favoravel(parecer);
         });
         desfavoravelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         desfavoravelButton.addClickListener((event) -> {
-            Projeto proj = getBinder().getBean();
-            this.parecerAccoes.desfavoravel(proj);
+            ParecerTecnicoDto parecer = getBinder().getBean();
+            parecer.setProjetoId(this.projecto.getId());
+            this.parecerAccoes.desfavoravel(parecer);
         });
         
         HorizontalLayout actions = new HorizontalLayout();
