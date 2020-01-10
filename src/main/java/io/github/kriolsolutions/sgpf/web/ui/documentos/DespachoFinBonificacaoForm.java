@@ -23,10 +23,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinBonificacaoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoBonificacaoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,9 +50,12 @@ public class DespachoFinBonificacaoForm extends FormLayout {
     private final Projeto projeto;
     private final DespachoFinanciamentoBonificacaoAcoes bonificacaoAccoes;
     
+    private final DespachoFinBonificacaoDto despacho = new DespachoFinBonificacaoDto();
+    
     public DespachoFinBonificacaoForm(DespachoFinanciamentoBonificacaoAcoes accoes, Projeto projeto ){
         this.projeto = projeto;
         this.bonificacaoAccoes = accoes;
+        this.despacho.setProjetoId(projeto.getId());
         init();
     }
 
@@ -80,15 +86,23 @@ public class DespachoFinBonificacaoForm extends FormLayout {
         // Button bar
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
-            DespachoFinBonificacaoDto despacho = getBinder().getBean();
-            this.bonificacaoAccoes.aprovar(despacho);
+            try {
+                getBinder().writeBean(despacho);
+                this.bonificacaoAccoes.aprovar(despacho);
+            } catch (ValidationException ex) {
+                Logger.getLogger(DespachoFinBonificacaoForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         });
         
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         arquivarButton.addClickListener((event) -> {
-            DespachoFinBonificacaoDto despacho = getBinder().getBean();
-            despacho.setProjetoId(this.projeto.getId());
-            this.bonificacaoAccoes.rejeitar(despacho);
+            try {
+                getBinder().writeBean(despacho);
+                this.bonificacaoAccoes.rejeitar(despacho);
+            } catch (ValidationException ex) {
+                Logger.getLogger(DespachoFinBonificacaoForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         HorizontalLayout actions = new HorizontalLayout();

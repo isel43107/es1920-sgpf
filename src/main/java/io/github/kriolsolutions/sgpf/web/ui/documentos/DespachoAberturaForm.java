@@ -24,9 +24,12 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoAberturaDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,6 +41,7 @@ public class DespachoAberturaForm extends FormLayout {
 
     //Campos - PROMOTOR
     private IntegerField gestorFinanciamentoId = new IntegerField();
+    private final DespachoAberturaDto despacho = new DespachoAberturaDto();
     
     
     Button aceitarButton = new Button("Aprovar");
@@ -56,6 +60,7 @@ public class DespachoAberturaForm extends FormLayout {
     public DespachoAberturaForm( DespachoAberturaAcoes aberturaAccoes , Projeto projeto){
         this.aberturaAccoes = aberturaAccoes;
         this.projeto = projeto;
+        binder.readBean(despacho);
         init();
         buildActionsButtons();
     }
@@ -85,7 +90,11 @@ public class DespachoAberturaForm extends FormLayout {
         // Button bar
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
-            DespachoAberturaDto despacho = getBinder().getBean();
+            try {
+                getBinder().writeBean(this.despacho);
+            } catch (ValidationException ex) {
+                Logger.getLogger(DespachoAberturaForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
             despacho.setProjetoId(this.projeto.getId());
             this.aberturaAccoes.aprovar(despacho);
         });
