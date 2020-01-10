@@ -42,3 +42,12 @@ For more information on Vaadin Flow, visit https://vaadin.com/flow.
 
 * javax.enterprise.context
 * @Dependent - is a "pseudo-scoped", what means: 
+
+
+== Vaadin Form binding 
+
+
+Documentação Vaddin 8 (Não é vaadin-flow), mas o conceito é o mesmo
+
+* https://vaadin.com/blog/vaadin-8-binder
+* https://vaadin.com/docs/v8/framework/datamodel/datamodel-forms.html

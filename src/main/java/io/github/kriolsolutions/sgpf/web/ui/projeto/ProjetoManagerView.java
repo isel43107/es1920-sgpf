@@ -31,6 +31,7 @@ import com.vaadin.flow.component.crud.CrudGrid;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -45,10 +46,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.SgpfServiceFacade;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinBonificacao;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinReforco;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
+import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinBonificacaoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinIncentivoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.ParecerTecnicoForm;
 import java.text.DecimalFormat;
@@ -294,55 +298,49 @@ public class ProjetoManagerView extends VerticalLayout {
 
         Button button = new Button(new Icon(VaadinIcon.OPTIONS));
 
+        GridContextMenu<Projeto> contextMenu = projetoGrid.addContextMenu();
+        //ContextMenu contextMenu = new ContextMenu(button);
+        //contextMenu.setTarget(button);
+        contextMenu.setVisible(true);
+        contextMenu.removeAll();
+
+        //OPCOES GERAIS
+        contextMenu.addItem("Editar projeto", event -> {
+            Notification.show("Editar projeto sera implementado brevemente");
+        });
+
+        //OPCOES BASEADO NO STATE
         switch (projeto.getProjEstado()) {
 
             case EM_CANDIDATURA:
-                button.addClickListener(clickEvent -> {
-                    candidaturaOptions(button, projeto);
-                });
+                candidaturaOptions(contextMenu);
                 break;
 
             case DESPACHO_ABERTURA:
-                button.addClickListener(clickEvent -> {
-                    despachoAberturaOptions(button, projeto);
-                });
+                despachoAberturaOptions(contextMenu);
                 break;
 
             case PARECER_TECNICO:
-                button.addClickListener(clickEvent -> {
-                    parecerTecnicoOptions(button, projeto);
-                });
+                parecerTecnicoOptions(contextMenu);
                 break;
 
             case DESPACHO_FINANCIAMENTO:
-                button.addClickListener(clickEvent -> {
-                    despachoFinanciamentoOptions(button, projeto);
-                });
+                despachoFinanciamentoOptions(contextMenu);
                 break;
             case DESPACHO_REFORCO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("DESPACHO_REFORCO sera implementado brevemente");
-                });
+                despachoReforcoOptions(contextMenu);
                 break;
             case EM_PAGAMENTO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("EM_PAGAMENTO sera implementado brevemente");
-                });
+                projetoEmPagamentoOptions(contextMenu);
                 break;
             case PROJETO_ARQUIVADO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("PROJETO_ARQUIVADO sera implementado brevemente");
-                });
+                projetoArquivadoOptions(contextMenu);
                 break;
             case PROJETO_REJEITADO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("PROJETO_REJEITADO sera implementado brevemente");
-                });
+                projetoRejeitadoOptions(contextMenu);
                 break;
             case PROJETO_SUSPENSO:
-                button.addClickListener(clickEvent -> {
-                    Notification.show("PROJETO_SUSPENSO sera implementado brevemente");
-                });
+                projetoSuspensoOptions(contextMenu);
                 break;
         }
 
@@ -350,114 +348,151 @@ public class ProjetoManagerView extends VerticalLayout {
         return button;
     }
 
-    //TODO - visto a copia do codio para cria opções podemos de certeza
-    //Sera possivel criar uma interface/abstrac que defina o conceito de Options/Opções
-    //Action 
-    //  - CandidaturaAction {Aceitar, Abrir, Arquivar}
-    //  - DespachoAberturaAction {Aprovar, Rejeitar}
-    //
-    private Component candidaturaOptions(Component component, Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu(component);
-        contextMenu.addItem("Abrir projeto",
-                event -> {
-                    Notification.show("Abrir projeto sera implementado brevemente");
-                    sgpfacade.getAceitacaoCandidaturaAcoes().abir(projeto);
-                });
-
-        contextMenu.addItem("Arquivar projeto",
-                event -> {
-                    Notification.show("Arquivar projeto sera implementado brevemente");
-                    sgpfacade.getAceitacaoCandidaturaAcoes().arquivar(projeto);
-                }
-        );
-
-        contextMenu.addItem("Editar projeto",
-                event -> Notification.show("Editar projeto sera implementado brevemente"));
-
-        contextMenu.setVisible(true);
-
-        //workaround for issue vaadin-context-menu-flow/issues/47
-        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
-
-        return contextMenu;
-    }
-
-    private Component despachoAberturaOptions(Component component, Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu(component);
-        contextMenu.addItem("Emitir despacho abertura",
-                event -> {
-
-                    Notification.show(
-                            "Emitir despacho abertura, devera abrir o formulario de abertura. "
-                            + "Formulario DespachoAberturaForm devera contem as opções: "
-                            + "APROVADO, REJEITADO(NAO TEM esta opção)");
-
-                    DespachoAberturaForm candForm = new DespachoAberturaForm(sgpfacade.getDespachoAberturaAcoes(), projeto);
-                    Dialog candDialog = new Dialog(candForm);
-                    candDialog.open();
-
-                    candForm.getArquivarButton().addClickListener((e) -> {
-                        candDialog.close();
-                    });
-                }
-        );
-        contextMenu.setVisible(true);
-
-        //workaround for issue vaadin-context-menu-flow/issues/47
-        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
-
-        return contextMenu;
-    }
-
-    private Component parecerTecnicoOptions(Component component, Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu(component);
-        contextMenu.addItem("Emitir parecer Tecnico",
-                event
-                -> {
-            Notification.show(
-                    "Parecer tecnico "
-                    + "Formulario ParecerTecnicoForm devera contem as opções: "
-                    + "FAVORAVEL, DESFAVORAVEL");
-
-            ParecerTecnicoForm candForm = new ParecerTecnicoForm(sgpfacade.getParecerTecnicoAcoes(), projeto);
-            Dialog candDialog = new Dialog(candForm);
-            candDialog.open();
-
-            candForm.getFavoravelButton().addClickListener((e) -> {
-                candDialog.close();
+    /* ACOES DE CONTEXTO - DE ACORDO COM O ESTADO DO PROJETO */
+    /* */
+    
+    private Component candidaturaOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Abrir projeto", event -> {
+            Notification.show("Abrir projeto");
+            event.getItem().ifPresent(projeto -> {
+                sgpfacade.getAceitacaoCandidaturaAcoes().abir(projeto);
             });
-        }
-        );
-        contextMenu.setVisible(true);
+        });
 
-        //workaround for issue vaadin-context-menu-flow/issues/47
-        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
+        contextMenu.addItem("Arquivar projeto", event -> {
+            Notification.show("Arquivar projeto");
+            event.getItem().ifPresent(projeto -> {
+                sgpfacade.getAceitacaoCandidaturaAcoes().arquivar(projeto);
+            });
+        });
 
         return contextMenu;
     }
 
-    private Component despachoFinanciamentoOptions(Component component, Projeto projeto) {
-        ContextMenu contextMenu = new ContextMenu(component);
-        contextMenu.addItem("Emitir despacho financiamento",
-                event -> {
-                    Notification.show(
-                            "Devera abrir o formulario do despacho de acordo com tipo projeto: "
-                            + "DespachoFinIncentivoForm, DespachoFinBonificacaoForm");
-                    /* */
-                    DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
-                    Dialog candDialog = new Dialog(candForm);
-                    candDialog.open();
+    private void despachoAberturaOptions(GridContextMenu<Projeto> contextMenu) {
 
-                    //TODO candForm.getFavoravelButton().addClickListener((e) -> {  candDialog.close();});
+        contextMenu.addItem("Emissão despacho abertura", event -> {
+            Notification.show("Despacho Abertura");
 
-                }
-        );
+            event.getItem().ifPresent(projeto -> {
 
-        contextMenu.setVisible(true);
+                DespachoAberturaForm candForm = new DespachoAberturaForm(sgpfacade.getDespachoAberturaAcoes(), projeto);
+                Dialog candDialog = new Dialog(candForm);
+                candDialog.open();
 
-        //workaround for issue vaadin-context-menu-flow/issues/47
-        contextMenu.addAttachListener(a -> contextMenu.setTarget(component));
+                candForm.getArquivarButton().addClickListener((e) -> {
+                    candDialog.close();
+                });
+            });
+        });
+    }
 
-        return contextMenu;
+    private void parecerTecnicoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Emissão Parecer Tecnico", event -> {
+            Notification.show("Parecer tecnico");
+            event.getItem().ifPresent(projeto -> {
+                ParecerTecnicoForm candForm = new ParecerTecnicoForm(sgpfacade.getParecerTecnicoAcoes(), projeto);
+                Dialog candDialog = new Dialog(candForm);
+                candDialog.open();
+
+                //Button Fechar
+                candForm.getFavoravelButton().addClickListener((e) -> {
+                    //candDialog.close();
+                });
+            });
+        });
+    }
+
+    private void despachoFinanciamentoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Emissão Despacho Incentivo", event -> {
+            Notification.show("Despacho Incentivo");
+            event.getItem().ifPresent(projeto -> {
+                DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
+                Dialog candDialog = new Dialog(candForm);
+                candDialog.open();
+            });
+        });
+    }
+
+    private void despachoBonificacaoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Emissão Despacho Bonificacao", event -> {
+            Notification.show("Despacho Bonificacao");
+            event.getItem().ifPresent(projeto -> {
+                DespachoFinBonificacaoForm form = new DespachoFinBonificacaoForm(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                Dialog candDialog = new Dialog(form);
+                candDialog.open();
+            });
+        });
+    }
+
+    private void despachoReforcoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Emissão Despacho Reforço", event -> {
+            Notification.show("NO IMPLEMENTED");
+            event.getItem().ifPresent(projeto -> {
+                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                //Dialog candDialog = new Dialog(form);
+                //candDialog.open();
+            });
+        });
+    }
+
+    private void projetoEmPagamentoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Efetuar Pagamento", event -> {
+            Notification.show("NO IMPLEMENTED");
+            event.getItem().ifPresent(projeto -> {
+                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                //Dialog candDialog = new Dialog(form);
+                //candDialog.open();
+            });
+        });
+        opcaoSolicitarReforco(contextMenu);
+    }
+    
+    private void projetoFechadoOptions(GridContextMenu<Projeto> contextMenu) {
+        opcaoSolicitarReforco(contextMenu);
+    }
+
+    private void projetoArquivadoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Reenquadramento", event -> {
+            Notification.show("NO IMPLEMENTED: Mudar os estado para Candidatura");
+            event.getItem().ifPresent(projeto -> {
+                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                //Dialog candDialog = new Dialog(form);
+                //candDialog.open();
+            });
+        });
+    }
+
+    private void projetoRejeitadoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Rejeitado", event -> {
+            Notification.show("Este projeto não pode ser Alterado. Estado FINAL");
+            event.getItem().ifPresent(projeto -> {
+                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                //Dialog candDialog = new Dialog(form);
+                //candDialog.open();
+            });
+        });
+    }
+
+    private void projetoSuspensoOptions(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Reativar", event -> {
+            Notification.show("Este projeto devera retornar ao estado precedente");
+            event.getItem().ifPresent(projeto -> {
+                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                //Dialog candDialog = new Dialog(form);
+                //candDialog.open();
+            });
+        });
+    }
+    
+    private void opcaoSolicitarReforco(GridContextMenu<Projeto> contextMenu) {
+        contextMenu.addItem("Solicitar Reforço", event -> {
+            Notification.show("Este projeto devera retornar ao estado precedente");
+            event.getItem().ifPresent(projeto -> {
+                //SolicitarReforcoForm form = new SolicitarReforcoForm(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
+                //Dialog candDialog = new Dialog(form);
+                //candDialog.open();
+            });
+        });
     }
 }

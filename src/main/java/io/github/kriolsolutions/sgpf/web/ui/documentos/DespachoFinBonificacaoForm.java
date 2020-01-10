@@ -22,6 +22,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoBonificacaoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
@@ -41,7 +42,7 @@ public class DespachoFinBonificacaoForm extends FormLayout {
     private Button arquivarButton = new Button("Arquivar");
     private final Projeto projeto;
     
-    public DespachoFinBonificacaoForm( Projeto projeto ){
+    public DespachoFinBonificacaoForm(DespachoFinanciamentoBonificacaoAcoes despacho, Projeto projeto ){
         this.projeto = projeto;
         init();
     }

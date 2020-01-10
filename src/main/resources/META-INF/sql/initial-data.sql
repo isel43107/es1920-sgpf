@@ -1,4 +1,6 @@
 -- inserção projeto exemplo
+-- OS CAMPO TIMESTAMP DEVEM CONTER DATETIME CORRECT, SENAO EXECEPTION
+-- --- INVALIDO '2019-11-10 12:00:00'
 -- INSERT 
 
 INSERT INTO projeto.utilizador( id, created_date, last_modified_date, version, username, password, perfil) values(1, '2019-11-10 12:00:00', '2019-11-10 12:00:00', 1, 'tc1', '123', 'TECNICO');
@@ -14,4 +16,4 @@ INSERT INTO projeto.projeto( id, created_date, last_modified_date, version, cont
 INSERT INTO projeto.projeto( id, created_date, last_modified_date, version, contato_email, contato_nome, contato_telefone, proj_descricao, proj_designacao, proj_estado, proj_mnt_solicitado, proj_nib, proj_numero, proj_tipo, promotor_designacao, promotor_nif, promotor_nacionalidade ) values(2, '2019-12-10 12:00:00', '2019-12-10 12:00:00', 1, 'lui@example.com', 'Luis', '35191111111111', 'Future Internet Technologies - ISEL', 'FIT-ISEL', 'EM_CANDIDATURA', 1000000.0, 'NIB 2222', '2019-00002', 'INCENTIVO', 'ISEL', '111111111', 'Portugal');
 
 -- INSERT HISTORICO
-INSERT INTO projeto.historico(id, created_date, last_modified_date, version, proj_numero, fk_projeto, stm_estado_atual, stm_evento) values(1, '2019-12-10 12:00:00', '2019-12-10 12:00:00', 1, '2019-00001', 1, 'EM_CANDIDATURA', 'INIT');
+INSERT INTO projeto.historico( id, created_date, last_modified_date, version, stm_estado_atual, stm_evento, proj_numero, fk_projeto) values(1, '2019-11-10 12:00:00', '2019-11-10 12:00:00', 1, 'EM_CANDIDATURA', 'INIT', '2019-00001', 1);

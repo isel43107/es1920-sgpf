@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <scxml xmlns="http://www.w3.org/2005/07/scxml" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.w3schools.com/RedsDevils https://www.w3.org/2011/04/SCXML/scxml.xsd"
+       xsi:schemaLocation="http://www.w3.org/2005/07/scxml https://www.w3.org/2011/04/SCXML/scxml.xsd"
        xmlns:cs="http://commons.apache.org/scxml"
        version="1.0" 
        name="SGPF_Workflow" 
@@ -40,6 +40,11 @@ limitations under the License.
         <transition event="DESFAVORAVEL" target="PROJETO_ARQUIVADO" />
     </state>
 
+    <state id="DESPACHO_FINANCIAMENTO">
+        <transition event="APROVADO" target="EM_PAGAMENTO" />
+        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+    </state>
+    
     <state id="DESPACHO_FINANCIAMENTO">
         <transition event="APROVADO" target="EM_PAGAMENTO" />
         <transition event="REJEITADO" target="PROJETO_REJEITADO" />

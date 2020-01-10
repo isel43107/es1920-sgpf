@@ -15,12 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<!-- Glashfish/Payara -->
+<!-- Glashfish/Payara 
+"http://glassfish.org/dtds/glassfish-resources_1_5.dtd"
+https://github.com/payara/Payara/raw/master/appserver/connectors/descriptors/src/main/resources/glassfish/lib/dtds/glassfish-resources_1_5.dtd
+-->
 <!DOCTYPE resources PUBLIC
     "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
     "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 <resources>
-	<jdbc-resource pool-name="SGPF_Pool" jndi-name="jdbc/sgpf_datasource" />
+	<jdbc-resource jndi-name="jdbc/sgpf_datasource" pool-name="SGPF_Pool" enabled="true"  />
 
 	<jdbc-connection-pool name="SGPF_Pool" res-type="javax.sql.DataSource"
 		datasource-classname="org.hsqldb.jdbc.JDBCPool">

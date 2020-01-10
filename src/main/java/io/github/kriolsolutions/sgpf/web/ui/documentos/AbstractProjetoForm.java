@@ -98,12 +98,16 @@ public abstract class AbstractProjetoForm extends FormLayout {
         this.add(promotorDesignacao, promotorNIF, promotorNacionalidade);
         this.add(contatoNome, contatoTelefone, contatoEmail);
 
-        //Binding automatico baseado, visto que os nomes dos campos são identicos aos do bean
-        binder.bindInstanceFields(this);
-
-        //binding Customizado
-        binder.forField(contatoEmail)
+        //Customizar menssagens de erro
+        //
+        binder.forMemberField(projDesignacao).asRequired("Prenchimento obrigatorio");
+        binder.forMemberField(projMontanteSolicitado).asRequired("Prenchimento obrigatorio");
+        binder.forMemberField(projTipo).asRequired("Prenchimento obrigatorio");
+        binder.forMemberField(promotorDesignacao).asRequired("Prenchimento obrigatorio");
+        binder.forMemberField(contatoNome).asRequired("Prenchimento obrigatorio");
+        binder.forMemberField(contatoEmail)
                 .withValidator(new EmailValidator("Formato e-mail invalido"))
+                .asRequired("Prenchimento obrigatorio")
                 .bind(Projeto::getContatoEmail, Projeto::setContatoEmail);
 
 /*
@@ -111,6 +115,9 @@ public abstract class AbstractProjetoForm extends FormLayout {
                 .withValidator(new MontandValidator("Montando deve conter duas casas decimais"))
                 .bind(Projeto::getProjMontanteSolicitado, Projeto::setrojMontanteSolicitado);
 */
+        
+        //Binding automatico baseado, visto que os nomes dos campos são identicos aos do bean
+        binder.bindInstanceFields(this);
     }
 
     public Binder<Projeto> getBinder() {

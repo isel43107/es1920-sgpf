@@ -45,7 +45,7 @@ public class CandidaturaForm extends AbstractProjetoForm {
 
     private void buildActionsButtons() {
 
-        this.getBinder().readBean(projeto);
+        //this.getBinder().setBean(projeto);
         /* */
         // Button bar
         

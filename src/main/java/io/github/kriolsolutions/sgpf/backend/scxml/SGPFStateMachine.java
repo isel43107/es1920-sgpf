@@ -15,9 +15,31 @@
  */
 package io.github.kriolsolutions.sgpf.backend.scxml;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.xml.stream.XMLStreamException;
+import org.apache.commons.scxml2.ActionExecutionContext;
+import org.apache.commons.scxml2.SCXMLExpressionException;
+import org.apache.commons.scxml2.SCXMLListener;
+import org.apache.commons.scxml2.Status;
+import org.apache.commons.scxml2.TriggerEvent;
 import org.apache.commons.scxml2.env.AbstractStateMachine;
+import org.apache.commons.scxml2.env.SimpleErrorHandler;
+import org.apache.commons.scxml2.env.jexl.JexlContext;
+import org.apache.commons.scxml2.io.SCXMLReader;
+import org.apache.commons.scxml2.model.Action;
+import org.apache.commons.scxml2.model.CustomAction;
+import org.apache.commons.scxml2.model.EnterableState;
 import org.apache.commons.scxml2.model.ModelException;
+import org.apache.commons.scxml2.model.SCXML;
+import org.apache.commons.scxml2.model.State;
+import org.apache.commons.scxml2.model.Transition;
+import org.apache.commons.scxml2.model.TransitionTarget;
+import org.xml.sax.ErrorHandler;
 
 /**
  *
@@ -25,18 +47,18 @@ import org.apache.commons.scxml2.model.ModelException;
  */
 public class SGPFStateMachine extends AbstractStateMachine {
 
+    private static final URL SCXML_FILE = SGPFStateMachine.class.getResource("state_machines/sgpf_sm.scxml2");
+
     /**
      * The events for the SGPF
      */
-    public static final String 
-            
-            EVENT_CAND_REGISTAR = "CANDIDATURA_REGISTADO",
+    public static final String EVENT_CAND_REGISTAR = "CANDIDATURA_REGISTADO",
             EVENT_ENQUADRADO = "ENQUADRADO",
-            EVENT_DESENQUADRADO = "DESENQUADRADO", 
+            EVENT_DESENQUADRADO = "DESENQUADRADO",
             EVENT_APROVADO = "APROVADO",
             EVENT_REJEITADO = "REJEITADO",
             EVENT_REENQUADRADO = "REENQUADRADO",
-            EVENT_FAVORAVEL = "FAVORAVEL", 
+            EVENT_FAVORAVEL = "FAVORAVEL",
             EVENT_DESFAVORAVEL = "DESFAVORAVEL",
             EVENT_PAGAMENTO = "PAGAMENTO",
             EVENT_FIM_PAGAMENTO = "FIM_PAGAMENTO",
@@ -47,8 +69,119 @@ public class SGPFStateMachine extends AbstractStateMachine {
     }
 
     public SGPFStateMachine() throws ModelException {
-        super(SGPFStateMachine.class.getClassLoader().
-                getResource("state_machines/sgpf_sm.scxml2"));
+        super(SCXML_FILE);
+    }
+
+    public void run() throws XMLStreamException {
+
+        //engine = new SCXMLExecutor(new JexlEvaluator(), new SimpleDispatcher(), new SimpleErrorReporter());
+        //reate a list of custom actions
+        List<CustomAction> customActions = new ArrayList<CustomAction>();
+        CustomAction ca = new CustomAction("http://kriolsolutions.github.io/sgpf/helloAction", "hello", HelloAction.class);
+        customActions.add(ca);
+
+        SCXML stateMachine;
+        ErrorHandler errorHandler = new SimpleErrorHandler();
+        try {
+            stateMachine = SCXMLReader.read(SCXML_FILE);
+
+            TransitionTarget tt = null;
+            Map targets = stateMachine.getTargets();
+            tt = (TransitionTarget) targets.get("paused");
+            stateMachine.setInitial("INITIAL");
+
+            getEngine().setStateMachine(stateMachine);
+            //getEngine().setSuperStep(true);
+            getEngine().setRootContext(new JexlContext());
+            getEngine().addListener(stateMachine, new EntryListener());
+            
+            getEngine().go();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ModelException e) {
+            e.printStackTrace();
+        }
+
+        String event = null;
+        if (event.trim() != null && !event.trim().equals("")) {
+            if (event.equals("exit")) {
+                
+            } else {
+                TriggerEvent[] evts = {new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, null)};
+                try {
+                    getEngine().triggerEvents(evts);
+
+                    Status currStatus = getEngine().getCurrentStatus();
+                    Set states = currStatus.getStates();
+
+                    for (Object object : states) {
+
+                        State state = ((State) object);
+                        System.out.println("current status id is : " + state.getId());
+                        /*
+                            if (((State)object).getId().equals("reset")) 
+                            {
+                                TransitionTarget parent = state.getParent();
+                                System.out.println("parent is : " + parent.getId());
+                            }*/
+
+                    }
+
+                } catch (ModelException me) {
+                    me.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    /**
+     * A SCXMLListener that is only concerned about "onentry" notifications.
+     */
+    protected class EntryListener implements SCXMLListener {
+
+        private void onEntry(final TransitionTarget entered) {
+            System.out.println("Entering State : " + entered.getId() + ", begin to invoke method " + entered.getId());
+            invoke(entered.getId());
+        }
+
+        private void onTransition(final TransitionTarget from,
+                final TransitionTarget to, final Transition transition) {
+            System.out.println("Transiting from " + from.getId() + " to "
+                    + to.getId());
+        }
+
+        private void onExit(final TransitionTarget exited) {
+            System.out.println("Exiting :" + exited.getId());
+        }
+
+        @Override
+        public void onEntry(EnterableState es) {
+            //es.
+            throw new UnsupportedOperationException("Not supported yet.");
+//To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onExit(EnterableState es) {
+            throw new UnsupportedOperationException("Not supported yet.");
+//To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onTransition(TransitionTarget tt, TransitionTarget tt1, Transition trnstn, String string) {
+            throw new UnsupportedOperationException("Not supported yet.");
+//To change body of generated methods, choose Tools | Templates.
+        }
+    }
+
+    protected class HelloAction extends Action {
+
+        @Override
+        public void execute(ActionExecutionContext aec) throws ModelException, SCXMLExpressionException {
+            throw new UnsupportedOperationException("Not supported yet.");
+//To change body of generated methods, choose Tools | Templates.
+        }
     }
 
 }
