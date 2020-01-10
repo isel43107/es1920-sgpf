@@ -45,12 +45,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class DespachoFinBonificacao extends DespachoFin{
     
-    
-    @NotNull
     @Column(name = "tax_bonificacao", nullable = false)
     private double taxBonificacao;
     
-    @NotNull
     @Column(name = "mnt_max_bonificacao", nullable = false)
     private double mntMaxBonificacao;
     

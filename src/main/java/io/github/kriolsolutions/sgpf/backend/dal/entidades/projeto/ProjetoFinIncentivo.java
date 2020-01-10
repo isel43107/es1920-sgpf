@@ -15,16 +15,27 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author pauloborges
  */
-public class ProjetoFinIncentivo {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@Table(name = "projeto_fin_incentivo", schema="projeto")
+@Entity
+public class ProjetoFinIncentivo extends ProjetoFin {
     
     @Column(name = "prazo_execucao", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

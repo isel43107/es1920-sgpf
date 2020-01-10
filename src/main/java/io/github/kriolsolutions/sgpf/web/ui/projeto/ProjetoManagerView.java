@@ -320,8 +320,11 @@ public class ProjetoManagerView extends VerticalLayout {
                 parecerTecnicoOptions(contextMenu);
                 break;
 
-            case DESPACHO_FINANCIAMENTO:
-                despachoFinanciamentoOptions(contextMenu);
+            case DESPACHO_FIN_INCENTIVO:
+                despachoFinIncentivoOptions(contextMenu);
+                break;
+           case DESPACHO_FIN_BONIFICACAO:
+                despachoFinBonificacaoOptions(contextMenu);
                 break;
             case DESPACHO_REFORCO:
                 despachoReforcoOptions(contextMenu);
@@ -399,7 +402,7 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void despachoFinanciamentoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void despachoFinIncentivoOptions(GridContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Emissão Despacho Incentivo", event -> {
             Notification.show("Despacho Incentivo");
             event.getItem().ifPresent(projeto -> {
@@ -410,7 +413,7 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void despachoBonificacaoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void despachoFinBonificacaoOptions(GridContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Emissão Despacho Bonificacao", event -> {
             Notification.show("Despacho Bonificacao");
             event.getItem().ifPresent(projeto -> {

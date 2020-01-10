@@ -38,12 +38,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class DespachoFin extends BaseEntity{
-    
-    @NotNull
+
     @Column(name = "custo_elegivel", nullable = false)
     private double custoElegivel;
-    
-    @NotNull
+
     @Column(name = "mnt_financiado", nullable = false)
     private double montanteFinanciado;
     

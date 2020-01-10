@@ -54,8 +54,8 @@ public class Projeto extends BaseEntity {
     @Column(name = "proj_mnt_solicitado", nullable = false)
     private double projMontanteSolicitado;
 
-    @Column(name = "proj_custo_elegivel", nullable = true)
-    private double projCustoElegivel;
+    //@Column(name = "proj_custo_elegivel", nullable = false)
+    //private double projCustoElegivel;
     
     @Column(name = "proj_descricao")
     private String projDescricao;
@@ -104,7 +104,8 @@ public class Projeto extends BaseEntity {
         
         EM_CANDIDATURA,
         DESPACHO_ABERTURA,
-        DESPACHO_FINANCIAMENTO,
+        DESPACHO_FIN_INCENTIVO,
+        DESPACHO_FIN_BONIFICACAO,
         DESPACHO_REFORCO,
         EM_PAGAMENTO,
         PROJETO_FECHADO,

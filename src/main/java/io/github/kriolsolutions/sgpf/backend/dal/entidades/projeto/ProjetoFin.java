@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 kriolSolutions.
+ * Copyright 2019 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,21 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.*;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFin;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Despacho.DespachoDecisao;
+import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -32,20 +37,19 @@ import lombok.NoArgsConstructor;
  * @author pauloborges
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "projeto_fin_bonificacao", schema="projeto")
-@Entity
-public class ProjetoFinBonificacao extends ProjetoFin {
+@MappedSuperclass
+public abstract class ProjetoFin extends BaseEntity{
     
     @NotNull
-    @Column(name = "tax_bonificacao", nullable = false)
-    private double taxBonificacao;
+    @Column(name = "custo_elegivel", nullable = false)
+    private double custoElegivel;
     
     @NotNull
-    @Column(name = "mnt_max_bonificacao", nullable = false)
-    private double mntMaxBonificacao;
-    
-    @Column(name = "periodo", nullable = false)
-    private long periodo;
+    @Column(name = "mnt_financiado", nullable = false)
+    private double montanteFinanciado;
+
+    @OneToOne
+    @JoinColumn(name = "fk_projeto")
+    private Projeto projeto;
 }
