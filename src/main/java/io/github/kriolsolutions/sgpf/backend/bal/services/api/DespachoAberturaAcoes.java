@@ -15,6 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoAberturaDto;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
@@ -23,6 +24,6 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
  */
 public interface DespachoAberturaAcoes {
  
-    public void aprovar(Projeto projeto);
+    public void aprovar(DespachoAberturaDto projeto);
     //public void arquivar(Projeto projeto);
 }

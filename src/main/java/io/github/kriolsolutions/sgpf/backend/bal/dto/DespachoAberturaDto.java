@@ -25,8 +25,9 @@ import lombok.NoArgsConstructor;
  * @author pauloborges
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class DespachoAberturaDto {
+public class DespachoAberturaDto extends AbstractBaseDto {
     
     private Long candidaturaId;
     private Long gestorFinanciamentoId;

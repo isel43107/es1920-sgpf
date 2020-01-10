@@ -15,6 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoAberturaDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
@@ -22,6 +23,7 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import java.util.Optional;
 import javax.inject.Inject;
 
 /**
@@ -34,25 +36,31 @@ public class DespachoAberturaAcoesImpl implements DespachoAberturaAcoes {
     private SgpfRepositoryFacade repositoryFace;
 
     @Override
-    public void aprovar(Projeto projeto) {
+    public void aprovar(DespachoAberturaDto despacho) {
 
+        
         ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
         HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
+        
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent( projeto -> {
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
-        Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+            projeto.setProjEstado(Projeto.ProjetoEstado.PARECER_TECNICO);
+            projetoRepository.saveAndFlush(projeto);
 
-        projeto.setProjEstado(Projeto.ProjetoEstado.PARECER_TECNICO);
-        projetoRepository.saveAndFlush(projeto);
-
-        // Guardar no historico o evento(Evolução maquina estado)
-        Historico his = new Historico();
-        //his.setDocumento(doc);
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAnterior(estadoAnterior);
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(SGPFStateMachine.EVENT_APROVADO);
-        historicoRepo.saveAndFlush(his);
+            // Guardar no historico o evento(Evolução maquina estado)
+            Historico his = new Historico();
+            //his.setDocumento(doc);
+            his.setProjeto(projeto);
+            his.setProjNumero(projeto.getProjNumero());
+            his.setEstadoAnterior(estadoAnterior);
+            his.setEstadoAtual(projeto.getProjEstado());
+            his.setEvento(SGPFStateMachine.EVENT_APROVADO);
+            historicoRepo.saveAndFlush(his);
+        });
+        
+        
     }
 
 }

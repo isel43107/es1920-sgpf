@@ -23,6 +23,7 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoAberturaDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
@@ -32,7 +33,7 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
  */
 public class DespachoAberturaForm extends FormLayout {
     
-    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+    private final BeanValidationBinder<DespachoAberturaDto> binder = new BeanValidationBinder<>(DespachoAberturaDto.class);
 
     //Campos - PROMOTOR
     private NumberField utilizadorGestorFin = new NumberField();
@@ -67,10 +68,9 @@ public class DespachoAberturaForm extends FormLayout {
         
         this.add(utilizadorGestorFin);
         binder.bindInstanceFields(this);
-        binder.readBean(this.projeto);
     }
     
-    public Binder<Projeto> getBinder() {
+    public Binder<DespachoAberturaDto> getBinder() {
         return binder;
     }
     
@@ -79,8 +79,9 @@ public class DespachoAberturaForm extends FormLayout {
         // Button bar
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
-            Projeto proj = getBinder().getBean();
-            this.aberturaAccoes.aprovar(proj);
+            DespachoAberturaDto despacho = getBinder().getBean();
+            despacho.setProjetoId(this.projeto.getId());
+            this.aberturaAccoes.aprovar(despacho);
         });
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         
