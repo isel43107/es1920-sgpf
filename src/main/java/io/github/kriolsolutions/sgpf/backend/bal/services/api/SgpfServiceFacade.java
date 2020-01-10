@@ -38,7 +38,7 @@ public class SgpfServiceFacade {
     @Inject
     private DespachoFinanciamentoReforcoAcoes despachoFinanciamentoReforcoAcoes;
 
-    //@Inject
+    @Inject
     private ProjetoActivacaoAcoes projetoAcoes;
     
     @Inject

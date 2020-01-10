@@ -15,13 +15,16 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+
 /**
  *
  * @author pauloborges
  */
 public interface ProjetoActivacaoAcoes {
 
-    public void suspender();
+    public void reativar(Projeto projeto);
+    public void suspender(Projeto projeto);
     
-    public void reenquadrar();
+    public void reenquadrar(Projeto projeto);
 }
