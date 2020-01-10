@@ -1,0 +1,90 @@
+// Global settings
+:ascii-ids:
+:encoding: UTF-8
+:lang: pt_PT
+:icons: font
+:toc:
+:toc-placement!:
+:toclevels: 3
+:numbered:
+:stem:
+
+ifdef::env-github[]
+:imagesdir: images/
+endif::[]
+
+[[doc]]
+= ES Projeto SGFP - Implementação
+:author: Copyright (c) 2019-2019 Paulo Borges.
+:revnumber: {app-product-name} {app-version}
+:revdate: {last-update-label} {docdatetime}
+:version-label!:
+
+
+toc::[]
+
+[[doc.summary]]
+== Summary
+
+Visaão 
+Documentação de eq
+Arqui
+
+
+
+Relatorio
+
+
+== Fram
+
+* CDI (Alternative Spring)
+* DeltaSkipe 
+** CDI
+* JPA (implentação: Hibernate, EclipseLink)
+** Entidade, Associações de base de dados
+* Vaadin Flow
+
+== Infraestrtura de acesso a dados 
+
+
+NOTE: Ver catalog
+
+JPA - Definição script criação schemas (documentos, auth, )
+
+* {SGPF_SOURCE}/src/main/resources/META-INF/sql/create-schema.sql
+
+JPA - Definição dados iniciais
+
+* {SGPF_SOURCE}/src/main/resources/META-INF/sql/initial-data.sql
+
+
+Datasource - Base de dados HSQL (javax.Datasource)
+
+* JdbcUrl jdbc:hsqldb:file:~/.sgpf/sgpf_database
+* UserName sa
+* Password sa
+
+== JPA - Estrategias de Herança
+
+A herança de classes não é possivel em base de dados relacional, logo é necessario definir uma estrategia para a representação "fisica/tabelas"
+
+JPA
+
+* Single table Inheritance - InheritanceType.SINGLE_TABLE
+* Table per class - InheritanceType.TABLE_PER_CLASS
+* Joined multi table -  InheritanceType.JOINED
+
+
+----
+@DiscriminatorColumn 
+@DiscriminatorValue 
+----
+
+
+== Dados 
+
+
+== Reference
+
+* Inheritance strategies with JPA and Hibernate
+

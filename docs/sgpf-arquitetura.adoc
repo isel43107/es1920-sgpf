@@ -1,0 +1,307 @@
+// Global settings
+:ascii-ids:
+:encoding: UTF-8
+:lang: pt_PT
+:icons: font
+:toc:
+:toc-placement!:
+:toclevels: 3
+:numbered:
+:stem:
+
+ifdef::env-github[]
+:imagesdir: images/
+endif::[]
+
+[[doc]]
+= ES Projeto SGFP - Arquitetura
+:author: Copyright (c) 2019-2019 Paulo Borges.
+:revnumber: SGPF-2019
+:revdate: {last-update-label} {docdatetime}
+:version-label!:
+
+
+toc::[]
+
+[[doc.summary]]
+== Summary
+
+TODO
+
+== Criteria de escolha de casos de utilização 
+
+* Começar pelos mais simples
+
+== Relização de casos de utilização 
+
+Consiste na descrição em forma de estoria, que descreve iteração entre partes
+
+== Modelo de Analise 
+
+== Modelo de Projeto
+
+Artefatos de Saida: 
+
+* Diagramas de Comunicação
+
+
+== Diagrama de estado de projeto 
+
+* Enquadrado --> 
+* Desenq
+* reenqu
+* Favoravel
+* Desfavoravel
+
+=== State Machine 01
+
+.Diagrama 01 - Maquina de estados
+[plantuml]
+----
+@startuml
+
+title SGPF
+
+hide empty description
+skinparam shadowing false
+
+skinparam state<<history>> {
+    backgroundColor transparent
+    borderColor transparent
+    fontSize 20
+}
+
+
+state Arquivado {
+    
+    
+}
+
+state Rejeitado{
+
+}
+
+state Supenso{
+
+}
+
+
+state "Candidatura" as CDT {
+
+    CDT --> ACT : abrir
+    CDT --> Arquivado : arquivar
+    Arquivado --> CDT : reenquadrar
+}
+
+
+[*] --> CDT
+
+
+state "Activo" as ACT {
+
+    state "Aguarda Despacho Abertura" as ABT 
+    state "Aguarda Parecer Tecnico" as APT
+    state "Aguarda Despacho Financiamento" as ADF
+    state "Aguarda Despacho Reforço" as ADR
+    state "Ⓗ*" as H<<history>>
+
+    H --> Supenso : suspender
+    Supenso --> H : reativar
+    
+    [*] --> ABT
+    
+    ABT --> APT : aprovado
+    ABT --> Arquivado : rejeitado
+    
+    APT --> ADF : favoravel
+    APT --> Arquivado : desfavoravel
+    
+    ADF --> ST_FIN : aprovado
+    ADF --> Rejeitado : rejeitado
+    ST_FIN -L-> ADR : reforco
+    
+
+    state "Em Financiamento" as ST_FIN {
+    
+        state Pagamento
+        state Fechado 
+        state "Ⓗo" as H1<<history>>
+        
+        
+        [*] --> Pagamento
+        Pagamento --> Fechado : conclusão dos pagamentos
+        ADR --> Pagamento : aprovado
+        ADR --> H1 : rejeitado
+    
+    }
+
+}
+
+@enduml
+----
+
+
+=== State Machine 02
+
+.Diagrama 02 - Maquina de estados
+[plantuml]
+----
+@startuml
+
+title SGPF
+
+hide empty description
+skinparam shadowing false
+
+skinparam state<<history>> {
+    backgroundColor transparent
+    borderColor transparent
+    fontSize 20
+}
+
+
+[*] -> ACT
+
+
+state Arquivado {
+
+}
+
+state Rejeitado{
+
+}
+
+state Supenso{
+
+}
+
+state "Activo" as ACT {
+
+    state "Candidatura" as CDT 
+    state "Aguarda Despacho Abertura" as ABT 
+    state "Aguarda Parecer Tecnico" as APT
+    state "Aguarda Despacho Financiamento" as ADF
+    state "Aguarda Despacho Reforço" as ADR
+    state "Ⓗ*" as H<<history>>
+
+    H --> Supenso : suspender
+    Supenso --> H : reativar
+    
+    [*] --> CDT
+    CDT --> ABT : enquadrado
+    CDT --> Arquivado : desenquadrado
+    Arquivado -right-> CDT : reenquadrar
+    
+    ABT --> APT : aprovado
+    ABT --> Arquivado : rejeitado
+    
+    APT --> ADF : favoravel
+    APT --> Arquivado : desfavoravel
+    
+    ADF --> ST_FIN : aprovado
+    ADF --> Rejeitado : rejeitado
+    ST_FIN --> ADR : reforco
+    
+
+    state "Em Financiamento" as ST_FIN {
+    
+        state Pagamento
+        state Fechado 
+        state "Ⓗo" as H1<<history>>
+        
+        
+        [*] --> Pagamento
+        Pagamento --> Fechado : conclusão dos pagamentos
+        ADR --> H1 : QQ despacho
+    
+    }
+
+}
+
+@enduml
+----
+
+=== State Machine 03
+
+
+.Diagrama 03 - Maquina de estados
+[plantuml]
+----
+@startuml
+
+title SGPF
+
+hide empty description
+skinparam shadowing false
+
+skinparam state<<history>> {
+    backgroundColor transparent
+    borderColor transparent
+    fontSize 20
+}
+
+
+[*] -> ACT
+
+
+state Arquivado {
+
+}
+
+state Rejeitado{
+
+}
+
+state Supenso{
+
+}
+
+state Fechado {
+
+}
+
+state "Activo" as ACT {
+
+    state "Candidatura" as CDT 
+    state "Aguarda Despacho Abertura" as ABT 
+    state "Aguarda Parecer Tecnico" as APT
+    state "Aguarda Despacho Financiamento" as ADF
+    state "Aguarda Despacho Reforço" as ADR
+    state "Ⓗ*" as H<<history>>
+    state Pagamento
+
+    H --> Supenso : suspender
+    Supenso --> H : reativar
+    
+    [*] --> CDT
+    CDT --> ABT : enquadrado
+    CDT --> Arquivado : desenquadrado
+    Arquivado -right-> CDT : reenquadrar
+    
+    ABT --> APT : aprovado
+    ABT --> Arquivado : rejeitado
+    
+    APT --> ADF : favoravel
+    APT --> Arquivado : desfavoravel
+    
+    ADF --> Pagamento : aprovado
+    ADF --> Rejeitado : rejeitado
+    Pagamento --> ADR : reforco
+    Pagamento --> Fechado : fim_pagamento
+    ADR --> Pagamento : aprovado
+    ADR --> Pagamento : rejeitado [pag:Activo]
+    
+    Fechado --> ADR : reforco
+    
+    ADR -l-> Fechado : rejeitado [pag:Fim]
+
+}
+
+@enduml
+----
+
+== Referencias
+
+TODO...
+
+

@@ -1,0 +1,241 @@
+// Global settings
+:ascii-ids:
+:encoding: UTF-8
+:lang: pt_PT
+:icons: font
+:toc:
+:toc-placement!:
+:toclevels: 3
+:numbered:
+:stem:
+
+ifdef::env-github[]
+:imagesdir: images/
+endif::[]
+
+[[doc]]
+= ES Projeto SGFP - Overview
+:author: Copyright (c) 2019-2019 Paulo Borges.
+:revnumber: {app-product-name} {app-version}
+:revdate: {last-update-label} {docdatetime}
+:version-label!:
+
+
+toc::[]
+
+[[doc.summary]]
+== Summary
+
+Sistema de gestão de projectos de financiamento para apoio à criação de redes de investigação e desenvolvimento (I&D).
+
+Link 
+
+* https://github.com/isel43107/es1920-sgpf
+
+== Grupo 24
+
+* Rafael Delgado (37486)
+* Paulo Borges (43107)
+
+== Detalhe do Problema
+
+TODO...
+
+=== Actores (Papeis)
+
+* Técnico (TC)
+* Gestor de Financiamento (GF)
+* Membro da comissão de financiamento (CF)
+
+
+=== Autorização
+
+Funcionalidades
+
+a. Aceitação de candidatura;
+b. Abertura de projecto;
+c. Parecer técnico;
+d. Despacho da comissão de financiamento;
+e. Suspensão de projeto;
+f. Reactivação de projeto;
+g. Reforço de projecto;
+h. Realização de pagamento;
+i. Alteração de dados de projeto;
+j. Relatório de informação de projeto;
+k. Relatório de pagamentos por projeto;
+
+.Matriz de Permisões 
+|====
+|Acões  |TC |GF |CF
+|a      |X  |   |
+|b      |   |   |X
+|c      |   |X  |
+|d      |   |   |X
+|e      |   |   |X
+|====
+
+
+----
+Actions
+----
+
+
+=== Divisão Areas
+
+Por 
+
+* Grupo Funcionalidades
+* Fases do projeto 
+* Papel do utilizador
+
+
+==== Fases do projeto
+
+* Candidatura
+* Projeto 
+* Pagamento
+* Fechado
+* Arquivado 
+* Rejeitado (SO CONSULTA)
+* Suspenso
+
+==== Perfil 
+
+TC
+
+* Candidatura
+
+GF 
+
+* Parecer
+* Pagamento
+
+CF 
+
+* Despachos
+
+
+=== Dados Candidatura
+
+Dados do promotor e do projecto
+
+* Promotor (Designação, Nacionalidade)
+* Responsável por contactos (Nome, telefone, e-mail)
+* Projeto
+** Montante de financiamento solicitado
+** Tipo de projecto (incentivo, bonificação)
+
+
+=== Dados Projeto 
+
+* Promotor (Designação, Nacionalidade, NIF)
+* Responsável por contactos (Nome, Telefone, e-mail)
+* Projeto (Designação, Descrição, NIB)
+** Montante de financiamento solicitado
+** Tipo de projecto (Incentivo ou Bonificação)
+
+
+=== Despacho Financiamento 
+
+* Custo Elegivel
+* Montante de Financiamento
+* Prazo de execução 
+
+Tipos de despachos financiado: 
+
+=== Despacho Financiamento - Bonificação: 
+
+* Taxa bonificação,  
+* Periodo : Data inicio, Data Fim
+* Montante máximo de bonificação 
+
+
+== Despacho Financiamento - Incentivo: 
+
+* Prazo validade: Data fim de pagamento
+* Numero prestações
+
+
+== Casos de utilização(Use Cases)
+
+* US-1 - Autenticar no Sistema
+* US-2 - Registar Candidatura
+* US-3 - Abrir Candidatura 
+* US-4 - Arquivar Candidatura
+* US-5 - Reenquadrar Candidatura
+
+
+
+
+=== Despacho da comissão de financiamento - DADOS
+
+* Custo elegível, 
+* Montante de financiamento
+* Prazo de execução
+
+=== Financiamento do tipo Incentivo
+
+* Custo elegível
+* Montante de financiamento/Limite de financiamento
+
+=== Financiamento do tipo Bonificação (__extends__ Incentivo)
+
+* Montante máximo de bonificação
+* Taxa de bonificação
+* Período
+
+----
+Uma bonificação é um subsídio aos juros de um empréstimo, previamente contratado com um banco, para
+desenvolvimento de um projecto de I&D. 
+
+A percentagem é relativa ao juro do empréstimo.
+----
+
+
+=== Atos Administrativos:
+
+Aceitação Candidatura
+
+* Campos: Designação, Tipo Financiamento
+* Decisão: Enquadre, Não Enquadre
+
+Parecer Técnico
+
+* Compos: Parecer (texto livre)
+* Decisão: Favoravel, Arquivar
+
+
+Despacho Abertura
+
+* Campos: Gestor Financeiro
+* Decisão: Abrir, 
+
+
+Despacho Financiamento
+
+* Decisão: (aprovar, rejeitar ou transformar em bonificação)
+
+
+=== Alterações dos dados do projecto
+
+TODO ...
+
+
+== Casos de Utilização 
+
+TODO...
+
+
+== Modelo de Analise (OPCIONAL)
+
+TODO.. 
+
+== Modelo de Projeto
+
+TODO.. 
+
+
+== Realização Casos de Utililização 
+
+TODO...
+
