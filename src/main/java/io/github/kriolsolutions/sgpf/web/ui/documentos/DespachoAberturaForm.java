@@ -73,6 +73,7 @@ public class DespachoAberturaForm extends FormLayout {
         
         this.add(gestorFinanciamentoId);
         binder.bindInstanceFields(this);
+        buildActionsButtons();
     }
     
     public Binder<DespachoAberturaDto> getBinder() {
