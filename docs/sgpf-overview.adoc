@@ -14,10 +14,10 @@ ifdef::env-github[]
 endif::[]
 
 [[doc]]
-= ES Projeto SGFP - Overview
-:author: Copyright (c) 2019-2019 KriolSystems.
-:revnumber: {app-product-name} {app-version}
-:revdate: {last-update-label} {docdatetime}
+= SGFP - Overview
+:author: SGPF Team
+:revnumber: 
+:revdate: {docdatetime}
 :version-label!:
 
 
