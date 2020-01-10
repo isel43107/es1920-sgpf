@@ -15,7 +15,7 @@ endif::[]
 
 [[doc]]
 = ES Projeto SGFP - Overview
-:author: Copyright (c) 2019-2019 Paulo Borges.
+:author: Copyright (c) 2019-2019 KriolSystems.
 :revnumber: {app-product-name} {app-version}
 :revdate: {last-update-label} {docdatetime}
 :version-label!:
