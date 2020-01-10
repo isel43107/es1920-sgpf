@@ -29,18 +29,19 @@ public class SgpfServiceFacade {
     @Inject
     private DespachoAberturaAcoes despachoAberturaAcoes;
 
-    //@Inject
+    @Inject
     private DespachoFinanciamentoBonificacaoAcoes despachoBonificacaoAcoes;
 
-    //@Inject
+    @Inject
     private DespachoFinanciamentoIncentivoAcoes despachoFinanciamentoIncentivoAcoes;
 
-    //@Inject
+    @Inject
     private DespachoFinanciamentoReforcoAcoes despachoFinanciamentoReforcoAcoes;
 
     //@Inject
     private ProjetoActivacaoAcoes projetoAcoes;
     
+    @Inject
     private ParecerTecnicoAcoes parecerTecnicoAcoes;
 
     public AceitacaoCandidaturaAcoes getAceitacaoCandidaturaAcoes() {
