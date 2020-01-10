@@ -16,6 +16,7 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,6 +24,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -36,13 +39,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "doc_desp_fin_incentivo", schema="documentos")
 @Entity
-public class DespachoFinIncentivo extends BaseEntity{
+public class DespachoFinIncentivo extends DespachoFin{
     
-    @ManyToOne
-    @JoinColumn(name = "fk_documento")
-    private Documento documento;
-    
-    @Column(name = "desicao")
-    @Enumerated(EnumType.STRING)
-    private Despacho.DespachoDecisao decisao;
+    /**
+     * Prazo de execução do financiamento (Data Previsto terminar)
+     */
+    @Column(name = "prazo_execucao", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date prazoExecucao;
 }

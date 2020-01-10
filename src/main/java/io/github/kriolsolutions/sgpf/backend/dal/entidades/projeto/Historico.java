@@ -17,9 +17,7 @@ package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoEstado;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento;
-import java.time.LocalDate;
-import java.util.Date;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -69,5 +67,5 @@ public class Historico extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "fk_documento", nullable = true)
-    private Documento documento; 
+    private DocumentoCabecalho documento; 
 }

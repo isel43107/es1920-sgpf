@@ -16,16 +16,18 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Despacho.DespachoDecisao;
+import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -33,27 +35,23 @@ import lombok.NoArgsConstructor;
  * @author pauloborges
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "documento", schema="documentos")
-@Entity
-public class Documento extends BaseEntity{
+@MappedSuperclass
+public abstract class DespachoFin extends BaseEntity{
+    
+    @NotNull
+    @Column(name = "custo_elegivel", nullable = false)
+    private double custoElegivel;
+    
+    @NotNull
+    @Column(name = "mnt_financiado", nullable = false)
+    private double montanteFinanciado;
     
     @ManyToOne
-    @JoinColumn(name = "fk_projeto")
-    private Projeto projeto;
+    @JoinColumn(name = "fk_documento")
+    private DocumentoCabecalho documento;
     
-    @Column(name = "doc_tipo")
+    @Column(name = "desicao")
     @Enumerated(EnumType.STRING)
-    private DocumentoTipo docTipo;
-
-    public static enum DocumentoTipo {
-        CANDIDATURA,
-        PARECER_TECNICO,
-        DESPACHO_ABERTURA,
-        DESPACHO_FIN_BONIFICACAO,
-        DESPACHO_FIN_INCENTIVO,
-        DESPACHO_FIN_REFORCO,
-        PAGAMENTO,
-    }
+    private DespachoDecisao decisao;
 }

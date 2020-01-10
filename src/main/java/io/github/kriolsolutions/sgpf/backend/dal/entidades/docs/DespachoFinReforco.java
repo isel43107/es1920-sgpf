@@ -41,7 +41,7 @@ public class DespachoFinReforco extends BaseEntity{
     
     @ManyToOne
     @JoinColumn(name = "fk_documento")
-    private Documento documento;
+    private DocumentoCabecalho documento;
     
     @Column(name = "desicao")
     @Enumerated(EnumType.STRING)

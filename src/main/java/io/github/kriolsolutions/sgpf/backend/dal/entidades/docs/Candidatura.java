@@ -34,19 +34,19 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_candidatura", schema="documentos")
+@Table(name = "doc_candidatura", schema = "documentos")
 @Entity
 public class Candidatura extends BaseEntity {
-    
+
     @ManyToOne
     @JoinColumn(name = "fk_documento")
-    private Documento documento;
-    
+    private DocumentoCabecalho documento;
+
     @Column(name = "desicao")
     @Enumerated(EnumType.STRING)
     private CandidaturaDecisao decisao;
 
-    public static enum CandidaturaDecisao{
+    public static enum CandidaturaDecisao {
         ENQUADRADO,
         DESENQUADRADO;
     }

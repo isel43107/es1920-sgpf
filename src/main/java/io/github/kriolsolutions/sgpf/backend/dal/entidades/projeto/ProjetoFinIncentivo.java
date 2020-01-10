@@ -15,10 +15,18 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 /**
  *
  * @author pauloborges
  */
-public class FinanciamentoBonificacao {
+public class ProjetoFinIncentivo {
     
+    @Column(name = "prazo_execucao", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date prazoExecucao;
 }

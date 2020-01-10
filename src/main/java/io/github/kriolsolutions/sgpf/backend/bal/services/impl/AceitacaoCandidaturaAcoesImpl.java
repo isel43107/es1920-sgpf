@@ -19,8 +19,8 @@ import io.github.kriolsolutions.sgpf.backend.bal.services.api.AceitacaoCandidatu
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Candidatura;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento.DocumentoTipo;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho.DocumentoTipo;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.CandidaturaRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.DocumentoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
@@ -62,7 +62,7 @@ public class AceitacaoCandidaturaAcoesImpl implements AceitacaoCandidaturaAcoes{
         projeto = projetoRepository.saveAndFlush(projeto);
         
         //Guarda Cabeçalho do documento
-        Documento doc = new Documento();
+        DocumentoCabecalho doc = new DocumentoCabecalho();
         doc.setProjeto(projeto);
         doc.setDocTipo(DocumentoTipo.CANDIDATURA);
 

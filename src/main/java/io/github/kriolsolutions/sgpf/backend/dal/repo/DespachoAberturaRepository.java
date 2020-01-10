@@ -15,9 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoAbertura;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Documento;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Repository;
 

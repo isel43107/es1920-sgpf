@@ -15,10 +15,30 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
 /**
  *
  * @author pauloborges
  */
-public class FinanciamentoIncentivo {
+public class ProjetoFinBonificacao {
     
+    @NotNull
+    @Column(name = "tax_bonificacao", nullable = false)
+    private double taxBonificacao;
+    
+    @NotNull
+    @Column(name = "mnt_max_bonificacao", nullable = false)
+    private double mntMaxBonificacao;
+    
+    @Column(name = "periodo", nullable = false)
+    private long periodo;
+    
+    @OneToOne
+    @JoinColumn(name = "fk_documento")
+    private DocumentoCabecalho documento;
 }

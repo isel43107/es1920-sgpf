@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 kriolSolutions.
+ * Copyright 2019 kriolSolutions.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,11 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -32,14 +35,26 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_pagamento", schema="documentos")
+@Table(name = "documento", schema="documentos")
 @Entity
-public class Pagamento extends BaseEntity{
+public class DocumentoCabecalho extends BaseEntity{
     
-    @Column(name = "pag_valor")
-    private double pagValor;
-
     @ManyToOne
-    @JoinColumn(name = "fk_documento")
-    private DocumentoCabecalho documento;
+    @JoinColumn(name = "fk_projeto")
+    private Projeto projeto;
+    
+    @Column(name = "doc_tipo")
+    @Enumerated(EnumType.STRING)
+    private DocumentoTipo docTipo;
+
+    public static enum DocumentoTipo {
+        
+        CANDIDATURA,
+        PARECER_TECNICO,
+        DESPACHO_ABERTURA,
+        DESPACHO_FIN_BONIFICACAO,
+        DESPACHO_FIN_INCENTIVO,
+        DESPACHO_FIN_REFORCO,
+        PAGAMENTO,
+    }
 }

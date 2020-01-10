@@ -16,29 +16,22 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- *
+ * Documento Detalhe
+ * Qualquer documento que necessita relação com o Cabeçalho devera extender
  * @author pauloborges
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_pagamento", schema="documentos")
-@Entity
-public class Pagamento extends BaseEntity{
+@MappedSuperclass
+public abstract class DocumentoDetalhe extends BaseEntity{
     
-    @Column(name = "pag_valor")
-    private double pagValor;
-
     @ManyToOne
     @JoinColumn(name = "fk_documento")
     private DocumentoCabecalho documento;

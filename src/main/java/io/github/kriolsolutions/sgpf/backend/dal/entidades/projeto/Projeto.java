@@ -61,6 +61,10 @@ public class Projeto extends BaseEntity {
     @Column(name = "proj_mnt_solicitado", nullable = false)
     private double projMontanteSolicitado;
     
+    @NotNull
+    @Column(name = "proj_custo_elegivel", nullable = true)
+    private double projCustoElegivel;
+    
     @Column(name = "proj_descricao")
     private String projDescricao;
 
