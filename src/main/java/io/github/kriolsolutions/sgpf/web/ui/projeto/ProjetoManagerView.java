@@ -298,6 +298,7 @@ public class ProjetoManagerView extends VerticalLayout {
 
         //ProjetoContextMenu<Projeto> contextMenu = projetoGrid.addContextMenu();
         ProjetoContextMenu<Projeto> contextMenu = new ProjetoContextMenu<>();
+        contextMenu.setData(projeto);
         //ContextMenu contextMenu = new ContextMenu(button);
         contextMenu.setTarget(button);
         //contextMenu.setVisible(true);
