@@ -383,7 +383,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
 
-                candForm.getArquivarButton().addClickListener((e) -> {
+                candForm.getFecharButton().addClickListener((e) -> {
                     candDialog.close();
                 });
             });
