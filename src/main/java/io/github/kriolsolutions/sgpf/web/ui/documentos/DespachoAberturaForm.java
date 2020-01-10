@@ -64,6 +64,8 @@ public class DespachoAberturaForm extends FormLayout {
                 new FormLayout.ResponsiveStep("40em", 3));
         
         utilizadorGestorFin.setLabel("Gestor de financiamento");
+        
+        this.add(utilizadorGestorFin);
         binder.bindInstanceFields(this);
         binder.readBean(this.projeto);
     }

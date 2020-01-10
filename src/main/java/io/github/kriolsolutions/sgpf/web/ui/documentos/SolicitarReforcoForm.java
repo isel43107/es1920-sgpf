@@ -15,23 +15,39 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
+import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoReforcoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.util.Calendar;
 
 /**
  *
  * @author pauloborges
  */
 public class SolicitarReforcoForm extends FormLayout {
-    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+    private final BeanValidationBinder<PedidoReforcoDto> binder = new BeanValidationBinder<>(PedidoReforcoDto.class);
 
-    private NumberField utilizadorGestorFin = new NumberField();
+    private NumberField montanteReforco = new NumberField();
     
-    public SolicitarReforcoForm(){
+    Button solicitarButton = new Button("Solicitar");
+    Button cancelarButton = new Button("Cancelar");
+
+    public Button getCancelarButton() {
+        return cancelarButton;
+    }
+    private final DespachoFinanciamentoReforcoAcoes despachoAccoes;
     
+    public SolicitarReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes){
+    
+        this.despachoAccoes = despachoAccoes;
         init();
     }
 
@@ -42,12 +58,33 @@ public class SolicitarReforcoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
         
-        utilizadorGestorFin.setLabel("Gestor de financiamento");
-        binder.bindInstanceFields(this);
+        montanteReforco.setLabel("Montante Requerido");
+        this.add(montanteReforco);
+        buildActionsButtons();
+    }
+    
+    private void buildActionsButtons(){
+        /* */
+        // Button bar
+        solicitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        solicitarButton.addClickListener((event) -> {
+            PedidoReforcoDto pedido = getBinder().getBean();
+            pedido.setDataPedido(Calendar.getInstance().getTime());
+            despachoAccoes.solicitar(pedido);
+        });
+        cancelarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        
+        cancelarButton.addClickListener((event) -> {
+            
+        });
+        
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(solicitarButton, cancelarButton);
+        actions.getStyle().set("marginRight", "10px");
     }
     
     
-    public Binder<Projeto> getBinder() {
+    public Binder<PedidoReforcoDto> getBinder() {
         return binder;
     }
 }
