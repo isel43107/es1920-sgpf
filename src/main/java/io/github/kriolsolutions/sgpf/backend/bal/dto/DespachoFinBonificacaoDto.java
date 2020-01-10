@@ -37,4 +37,8 @@ public class DespachoFinBonificacaoDto extends AbstractDespachoFinDto{
     @Min(0)
     @NotNull
     private double mntMaxBonificacao;
+    
+    @Min(0)
+    @NotNull
+    private long periodo;
 }

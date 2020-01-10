@@ -15,6 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
+import io.github.kriolsolutions.sgpf.backend.bal.dto.AbstractDespachoFinDto;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
@@ -25,6 +26,6 @@ public interface DespachoFinanciamentoAcoes {
     
     //TODO Melhor seria receber um objecto de Dominio contendo o i iD do projeto e outras informas
     //
-    public void aprovar(Projeto projeto);
-    public void rejeitar(Projeto projeto);
+    public void aprovar(AbstractDespachoFinDto projeto);
+    public void rejeitar(AbstractDespachoFinDto projeto);
 }

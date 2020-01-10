@@ -15,10 +15,15 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoIncentivoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
@@ -29,12 +34,19 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
  */
 public class DespachoFinIncentivoForm extends FormLayout {
 
-    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+    private final BeanValidationBinder<DespachoFinIncentivoDto> binder =
+            new BeanValidationBinder<>(DespachoFinIncentivoDto.class);
 
-    private NumberField projMontanteSolicitado = new NumberField();
+    private NumberField montanteFinanciado = new NumberField();
+    private DatePicker  prazoExecucao =  new DatePicker();
+    private NumberField custoElegivel = new NumberField();
 
     private final Projeto projeto;
     private final DespachoFinanciamentoIncentivoAcoes despachoAcoes;
+    
+    Button aprovarButton = new Button("Aprovar");
+    Button rejeitarButton = new Button("Rejeitar");
+    Button transformarButton = new Button("Transformar");
 
     public DespachoFinIncentivoForm(DespachoFinanciamentoIncentivoAcoes despachoAcoes, Projeto projeto) {
 
@@ -50,12 +62,43 @@ public class DespachoFinIncentivoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
 
-        projMontanteSolicitado.setLabel("Montante de Financiamento");
+        montanteFinanciado.setLabel("Montante de Financiamento");
+        prazoExecucao.setLabel("Prazo de execução");
+        custoElegivel.setLabel("Custo Elegivel");
 
         binder.bindInstanceFields(this);
+        buildActionsButtons();
+    }
+    
+    private void buildActionsButtons(){
+        /* */
+        // Button bar
+        aprovarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        aprovarButton.addClickListener((event) -> {
+            DespachoFinIncentivoDto despacho  = getBinder().getBean();
+            this.despachoAcoes.aprovar(despacho);
+        });
+        
+        rejeitarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        rejeitarButton.addClickListener((event) -> {
+            DespachoFinIncentivoDto despacho  = getBinder().getBean();
+            this.despachoAcoes.rejeitar(despacho);
+        });
+        
+        transformarButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        transformarButton.addClickListener((event) -> {
+            DespachoFinIncentivoDto despacho  = getBinder().getBean();
+            this.despachoAcoes.transformarBonificacao(despacho);
+        });
+        
+        HorizontalLayout actions = new HorizontalLayout();
+        actions.add(aprovarButton, rejeitarButton,transformarButton );
+        
+        actions.getStyle().set("marginRight", "10px");
+        //this.add(actions);
     }
 
-    public Binder<Projeto> getBinder() {
+    public Binder<DespachoFinIncentivoDto> getBinder() {
         return binder;
     }
 }

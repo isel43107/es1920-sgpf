@@ -17,11 +17,14 @@ package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinBonificacaoDto;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoBonificacaoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
@@ -34,16 +37,19 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
  */
 public class DespachoFinBonificacaoForm extends FormLayout {
     
-    private final BeanValidationBinder<Projeto> binder = new BeanValidationBinder<>(Projeto.class);
+    private final BeanValidationBinder<DespachoFinBonificacaoDto> binder = new BeanValidationBinder<>(DespachoFinBonificacaoDto.class);
 
-    private NumberField utilizadorGestorFin = new NumberField();
+    private NumberField montanteFinanciado = new NumberField();
+    private NumberField custoElegivel = new NumberField();
     
     private Button aceitarButton = new Button("Aprovar");
     private Button arquivarButton = new Button("Arquivar");
     private final Projeto projeto;
+    private final DespachoFinanciamentoBonificacaoAcoes bonificacaoAccoes;
     
-    public DespachoFinBonificacaoForm(DespachoFinanciamentoBonificacaoAcoes despacho, Projeto projeto ){
+    public DespachoFinBonificacaoForm(DespachoFinanciamentoBonificacaoAcoes accoes, Projeto projeto ){
         this.projeto = projeto;
+        this.bonificacaoAccoes = accoes;
         init();
     }
 
@@ -54,12 +60,14 @@ public class DespachoFinBonificacaoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
         
-        utilizadorGestorFin.setLabel("Gestor de financiamento");
+        montanteFinanciado.setLabel("Montante de Financiamento");
+        custoElegivel.setLabel("Custo Elegivel");
+        
         binder.bindInstanceFields(this);
-        binder.readBean(this.projeto);
+        buildActionsButtons();
     }
     
-    public Binder<Projeto> getBinder() {
+    public Binder<DespachoFinBonificacaoDto> getBinder() {
         return binder;
     }
     
@@ -68,10 +76,15 @@ public class DespachoFinBonificacaoForm extends FormLayout {
         // Button bar
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
-            Projeto proj = getBinder().getBean();
-            //this.aberturaAccoes.aprovar(proj);
+            DespachoFinBonificacaoDto despacho = getBinder().getBean();
+            this.bonificacaoAccoes.aprovar(despacho);
         });
+        
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        arquivarButton.addClickListener((event) -> {
+            DespachoFinBonificacaoDto despacho = getBinder().getBean();
+            this.bonificacaoAccoes.rejeitar(despacho);
+        });
         
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(aceitarButton, arquivarButton);
