@@ -22,17 +22,24 @@
         <actionName>CUSTOM-payara-micro:bundle</actionName>
         <displayName>payara-micro:bundle</displayName>
         <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
             <goal>payara-micro:bundle</goal>
         </goals>
+        <activatedProfiles>
+            <activatedProfile>payara</activatedProfile>
+        </activatedProfiles>
     </action>
     <action>
         <actionName>CUSTOM-payara-micro:start</actionName>
         <displayName>payara-micro:start</displayName>
         <goals>
-            <goal>clean</goal>
-            <goal>install</goal>
+            <goal>payara-micro:bundle</goal>
             <goal>payara-micro:start</goal>
         </goals>
+        <activatedProfiles>
+            <activatedProfile>payara</activatedProfile>
+        </activatedProfiles>
     </action>
     <action>
         <actionName>CUSTOM-package</actionName>
@@ -42,10 +49,10 @@
         </goals>
     </action>
     <action>
-            <actionName>CUSTOM-javadoc:javadoc</actionName>
-            <displayName>javadoc:javadoc</displayName>
-            <goals>
-                <goal>javadoc:javadoc</goal>
-            </goals>
-        </action>
+        <actionName>CUSTOM-javadoc:javadoc</actionName>
+        <displayName>javadoc:javadoc</displayName>
+        <goals>
+            <goal>javadoc:javadoc</goal>
+        </goals>
+    </action>
 </actions>
