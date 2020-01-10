@@ -30,7 +30,6 @@ import com.vaadin.flow.component.crud.CrudGrid;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -294,10 +293,11 @@ public class ProjetoManagerView extends VerticalLayout {
 
         Button button = new Button(new Icon(VaadinIcon.OPTIONS));
 
-        GridContextMenu<Projeto> contextMenu = projetoGrid.addContextMenu();
+        //ProjetoContextMenu<Projeto> contextMenu = projetoGrid.addContextMenu();
+        ProjetoContextMenu<Projeto> contextMenu = new ProjetoContextMenu<>();
         //ContextMenu contextMenu = new ContextMenu(button);
-        //contextMenu.setTarget(button);
-        contextMenu.setVisible(true);
+        contextMenu.setTarget(button);
+        //contextMenu.setVisible(true);
         contextMenu.removeAll();
 
         //OPCOES GERAIS
@@ -350,17 +350,17 @@ public class ProjetoManagerView extends VerticalLayout {
     /* ACOES DE CONTEXTO - DE ACORDO COM O ESTADO DO PROJETO */
     /* */
     
-    private Component candidaturaOptions(GridContextMenu<Projeto> contextMenu) {
+    private Component candidaturaOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Abrir projeto", event -> {
             Notification.show("Abrir projeto");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 sgpfacade.getAceitacaoCandidaturaAcoes().abir(projeto);
             });
         });
 
         contextMenu.addItem("Arquivar projeto", event -> {
             Notification.show("Arquivar projeto");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 sgpfacade.getAceitacaoCandidaturaAcoes().arquivar(projeto);
             });
         });
@@ -368,12 +368,12 @@ public class ProjetoManagerView extends VerticalLayout {
         return contextMenu;
     }
 
-    private void despachoAberturaOptions(GridContextMenu<Projeto> contextMenu) {
+    private void despachoAberturaOptions(ProjetoContextMenu<Projeto> contextMenu) {
 
         contextMenu.addItem("Emissão despacho abertura", event -> {
             Notification.show("Despacho Abertura");
 
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
 
                 DespachoAberturaForm candForm = new DespachoAberturaForm(sgpfacade.getDespachoAberturaAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
@@ -386,10 +386,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void parecerTecnicoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void parecerTecnicoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Emissão Parecer Tecnico", event -> {
             Notification.show("Parecer tecnico");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 ParecerTecnicoForm candForm = new ParecerTecnicoForm(sgpfacade.getParecerTecnicoAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
@@ -402,10 +402,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void despachoFinIncentivoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void despachoFinIncentivoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Emissão Despacho Incentivo", event -> {
             Notification.show("Despacho Incentivo");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
@@ -413,10 +413,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void despachoFinBonificacaoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void despachoFinBonificacaoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Emissão Despacho Bonificacao", event -> {
             Notification.show("Despacho Bonificacao");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 DespachoFinBonificacaoForm form = new DespachoFinBonificacaoForm(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
@@ -424,10 +424,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void despachoReforcoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void despachoReforcoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Emissão Despacho Reforço", event -> {
             Notification.show("NO IMPLEMENTED");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
@@ -435,10 +435,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void projetoEmPagamentoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void projetoEmPagamentoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Efetuar Pagamento", event -> {
             Notification.show("NO IMPLEMENTED");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
@@ -447,14 +447,14 @@ public class ProjetoManagerView extends VerticalLayout {
         opcaoSolicitarReforco(contextMenu);
     }
     
-    private void projetoFechadoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void projetoFechadoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         opcaoSolicitarReforco(contextMenu);
     }
 
-    private void projetoArquivadoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void projetoArquivadoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Reenquadramento", event -> {
             Notification.show("NO IMPLEMENTED: Mudar os estado para Candidatura");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
@@ -462,10 +462,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void projetoRejeitadoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void projetoRejeitadoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Rejeitado", event -> {
             Notification.show("Este projeto não pode ser Alterado. Estado FINAL");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
@@ -473,10 +473,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
 
-    private void projetoSuspensoOptions(GridContextMenu<Projeto> contextMenu) {
+    private void projetoSuspensoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Reativar", event -> {
             Notification.show("Este projeto devera retornar ao estado precedente");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
@@ -484,10 +484,10 @@ public class ProjetoManagerView extends VerticalLayout {
         });
     }
     
-    private void opcaoSolicitarReforco(GridContextMenu<Projeto> contextMenu) {
+    private void opcaoSolicitarReforco(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Solicitar Reforço", event -> {
             Notification.show("Este projeto devera retornar ao estado precedente");
-            event.getItem().ifPresent(projeto -> {
+            contextMenu.getData().ifPresent(projeto -> {
                 //SolicitarReforcoForm form = new SolicitarReforcoForm(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
