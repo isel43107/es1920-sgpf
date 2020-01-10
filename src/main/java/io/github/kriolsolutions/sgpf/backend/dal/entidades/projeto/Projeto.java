@@ -24,9 +24,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -44,31 +41,25 @@ public class Projeto extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @NotEmpty
     @Column(name = "proj_designacao", nullable = false)
     private String projDesignacao;
     
     //@NotNull Gerado na camanda de negocio
     @Column(name = "proj_numero", nullable = false, unique = true)
     private String projNumero;
-    
-    @NotNull
+
     @Column(name = "proj_nib")
     private String projNIB;
     
-    @NotNull
     @Column(name = "proj_mnt_solicitado", nullable = false)
     private double projMontanteSolicitado;
-    
-    @NotNull
+
     @Column(name = "proj_custo_elegivel", nullable = true)
     private double projCustoElegivel;
     
     @Column(name = "proj_descricao")
     private String projDescricao;
 
-    @NotNull
     @Column(name = "proj_tipo", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProjetoTipo projTipo;   
@@ -76,8 +67,7 @@ public class Projeto extends BaseEntity {
     @Column(name = "proj_estado", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProjetoEstado projEstado;
-    
-    @NotNull
+
     @Column(name = "promotor_designacao")
     private String promotorDesignacao;
     
@@ -89,8 +79,7 @@ public class Projeto extends BaseEntity {
 
     @Column(name = "contato_nome")
     private String contatoNome;
-    
-    @NotNull @Email
+
     @Column(name = "contato_email")
     private String contatoEmail;
     
