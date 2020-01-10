@@ -28,7 +28,7 @@ public class ProjetoContextMenu<T> extends ContextMenu{
     private Optional<T> data = Optional.empty();
     
     public void setData(T data){
-        this.data.orElse(data);
+        this.data = Optional.of(data);
     }
 
     public Optional<T> getData() {

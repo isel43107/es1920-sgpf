@@ -302,7 +302,7 @@ public class ProjetoManagerView extends VerticalLayout {
         //ContextMenu contextMenu = new ContextMenu(button);
         contextMenu.setTarget(button);
         //contextMenu.setVisible(true);
-        contextMenu.removeAll();
+        //contextMenu.removeAll();
 
         //OPCOES GERAIS
         contextMenu.addItem("Editar projeto", event -> {
