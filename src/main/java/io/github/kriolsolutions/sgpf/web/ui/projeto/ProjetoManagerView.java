@@ -459,9 +459,7 @@ public class ProjetoManagerView extends VerticalLayout {
         contextMenu.addItem("Reenquadramento", event -> {
             Notification.show("NO IMPLEMENTED: Mudar os estado para Candidatura");
             contextMenu.getData().ifPresent(projeto -> {
-                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
-                //Dialog candDialog = new Dialog(form);
-                //candDialog.open();
+                sgpfacade.getProjetoAcoes().reenquadrar(projeto);
             });
         });
     }
@@ -470,9 +468,6 @@ public class ProjetoManagerView extends VerticalLayout {
         contextMenu.addItem("Rejeitado", event -> {
             Notification.show("Este projeto não pode ser Alterado. Estado FINAL");
             contextMenu.getData().ifPresent(projeto -> {
-                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
-                //Dialog candDialog = new Dialog(form);
-                //candDialog.open();
             });
         });
     }
@@ -484,6 +479,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 //Dialog candDialog = new Dialog(form);
                 //candDialog.open();
+                sgpfacade.getProjetoAcoes().reativar(projeto);
             });
         });
     }
