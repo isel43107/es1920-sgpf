@@ -94,6 +94,6 @@ public class DespachoAberturaForm extends FormLayout {
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(aceitarButton, arquivarButton);
         actions.getStyle().set("marginRight", "10px");
-        //this.add(actions);
+        this.add(actions);
     }
 }

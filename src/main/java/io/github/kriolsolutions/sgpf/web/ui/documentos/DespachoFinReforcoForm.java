@@ -93,7 +93,7 @@ public class DespachoFinReforcoForm extends FormLayout{
         actions.add(aprovarButton, rejeitarButton );
         
         actions.getStyle().set("marginRight", "10px");
-        //this.add(actions);
+        this.add(actions);
     }
 
     

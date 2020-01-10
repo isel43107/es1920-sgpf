@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DespachoAberturaDto extends AbstractBaseDto {
     
-    private Long candidaturaId;
-    private Long gestorFinanciamentoId;
+    private Integer candidaturaId;
+    private Integer gestorFinanciamentoId;
     private Despacho.DespachoDecisao decisao;
 }

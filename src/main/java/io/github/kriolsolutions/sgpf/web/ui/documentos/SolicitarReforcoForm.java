@@ -90,6 +90,7 @@ public class SolicitarReforcoForm extends FormLayout {
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(solicitarButton, cancelarButton);
         actions.getStyle().set("marginRight", "10px");
+        this.add(actions);
     }
     
     

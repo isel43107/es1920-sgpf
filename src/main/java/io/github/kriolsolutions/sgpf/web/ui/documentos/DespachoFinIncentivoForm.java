@@ -105,7 +105,7 @@ public class DespachoFinIncentivoForm extends FormLayout {
         actions.add(aprovarButton, rejeitarButton,transformarButton );
         
         actions.getStyle().set("marginRight", "10px");
-        //this.add(actions);
+        this.add(actions);
     }
 
     public Binder<DespachoFinIncentivoDto> getBinder() {

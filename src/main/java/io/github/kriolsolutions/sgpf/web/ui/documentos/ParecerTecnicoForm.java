@@ -99,6 +99,6 @@ public class ParecerTecnicoForm extends FormLayout {
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(favoravelButton, desfavoravelButton);
         actions.getStyle().set("marginRight", "10px");
-        //this.add(actions);
+        this.add(actions);
     }
 }
