@@ -60,7 +60,11 @@ public class DespachoFinReforcoForm extends FormLayout{
         montanteReforco.setLabel("Montante Requerido");
         dataPedido.setLabel("Data de pedido");
         
+        binder.forMemberField(montanteReforco);        
+        binder.forMemberField(dataPedido);
+        
         this.add(dataPedido, montanteReforco);
+        
         
         binder.bindInstanceFields(this);
         buildActionsButtons();

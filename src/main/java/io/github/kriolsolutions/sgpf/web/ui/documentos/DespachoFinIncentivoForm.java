@@ -66,6 +66,11 @@ public class DespachoFinIncentivoForm extends FormLayout {
         prazoExecucao.setLabel("Prazo de execução");
         custoElegivel.setLabel("Custo Elegivel");
         
+        binder.forMemberField(montanteFinanciado);        
+        binder.forMemberField(custoElegivel);
+        binder.forMemberField(prazoExecucao);
+
+        
         this.add(montanteFinanciado,custoElegivel, prazoExecucao);
 
         binder.bindInstanceFields(this);

@@ -63,6 +63,9 @@ public class DespachoFinBonificacaoForm extends FormLayout {
         montanteFinanciado.setLabel("Montante de Financiamento");
         custoElegivel.setLabel("Custo Elegivel");
         
+        binder.forMemberField(montanteFinanciado);        
+        binder.forMemberField(custoElegivel);
+
         this.add(montanteFinanciado,custoElegivel);
         binder.bindInstanceFields(this);
         buildActionsButtons();

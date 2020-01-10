@@ -67,6 +67,9 @@ public class ParecerTecnicoForm extends FormLayout {
                 new FormLayout.ResponsiveStep("40em", 3));
         
         texto.setLabel("Texto");
+        
+        binder.forMemberField(texto);
+        
         binder.bindInstanceFields(this);
         this.add(texto);
         buildActionsButtons();        

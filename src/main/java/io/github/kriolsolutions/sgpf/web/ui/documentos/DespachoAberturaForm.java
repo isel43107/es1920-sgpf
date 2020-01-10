@@ -36,7 +36,9 @@ public class DespachoAberturaForm extends FormLayout {
     private final BeanValidationBinder<DespachoAberturaDto> binder = new BeanValidationBinder<>(DespachoAberturaDto.class);
 
     //Campos - PROMOTOR
-    private NumberField utilizadorGestorFin = new NumberField();
+    private NumberField gestorFinanciamentoId = new NumberField();
+    
+    
     Button aceitarButton = new Button("Aprovar");
     Button arquivarButton = new Button("Arquivar");
     private final Projeto projeto;
@@ -64,9 +66,11 @@ public class DespachoAberturaForm extends FormLayout {
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
         
-        utilizadorGestorFin.setLabel("Gestor de financiamento");
+        gestorFinanciamentoId.setLabel("Gestor de financiamento");
         
-        this.add(utilizadorGestorFin);
+        binder.forMemberField(gestorFinanciamentoId);
+        
+        this.add(gestorFinanciamentoId);
         binder.bindInstanceFields(this);
     }
     

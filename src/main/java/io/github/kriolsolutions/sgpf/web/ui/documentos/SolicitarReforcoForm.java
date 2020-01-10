@@ -64,6 +64,10 @@ public class SolicitarReforcoForm extends FormLayout {
         
         montanteReforco.setLabel("Montante Requerido");
         this.add(montanteReforco);
+        binder.forMemberField(montanteReforco);
+        
+        binder.bindInstanceFields(this);
+
         buildActionsButtons();
     }
     
