@@ -33,7 +33,4 @@ public class PedidoReforcoDto extends AbstractBaseDto{
     @Min(0)
     @NotNull
     private double montanteReforco;
-    
-    @NotNull
-    private Date dataPedido;
 }

@@ -27,6 +27,7 @@ import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoReforcoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,7 +63,6 @@ public class SolicitarReforcoForm extends AbstractDespachoForm {
         solicitarButton.addClickListener((event) -> {
             try {
                 binder.writeBean(despacho);
-                despacho.setDataPedido(Calendar.getInstance().getTime());
                 despachoAccoes.solicitar(despacho);
             } catch (ValidationException ex) {
                 Logger.getLogger(SolicitarReforcoForm.class.getName()).log(Level.SEVERE, null, ex);
