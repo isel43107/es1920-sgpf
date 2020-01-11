@@ -414,7 +414,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
-                 candForm.getFecharButton().addClickListener((e) -> {
+                candForm.getFecharButton().addClickListener((e) -> {
                     candDialog.close();
                 });
             });
@@ -428,6 +428,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinBonificacaoForm form = new DespachoFinBonificacaoForm(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
+                                
             });
         });
     }
@@ -439,6 +440,10 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinReforcoForm form = new DespachoFinReforcoForm(sgpfacade.getDespachoReforcoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
+                
+                form.getFecharButton().addClickListener((e) -> {
+                    candDialog.close();
+                });
             });
         });
     }
