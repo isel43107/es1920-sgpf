@@ -16,17 +16,14 @@
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.dto.AbstractDespachoFinDto;
-import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinBonificacaoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoIncentivoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Despacho;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinBonificacao;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinIncentivo;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoEstado;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.DespachoFinBonificacaoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.DespachoFinIncentivoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.DocumentoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
@@ -42,16 +39,18 @@ import javax.inject.Inject;
  *
  * @author pauloborges
  */
-public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinanciamentoIncentivoAcoes {
+public class DespachoFinanciamentoIncentivoAcoesImpl extends AbstractDocumentoAndHistoryPersist<DespachoFinIncentivo> implements DespachoFinanciamentoIncentivoAcoes {
 
     @Inject
-    private SgpfRepositoryFacade repositoryFace;
+    public DespachoFinanciamentoIncentivoAcoesImpl(SgpfRepositoryFacade repositoryFace) {
+        super(repositoryFace);
+    }
 
     @Override
     public void transformarBonificacao(DespachoFinIncentivoDto despacho) {
         
         DespachoFinIncentivoDto desDto = (DespachoFinIncentivoDto)despacho;
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
 
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
 
@@ -66,7 +65,7 @@ public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinancia
     public void aprovar(AbstractDespachoFinDto despacho) {
         //TODO verficar se é instancia if(despacho instanceOf DespachoFinIncentivoDto) ou deixar rebentar ?
         DespachoFinIncentivoDto desDto = (DespachoFinIncentivoDto)despacho;
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
 
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
 
@@ -76,8 +75,9 @@ public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinancia
             projetoRepository.saveAndFlush(projeto);
             
             DespachoFinIncentivo desDetalhe = buildDespachoDetalhe(desDto);
-            desDetalhe.setDecisao(Despacho.DespachoDecisao.REJEITADO);
-            saveHistorico(projeto, estadoAnterior, desDetalhe, SGPFStateMachine.EVENT_REJEITADO);
+            desDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
+            DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_INCENTIVO;
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_APROVADO, docTipo, desDetalhe);
         });
     }
 
@@ -85,7 +85,7 @@ public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinancia
     public void rejeitar(AbstractDespachoFinDto despacho) {
         DespachoFinIncentivoDto desDto = (DespachoFinIncentivoDto)despacho;
 
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
 
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
 
@@ -98,7 +98,9 @@ public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinancia
             
             DespachoFinIncentivo desDetalhe = buildDespachoDetalhe(desDto);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.REJEITADO);
-            saveHistorico(projeto,estadoAnterior, desDetalhe, SGPFStateMachine.EVENT_REJEITADO);
+            
+            DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_INCENTIVO;
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_REJEITADO, docTipo, desDetalhe);
         });
     }
 
@@ -111,40 +113,16 @@ public class DespachoFinanciamentoIncentivoAcoesImpl implements DespachoFinancia
 
         return desDetalhe;
     }
-
-    //TODO Necessario definir extensao - DUPLICADO (COPY PASTE)
-    private void saveHistorico(Projeto projeto, ProjetoEstado estadoAnterior, DespachoFinIncentivo desDetalhe, String sgpfStateMachine) {
-
-        DocumentoRepository documentoRepository = repositoryFace.getDocumentoRepository();
-        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
-        DespachoFinIncentivoRepository desDetalheRepo = repositoryFace.getDespachoFinIncentivoRepository();
-
-        //Guarda Cabeçalho do documento
-        DocumentoCabecalho doc = new DocumentoCabecalho();
-        doc.setProjeto(projeto);
-        doc.setDocTipo(DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_INCENTIVO);
-
-        doc = documentoRepository.saveAndFlush(doc);
-
-        /*Detalhes do */
-        desDetalhe.setDocumento(doc);
-        desDetalheRepo.save(desDetalhe);
-
-        // Guardar no historico o evento(Evolução maquina estado)
-        Historico his = new Historico();
-        his.setDocumento(doc);
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAnterior(estadoAnterior);
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(sgpfStateMachine);
-        historicoRepo.saveAndFlush(his);
-
-    }
-
+    
     //TODO move to util class. common.utils
     private static Date convertToDate(LocalDate dateToConvert) {
         return java.sql.Date.valueOf(dateToConvert);
+    }
+
+    @Override
+    protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoFinIncentivo detalheDoc) {
+        DespachoFinIncentivoRepository desDetalheRepo = getRepositoryFace().getDespachoFinIncentivoRepository();
+        desDetalheRepo.save(detalheDoc);
     }
 
 }

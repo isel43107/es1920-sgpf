@@ -21,11 +21,8 @@ import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciame
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Despacho;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinBonificacao;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.DespachoFinBonificacaoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.DocumentoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
@@ -36,24 +33,28 @@ import javax.inject.Inject;
  *
  * @author pauloborges
  */
-public class DespachoFinanciamentoBonificacaoAcoesImpl implements DespachoFinanciamentoBonificacaoAcoes {
+public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumentoAndHistoryPersist<DespachoFinBonificacao> implements DespachoFinanciamentoBonificacaoAcoes {
+
 
     @Inject
-    private SgpfRepositoryFacade repositoryFace;
+    public DespachoFinanciamentoBonificacaoAcoesImpl(SgpfRepositoryFacade repositoryFace) {
+        super(repositoryFace);
+    }
 
 
     @Override
     public void aprovar(AbstractDespachoFinDto despacho ) {
         DespachoFinBonificacaoDto desBoni = (DespachoFinBonificacaoDto)despacho;
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
-        projetoOptional.ifPresent( projeto -> {
+        projetoOptional.ifPresent( (Projeto projeto) -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
             projetoRepository.saveAndFlush(projeto);;
-            DespachoFinBonificacao dDetalhe = buildDespachoDetalhe(desBoni);
-            dDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
-            saveHistorico(projeto, estadoAnterior, dDetalhe,SGPFStateMachine.EVENT_APROVADO);
+            DespachoFinBonificacao desDetalhe = buildDespachoDetalhe(desBoni);
+            desDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
+            DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO;
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_APROVADO, docTipo, desDetalhe);
         });
        
     }
@@ -68,16 +69,17 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl implements DespachoFinanc
         
         desFinBonificacao.setPeriodo(desDto.getPeriodo());
         
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
-        projetoOptional.ifPresent( projeto -> {
+        projetoOptional.ifPresent((Projeto projeto) -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
             projetoRepository.saveAndFlush(projeto);
             DespachoFinBonificacao desDetalhe = buildDespachoDetalhe(desDto);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.REJEITADO);
-            saveHistorico(projeto, estadoAnterior, desDetalhe, SGPFStateMachine.EVENT_REJEITADO);
+            DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO;
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_REJEITADO, docTipo, desDetalhe);
         });
     }
     
@@ -92,34 +94,11 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl implements DespachoFinanc
         
         return desDespachoFinBonificacao;
     }
-    
-    //TODO Necessario definir extensao - DUPLICADO (COPY PASTE)
-    private void saveHistorico(Projeto projeto, Projeto.ProjetoEstado estadoAnterior, DespachoFinBonificacao desDetalhe, String sgpfStateMachine){
 
-        DocumentoRepository documentoRepository = repositoryFace.getDocumentoRepository();
-        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
-        DespachoFinBonificacaoRepository boniRepo = repositoryFace.getDespachoFinBonificacaoRepository();
-        
-        //Guarda Cabeçalho do documento
-        DocumentoCabecalho doc = new DocumentoCabecalho();
-        doc.setProjeto(projeto);
-        doc.setDocTipo(DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO);
-
-        doc = documentoRepository.saveAndFlush(doc);
-        
-        /*Detalhes do */
-        desDetalhe.setDocumento(doc);
-        boniRepo.save(desDetalhe);
-        
-        // Guardar no historico o evento(Evolução maquina estado)
-        Historico his = new Historico();
-        his.setDocumento(doc);
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAnterior(estadoAnterior);
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(sgpfStateMachine);
-        historicoRepo.saveAndFlush(his);
-
+    @Override
+    protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoFinBonificacao detalheDoc) {
+        DespachoFinBonificacaoRepository detalheDocRepo = getRepositoryFace().getDespachoFinBonificacaoRepository();
+        detalheDocRepo.saveAndFlush(detalheDoc);
     }
+
 }

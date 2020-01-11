@@ -16,20 +16,13 @@
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.dto.ParecerTecnicoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.AceitacaoCandidaturaAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.ParecerTecnicoAcoes;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Candidatura;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho.DocumentoTipo;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.CandidaturaRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.DocumentoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.ParecerTecnico;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
-import java.util.Date;
 import java.util.Optional;
 import javax.inject.Inject;
 
@@ -37,16 +30,21 @@ import javax.inject.Inject;
  *
  * @author pauloborges
  */
-public class ParecerTecnicoAccoesImpl implements ParecerTecnicoAcoes{
+public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist<ParecerTecnico> implements ParecerTecnicoAcoes{
     
-    @Inject 
-    private SgpfRepositoryFacade repositoryFace;
+    @Inject
+    public ParecerTecnicoAccoesImpl(SgpfRepositoryFacade repositoryFace) {
+        super(repositoryFace);
+    }
 
     @Override
     public void favoravel(ParecerTecnicoDto parecer) {
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(parecer.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
+
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+            
             if(projeto.getProjTipo() == Projeto.ProjetoTipo.BONIFICAO){
                projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_BONIFICACAO); 
             }
@@ -54,20 +52,34 @@ public class ParecerTecnicoAccoesImpl implements ParecerTecnicoAcoes{
                 projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_INCENTIVO);
             }
             projetoRepository.saveAndFlush(projeto);
+            
+            ParecerTecnico pr = new ParecerTecnico();
+            pr.setParecer(parecer.getTexto());
+            pr.setDecisao(ParecerTecnico.ParecerTecnicoDecisao.FAVORAVEL);
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_FAVORAVEL, DocumentoCabecalho.DocumentoTipo.PARECER_TECNICO, pr);
         });
-        
-        
-        
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.ParecerTecnicoAccoesImpl.favoravel()");
     }
 
     @Override
     public void desfavoravel(ParecerTecnicoDto parecer) {
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(parecer.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
+
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+            
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
             projetoRepository.saveAndFlush(projeto);
+            
+            ParecerTecnico pr = new ParecerTecnico();
+            pr.setParecer(parecer.getTexto());
+            pr.setDecisao(ParecerTecnico.ParecerTecnicoDecisao.DESFAVORAVEL);
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_DESFAVORAVEL, DocumentoCabecalho.DocumentoTipo.PARECER_TECNICO, pr);
         });
+    }
+
+    @Override
+    protected void saveDocDetalhe(DocumentoCabecalho doc, ParecerTecnico detalheDoc) {
+        getRepositoryFace().getParecerTecnicoRepository().saveAndFlush(detalheDoc);
     }
 }

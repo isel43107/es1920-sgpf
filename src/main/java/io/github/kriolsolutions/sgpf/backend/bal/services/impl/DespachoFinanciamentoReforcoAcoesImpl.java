@@ -15,16 +15,13 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
-import io.github.kriolsolutions.sgpf.backend.bal.dto.AbstractDespachoFinDto;
-import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoBonificacaoAcoes;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoIncentivoAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoReforcoAcoes;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinReforco;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho.DocumentoTipo;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.PedidoReforco;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
@@ -35,54 +32,94 @@ import javax.inject.Inject;
  *
  * @author pauloborges
  */
-public class DespachoFinanciamentoReforcoAcoesImpl implements DespachoFinanciamentoReforcoAcoes {
+public class DespachoFinanciamentoReforcoAcoesImpl extends AbstractDocumentoAndHistoryPersist implements DespachoFinanciamentoReforcoAcoes {
 
     @Inject
-    private SgpfRepositoryFacade repositoryFace;
-
+    public DespachoFinanciamentoReforcoAcoesImpl(SgpfRepositoryFacade repositoryFace) {
+        super(repositoryFace);
+    }
 
     @Override
     public void aprovar(PedidoReforcoDto despacho) {
-        // TODO ir para o estado anterior 
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        HistoricoRepository historicoRepository = repositoryFace.getHistoricoRepository();
-        
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
-        projetoOptional.ifPresent( projeto -> {
+        projetoOptional.ifPresent(projeto -> {
+
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+            
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
-            //historicoRepository.
             projetoRepository.saveAndFlush(projeto);
+            
+            DespachoFinReforco pr = new DespachoFinReforco();
+            pr.setMontanteAprovado(despacho.getMontanteReforco());
+            pr.setDescricao(despacho.getDescricao());
+
+            ///doc detalhe nao há
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_APROVADO, DocumentoTipo.DESPACHO_FIN_REFORCO, pr);
         });
-        
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.aprovar()");
     }
 
+    //@TODO Devera receber como parametro DespachoFinReforcoDto
     @Override
     public void rejeitar(PedidoReforcoDto despacho) {
-        
-        // TODO ir para o estado anterior
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
-        projetoOptional.ifPresent( projeto -> {
+        projetoOptional.ifPresent(projeto -> {
+
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
             projetoRepository.saveAndFlush(projeto);
+            
+            DespachoFinReforco pr = new DespachoFinReforco();
+            pr.setMontanteAprovado(despacho.getMontanteReforco());
+            pr.setDescricao(despacho.getDescricao());
+
+            ///doc detalhe nao há
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_REJEITADO, DocumentoTipo.DESPACHO_FIN_REFORCO, pr);
         });
-        
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.rejeitar()");
+    }
+
+    //@TODO Devera receber como parametro DespachoFinReforcoDto
+    @Override
+    public void solicitar(PedidoReforcoDto despacho) {
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        projetoOptional.ifPresent(projeto -> {
+
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+
+            projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_REFORCO);
+            projetoRepository.saveAndFlush(projeto);
+
+            PedidoReforco pr = new PedidoReforco();
+            pr.setMontanteSolicitado(despacho.getMontanteReforco());
+            pr.setDescricao(despacho.getDescricao());
+
+            ///doc detalhe nao há
+            saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_REFORCO, DocumentoTipo.PEDIDO_REFORCO, pr);
+
+        });
     }
 
     @Override
-    public void solicitar(PedidoReforcoDto despacho) {
-        
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
-        projetoOptional.ifPresent( projeto -> {
-            projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_REFORCO);
-            projetoRepository.saveAndFlush(projeto);
-        });
-        
-        
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoReforcoAcoesImpl.solicitar()");
+    protected void saveDocDetalhe(DocumentoCabecalho doc, Object detalheDoc) {
+
+        if (detalheDoc != null && detalheDoc instanceof PedidoReforco) {
+
+            PedidoReforco data = (PedidoReforco) detalheDoc;
+            data.setDocumento(doc);
+            getRepositoryFace().getPedidoReforcoRepository().saveAndFlush(data);
+
+        } else if (detalheDoc != null && detalheDoc instanceof DespachoFinReforco) {
+
+            DespachoFinReforco data = (DespachoFinReforco) detalheDoc;
+            data.setDocumento(doc);
+            getRepositoryFace().getDespachoFinReforcoRepository().saveAndFlush(data);
+        }
     }
 
 }

@@ -16,12 +16,14 @@
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PagamentoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.dto.ParecerTecnicoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.PagamentoAcoes;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.ParecerTecnicoAcoes;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Pagamento;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.ParecerTecnico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
+import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
 import java.util.Optional;
 import javax.inject.Inject;
 
@@ -29,20 +31,39 @@ import javax.inject.Inject;
  *
  * @author pauloborges
  */
-public class PagamentoAcoesImpl implements PagamentoAcoes{
-    
-    @Inject 
-    private SgpfRepositoryFacade repositoryFace;
+public class PagamentoAcoesImpl extends AbstractDocumentoAndHistoryPersist<Pagamento> implements PagamentoAcoes {
+
+    @Inject
+    public PagamentoAcoesImpl(SgpfRepositoryFacade repositoryFace) {
+        super(repositoryFace);
+    }
 
     @Override
-    public void efectuarPagamento(PagamentoDto pedido) {
-        //TODO verificar se max e prazo foi atingido
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(pedido.getProjetoId());
-        projetoOptional.ifPresent( projeto -> {
-            projetoRepository.saveAndFlush(projeto);
+    public void efectuarPagamento(PagamentoDto pagDto) {
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
+        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(pagDto.getProjetoId());
+        projetoOptional.ifPresent(projeto -> {
+
+            Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
+
+            //TODO verificar se MontanteFinanciado  e/ou Prazo nao foi atingido mantem estado pagamento
+            //projetoRepository.saveAndFlush(projeto);
+            if (estadoAnterior == Projeto.ProjetoEstado.EM_PAGAMENTO) {
+
+                Pagamento pr = new Pagamento();
+                pr.setMntPago(pagDto.getMontantePagamento());
+                //pr.setDescricao(pagDto.getDescricao());
+                saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_PAGAMENTO, DocumentoCabecalho.DocumentoTipo.PAGAMENTO, pr);
+            }
+            //ELSE Muda estado para fechado
         });
-        
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.PagamentoAcoesImpl.efectuarPagamento()");
+
     }
+
+    @Override
+    protected void saveDocDetalhe(DocumentoCabecalho doc, Pagamento detalheDoc) {
+        getRepositoryFace().getPagamentoRepository().saveAndFlush(detalheDoc);
+    }
+
 }

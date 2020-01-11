@@ -50,7 +50,7 @@ public class ProjetoActivacaoAcoesImpl implements ProjetoActivacaoAcoes{
 
     @Override
     public void reativar(Projeto projeto) {
-        //TODO
+        //@TODO Reativar Falta retornar o projeto ao estado anterior
         projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_FECHADO);
         saveProjeto(projeto);
     }

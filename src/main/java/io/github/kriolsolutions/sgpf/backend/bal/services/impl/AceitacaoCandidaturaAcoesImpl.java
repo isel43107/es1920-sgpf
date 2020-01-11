@@ -16,14 +16,10 @@
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.AceitacaoCandidaturaAcoes;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Candidatura;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho.DocumentoTipo;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.CandidaturaRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.DocumentoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
@@ -34,100 +30,82 @@ import javax.inject.Inject;
  *
  * @author pauloborges
  */
-public class AceitacaoCandidaturaAcoesImpl implements AceitacaoCandidaturaAcoes{
-    
-    @Inject 
-    private SgpfRepositoryFacade repositoryFace;
+public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPersist implements AceitacaoCandidaturaAcoes {
+
+    @Inject
+    public AceitacaoCandidaturaAcoesImpl(SgpfRepositoryFacade repositoryFace) {
+        super(repositoryFace);
+    }
 
     @Override
     public void aceitar(Projeto projeto) {
-        
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        DocumentoRepository documentoRepository = repositoryFace.getDocumentoRepository();
-        CandidaturaRepository candidaturaRepository = repositoryFace.getCandidaturaRepository();
-        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
-        
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
+
+        Projeto.ProjetoEstado estadoAnterior = Projeto.ProjetoEstado.EM_CANDIDATURA;
+
         //PROJETO -  Guarda o projeto
         projeto.setProjEstado(Projeto.ProjetoEstado.EM_CANDIDATURA);
-        
+
         //PROJETO -  Num projeto temporario
         String numProjeto = "TMP_" + ProjetoGeneradorNumero.gerarNumeroProjeto(new Date().getTime());
         projeto.setProjNumero(numProjeto);
         projeto = projetoRepository.save(projeto);
-        
+
         //PROJETO -  Num projeto Final
         numProjeto = ProjetoGeneradorNumero.gerarNumeroProjeto(projeto.getId());
         projeto.setProjNumero(numProjeto);
-        
-        projeto = projetoRepository.saveAndFlush(projeto);
-        
-        //Guarda Cabeçalho do documento
-        DocumentoCabecalho doc = new DocumentoCabecalho();
-        doc.setProjeto(projeto);
-        doc.setDocTipo(DocumentoTipo.CANDIDATURA);
 
-        doc = documentoRepository.saveAndFlush(doc);
-        
-        //Guarda Detable do Candidatura
+        projeto = projetoRepository.saveAndFlush(projeto);
+
+        //Documento Detalhe
         Candidatura candidatura = new Candidatura();
         candidatura.setDecisao(Candidatura.CandidaturaDecisao.ENQUADRADO);
-        candidatura.setDocumento(doc);
-        
-        candidaturaRepository.saveAndFlush(candidatura);
-        
-        // Guardar no historico o evento(Evolução maquina estado)
-        Historico his = new Historico();
-        his.setDocumento(doc);
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(SGPFStateMachine.EVENT_CAND_REGISTAR);
-        historicoRepo.saveAndFlush(his);
+        saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_CAND_REGISTAR, null, candidatura);
 
     }
-    
+
     @Override
     public void abir(Projeto projeto) {
-        
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
-        
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
+
         Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
-        
+
         projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_ABERTURA);
         projetoRepository.saveAndFlush(projeto);
-        
-        // Guardar no historico o evento(Evolução maquina estado)
-        Historico his = new Historico();
-        //his.setDocumento(doc);
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAnterior(estadoAnterior);
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(SGPFStateMachine.EVENT_ENQUADRADO);
-        historicoRepo.saveAndFlush(his);
+
+        //doc detalhe nao há
+        saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_ENQUADRADO, null, null);
+
     }
 
     @Override
     public void arquivar(Projeto projeto) {
-        
-        ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
-        
+
+        ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
+
         Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
-        
+
         projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
         projetoRepository.saveAndFlush(projeto);
-        
-        // Guardar no historico o evento(Evolução maquina estado)
-        Historico his = new Historico();
-        //his.setDocumento(doc);
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAnterior(estadoAnterior);
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(SGPFStateMachine.EVENT_DESENQUADRADO);
-        historicoRepo.saveAndFlush(his);
+
+        ///doc detalhe nao há
+        saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_DESENQUADRADO, null, null);
     }
-    
+
+    @Override
+    protected void saveDocDetalhe(DocumentoCabecalho doc, Object detalheDoc) {
+
+        
+        if (detalheDoc != null && detalheDoc instanceof Candidatura) {
+            CandidaturaRepository candidaturaRepository = getRepositoryFace().getCandidaturaRepository();
+
+            Candidatura candidatura = (Candidatura) detalheDoc;
+            //Guarda Detable do Candidatura
+            candidatura.setDocumento(doc);
+            candidaturaRepository.saveAndFlush(candidatura);
+        }
+    }
+
 }
