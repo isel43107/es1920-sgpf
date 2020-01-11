@@ -40,9 +40,16 @@ public class SgpfServiceFacade {
 
     @Inject
     private ProjetoActivacaoAcoes projetoAcoes;
-    
+
     @Inject
     private ParecerTecnicoAcoes parecerTecnicoAcoes;
+
+    @Inject
+    private PagamentoAcoes pagamentoAcoes;
+
+    public PagamentoAcoes getPagamentoAcoes() {
+        return pagamentoAcoes;
+    }
 
     public AceitacaoCandidaturaAcoes getAceitacaoCandidaturaAcoes() {
         return aceitacaoCandidaturaAcoes;
@@ -56,11 +63,11 @@ public class SgpfServiceFacade {
         return despachoBonificacaoAcoes;
     }
 
-    public DespachoFinanciamentoIncentivoAcoes getDespachoIncentivoAcoes() {
+    public DespachoFinanciamentoIncentivoAcoes getDespachoFinanciamentoIncentivoAcoes() {
         return despachoFinanciamentoIncentivoAcoes;
     }
 
-    public DespachoFinanciamentoReforcoAcoes getDespachoReforcoAcoes() {
+    public DespachoFinanciamentoReforcoAcoes getDespachoFinanciamentoReforcoAcoes() {
         return despachoFinanciamentoReforcoAcoes;
     }
 
@@ -71,7 +78,5 @@ public class SgpfServiceFacade {
     public ParecerTecnicoAcoes getParecerTecnicoAcoes() {
         return parecerTecnicoAcoes;
     }
-    
-    
 
 }

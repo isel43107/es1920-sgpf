@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.kriolsolutions.sgpf.backend.bal.services.api;
+package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import io.github.kriolsolutions.sgpf.backend.bal.dto.PagamentoDto;
+import java.util.Date;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  *
- * @author pauloborges
+ * @author Rafael Delgado
  */
-public interface PagamentoAcoes {
-    public void efectuarPagamento (PagamentoDto pedido );
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+public class PagamentoDto extends AbstractBaseDto{
+    @Min(0)
+    @NotNull
+    private double montantePagamento;
 }

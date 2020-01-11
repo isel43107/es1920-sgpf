@@ -52,6 +52,7 @@ import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinBonificacaoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinIncentivoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinReforcoForm;
+import io.github.kriolsolutions.sgpf.web.ui.documentos.PagamentoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.ParecerTecnicoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.SolicitarReforcoForm;
 import java.text.DecimalFormat;
@@ -411,7 +412,7 @@ public class ProjetoManagerView extends VerticalLayout {
         contextMenu.addItem("Emissão Despacho Incentivo", event -> {
             Notification.show("Despacho Incentivo");
             contextMenu.getData().ifPresent(projeto -> {
-                DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
+                DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoFinanciamentoIncentivoAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
                 candForm.getFecharButton().addClickListener((e) -> {
@@ -437,7 +438,7 @@ public class ProjetoManagerView extends VerticalLayout {
         contextMenu.addItem("Emissão Despacho Reforço", event -> {
             Notification.show("Emissão Despacho Reforço");
             contextMenu.getData().ifPresent(projeto -> {
-                DespachoFinReforcoForm form = new DespachoFinReforcoForm(sgpfacade.getDespachoReforcoAcoes(), projeto);
+                DespachoFinReforcoForm form = new DespachoFinReforcoForm(sgpfacade.getDespachoFinanciamentoReforcoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
                 
@@ -450,11 +451,15 @@ public class ProjetoManagerView extends VerticalLayout {
 
     private void projetoEmPagamentoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Efetuar Pagamento", event -> {
-            Notification.show("Efetuar Pagamento NO IMPLEMENTED");
+            Notification.show("Efetuar Pagamento");
             contextMenu.getData().ifPresent(projeto -> {
-                //DespachoFinReforco form = new DespachoFinReforco(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
-                //Dialog candDialog = new Dialog(form);
-                //candDialog.open();
+                PagamentoForm form = new PagamentoForm(sgpfacade.getPagamentoAcoes(), projeto);
+                Dialog candDialog = new Dialog(form);
+                candDialog.open();
+                
+                form.getFecharButton().addClickListener((e) -> {
+                    candDialog.close();
+                });
             });
         });
         opcaoSolicitarReforco(contextMenu);
@@ -499,7 +504,7 @@ public class ProjetoManagerView extends VerticalLayout {
             contextMenu.getData().ifPresent(projeto -> {
                 PedidoReforcoDto ref = new PedidoReforcoDto();
                 ref.setProjetoId(projeto.getId());
-                sgpfacade.getDespachoReforcoAcoes().solicitar(ref);
+                sgpfacade.getDespachoFinanciamentoReforcoAcoes().solicitar(ref);
             });
         });
     }
