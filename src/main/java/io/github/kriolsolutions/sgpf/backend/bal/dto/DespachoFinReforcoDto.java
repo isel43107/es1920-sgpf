@@ -15,7 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import java.time.LocalDate;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,8 +28,10 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class DespachoFinIncentivoDto extends AbstractDespachoFinDto{
+public class DespachoFinReforcoDto extends AbstractBaseDto{
     
+    @Min(0)
     @NotNull
-    private LocalDate prazoExecucao;
+    private double montante;
+    private String descricao;
 }

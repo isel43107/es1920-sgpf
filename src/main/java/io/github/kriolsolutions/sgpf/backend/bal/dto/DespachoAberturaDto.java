@@ -15,7 +15,6 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Despacho;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,5 +30,4 @@ public class DespachoAberturaDto extends AbstractBaseDto {
     
     private Integer candidaturaId;
     private Integer gestorFinanciamentoId;
-    private Despacho.DespachoDecisao decisao;
 }

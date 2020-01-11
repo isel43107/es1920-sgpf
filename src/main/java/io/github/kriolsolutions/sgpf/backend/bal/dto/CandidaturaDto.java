@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
  * @author pauloborges
  */
 @Data
+@EqualsAndHashCode
 @NoArgsConstructor
 public class CandidaturaDto {
 

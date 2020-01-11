@@ -15,8 +15,6 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import java.util.Date;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -15,7 +15,6 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import java.util.Date;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
@@ -33,4 +32,5 @@ public class PedidoReforcoDto extends AbstractBaseDto{
     @Min(0)
     @NotNull
     private double montanteReforco;
+    private String descricao;
 }
