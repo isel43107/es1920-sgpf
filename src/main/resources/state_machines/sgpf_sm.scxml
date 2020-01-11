@@ -41,22 +41,21 @@ limitations under the License.
     </state>
 
     <state id="DESPACHO_FINANCIAMENTO">
-        <transition event="APROVADO" target="EM_PAGAMENTO" />
-        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
-    </state>
-    
-    <state id="DESPACHO_FINANCIAMENTO">
-        <transition event="APROVADO" target="EM_PAGAMENTO" />
-        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+        
+        <state id="DESPACHO_FIN_INCENTIVO">
+            <transition event="APROVADO" target="EM_PAGAMENTO" />
+            <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+            <transition event="TRANSFORMAR" target="DESPACHO_FIN_BONIFICACAO" />
+        </state>
+
+        <state id="DESPACHO_FIN_BONIFICACAO">
+            <transition event="APROVADO" target="EM_FINANCIAMENTO" />
+            <transition event="REJEITADO" target="PROJETO_REJEITADO" />
+        </state>
     </state>
         
     <state id="PROJETO_ARQUIVADO">
         <transition event="REENQUADRADO" target="EM_CANDIDATURA" />
-    </state>
-        
-    <state id="DESPACHO_FINANCIAMENTO_BONIFICACAO">
-        <transition event="APROVADO" target="EM_FINANCIAMENTO" />
-        <transition event="REJEITADO" target="PROJETO_REJEITADO" />
     </state>
     
     <state id="DESPACHO_REFORCO">
