@@ -51,6 +51,7 @@ import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinBonificacaoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinIncentivoForm;
+import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinReforcoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.ParecerTecnicoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.SolicitarReforcoForm;
 import java.text.DecimalFormat;
@@ -383,7 +384,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
 
-                candForm.getArquivarButton().addClickListener((e) -> {
+                candForm.getFecharButton().addClickListener((e) -> {
                     candDialog.close();
                 });
             });
@@ -399,8 +400,8 @@ public class ProjetoManagerView extends VerticalLayout {
                 candDialog.open();
 
                 //Button Fechar
-                candForm.getFavoravelButton().addClickListener((e) -> {
-                    //candDialog.close();
+                candForm.getFecharButton().addClickListener((e) -> {
+                    candDialog.close();
                 });
             });
         });
@@ -413,6 +414,9 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
+                 candForm.getFecharButton().addClickListener((e) -> {
+                    candDialog.close();
+                });
             });
         });
     }
@@ -432,7 +436,7 @@ public class ProjetoManagerView extends VerticalLayout {
         contextMenu.addItem("Emissão Despacho Reforço", event -> {
             Notification.show("Emissão Despacho Reforço");
             contextMenu.getData().ifPresent(projeto -> {
-                SolicitarReforcoForm form = new SolicitarReforcoForm(sgpfacade.getDespachoReforcoAcoes(), projeto);
+                DespachoFinReforcoForm form = new DespachoFinReforcoForm(sgpfacade.getDespachoReforcoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
             });

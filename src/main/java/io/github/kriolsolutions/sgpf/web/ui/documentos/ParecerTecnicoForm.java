@@ -23,15 +23,18 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.ParecerTecnicoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.ParecerTecnicoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author pauloborges
  */
-public class ParecerTecnicoForm extends FormLayout {
+public class ParecerTecnicoForm extends AbstractDespachoForm {
     private final BeanValidationBinder<ParecerTecnicoDto> binder = new BeanValidationBinder<>(ParecerTecnicoDto.class);
 
     Button favoravelButton = new Button("Favoravel");
@@ -39,66 +42,48 @@ public class ParecerTecnicoForm extends FormLayout {
     private TextField texto = new TextField();
     private Projeto projecto;
     private ParecerTecnicoAcoes parecerAccoes;
+    private ParecerTecnicoDto parecer = new ParecerTecnicoDto();
 
     public ParecerTecnicoForm ( ParecerTecnicoAcoes parecerAccoes  , Projeto projecto ) {
         this.projecto = projecto ; 
         this.parecerAccoes = parecerAccoes; 
-    }
-
-    public Button getFavoravelButton() {
-        return favoravelButton;
-    }
-
-    public Button getDesfavoravelButton() {
-        return desfavoravelButton;
+        this.parecer.setProjetoId(projecto.getId());
+        setupFields();
     }
     
     public ParecerTecnicoForm( ){
-    
-        init();
-        buildActionsButtons();
+        setupFields();
     }
-
-    private void init() {
-        
-        this.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("25em", 1),
-                new FormLayout.ResponsiveStep("32em", 2),
-                new FormLayout.ResponsiveStep("40em", 3));
+    @Override
+    protected void setupFields() {
         
         texto.setLabel("Texto");
         
         binder.forMemberField(texto);
-        
         binder.bindInstanceFields(this);
         this.add(texto);
-        buildActionsButtons();        
-    }
-    
-    
-    public Binder<ParecerTecnicoDto> getBinder() {
-        return binder;
-    }
-    
-    private void buildActionsButtons(){
-        /* */
-        // Button bar
+        
         favoravelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         favoravelButton.addClickListener((event) -> {
-            ParecerTecnicoDto parecer = getBinder().getBean();
-            parecer.setProjetoId(this.projecto.getId());
-            this.parecerAccoes.favoravel(parecer);
+            try {
+                binder.writeBean(parecer);
+                this.parecerAccoes.favoravel(parecer);
+            } catch (ValidationException ex) {
+                Logger.getLogger(ParecerTecnicoForm.class.getName()).log(Level.SEVERE, null, ex);
+                handleException(ex);
+            }
         });
         desfavoravelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         desfavoravelButton.addClickListener((event) -> {
-            ParecerTecnicoDto parecer = getBinder().getBean();
-            parecer.setProjetoId(this.projecto.getId());
-            this.parecerAccoes.desfavoravel(parecer);
+            try {
+                binder.writeBean(parecer);
+                this.parecerAccoes.desfavoravel(parecer);
+            } catch (ValidationException ex) {
+                Logger.getLogger(ParecerTecnicoForm.class.getName()).log(Level.SEVERE, null, ex);
+                handleException(ex);
+            }
         });
         
-        HorizontalLayout actions = new HorizontalLayout();
-        actions.add(favoravelButton, desfavoravelButton);
-        actions.getStyle().set("marginRight", "10px");
-        this.add(actions);
+        getActions().add(favoravelButton, desfavoravelButton);
     }
 }

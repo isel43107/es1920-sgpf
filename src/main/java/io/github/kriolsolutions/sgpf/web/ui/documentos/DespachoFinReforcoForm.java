@@ -23,16 +23,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoReforcoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author pauloborges
  */
-public class DespachoFinReforcoForm extends FormLayout{
+public class DespachoFinReforcoForm extends AbstractDespachoForm {
     private final BeanValidationBinder<PedidoReforcoDto> binder = new BeanValidationBinder<>(PedidoReforcoDto.class);
 
     private NumberField montanteReforco = new NumberField();
@@ -41,63 +44,48 @@ public class DespachoFinReforcoForm extends FormLayout{
     Button aprovarButton = new Button("Aprovar");
     Button rejeitarButton = new Button("Rejeitar");
     private final DespachoFinanciamentoReforcoAcoes despachoAccoes;
-    private final Projeto projeto;
+    private final PedidoReforcoDto despacho = new PedidoReforcoDto();
     
     public DespachoFinReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes , Projeto projeto ){
     
         this.despachoAccoes = despachoAccoes;
-        this.projeto = projeto ; 
-        init();
+        this.despacho.setProjetoId(projeto.getId());
+        setupFields();
     }
 
-    private void init() {
-        
-        this.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("25em", 1),
-                new FormLayout.ResponsiveStep("32em", 2),
-                new FormLayout.ResponsiveStep("40em", 3));
-        
-        montanteReforco.setLabel("Montante Requerido");
-        dataPedido.setLabel("Data de pedido");
-        
-        binder.forMemberField(montanteReforco);        
-        binder.forMemberField(dataPedido);
-        
-        this.add(dataPedido, montanteReforco);
+
+    @Override
+    protected void setupFields() {
+     montanteReforco.setLabel("Montante Requerido");
+        binder.forMemberField(montanteReforco);
+        this.add( montanteReforco);
         
         
         binder.bindInstanceFields(this);
-        buildActionsButtons();
-    }
-    
-    
-    private void buildActionsButtons(){
         /* */
         // Button bar
         aprovarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aprovarButton.addClickListener((event) -> {
-            PedidoReforcoDto despacho  = getBinder().getBean();
-            despacho.setProjetoId(this.projeto.getId());
-            this.despachoAccoes.aprovar(despacho);
+            try {
+                binder.writeBean(despacho);
+                this.despachoAccoes.aprovar(despacho);
+            } catch (ValidationException ex) {
+                Logger.getLogger(DespachoFinReforcoForm.class.getName()).log(Level.SEVERE, null, ex);
+                handleException(ex);
+                
+            }
         });
         
         rejeitarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         rejeitarButton.addClickListener((event) -> {
-            PedidoReforcoDto despacho  = getBinder().getBean();
-            despacho.setProjetoId(this.projeto.getId());
-            this.despachoAccoes.rejeitar(despacho);
+            try {
+                binder.writeBean(despacho);
+                this.despachoAccoes.rejeitar(despacho);
+            } catch (ValidationException ex) {
+                Logger.getLogger(DespachoFinReforcoForm.class.getName()).log(Level.SEVERE, null, ex);
+                handleException(ex);
+            }
         });
-        
-        
-        HorizontalLayout actions = new HorizontalLayout();
-        actions.add(aprovarButton, rejeitarButton );
-        
-        actions.getStyle().set("marginRight", "10px");
-        this.add(actions);
-    }
-
-    
-    public Binder<PedidoReforcoDto> getBinder() {
-        return binder;
+        getActions().add(aprovarButton, rejeitarButton );
     }
 }

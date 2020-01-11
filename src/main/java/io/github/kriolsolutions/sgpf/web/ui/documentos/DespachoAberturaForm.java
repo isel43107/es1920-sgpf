@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  *
  * @author pauloborges
  */
-public class DespachoAberturaForm extends FormLayout {
+public class DespachoAberturaForm extends AbstractDespachoForm {
     
     private final BeanValidationBinder<DespachoAberturaDto> binder = new BeanValidationBinder<>(DespachoAberturaDto.class);
 
@@ -48,61 +48,48 @@ public class DespachoAberturaForm extends FormLayout {
     Button arquivarButton = new Button("Arquivar");
     private final Projeto projeto;
 
-    public Button getAceitarButton() {
-        return aceitarButton;
-    }
-
-    public Button getArquivarButton() {
-        return arquivarButton;
-    }
     private final DespachoAberturaAcoes aberturaAccoes;
     
     public DespachoAberturaForm( DespachoAberturaAcoes aberturaAccoes , Projeto projeto){
+
         this.aberturaAccoes = aberturaAccoes;
         this.projeto = projeto;
-        binder.readBean(despacho);
-        init();
-        buildActionsButtons();
+        despacho.setProjetoId(projeto.getId());
+        setupFields();
+        
     }
 
-    private void init() {
-        
-        this.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("25em", 1),
-                new FormLayout.ResponsiveStep("32em", 2),
-                new FormLayout.ResponsiveStep("40em", 3));
-        
+    @Override
+    protected void setupFields() {
         gestorFinanciamentoId.setLabel("Gestor de financiamento");
         
         binder.forMemberField(gestorFinanciamentoId);
         
         this.add(gestorFinanciamentoId);
         binder.bindInstanceFields(this);
-        buildActionsButtons();
-    }
-    
-    public Binder<DespachoAberturaDto> getBinder() {
-        return binder;
-    }
-    
-    private void buildActionsButtons(){
-        /* */
-        // Button bar
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
             try {
-                getBinder().writeBean(this.despacho);
+                binder.writeBean(this.despacho);
+                despacho.setProjetoId(this.projeto.getId());
+                this.aberturaAccoes.aprovar(despacho);
             } catch (ValidationException ex) {
                 Logger.getLogger(DespachoAberturaForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        });
+        arquivarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        arquivarButton.addClickListener((event) -> {
+            try {
+                binder.writeBean(this.despacho);
+            } catch (ValidationException ex) {
+                Logger.getLogger(DespachoAberturaForm.class.getName()).log(Level.SEVERE, null, ex);
+                handleException(ex);
             }
             despacho.setProjetoId(this.projeto.getId());
             this.aberturaAccoes.aprovar(despacho);
         });
-        arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         
-        HorizontalLayout actions = new HorizontalLayout();
-        actions.add(aceitarButton, arquivarButton);
-        actions.getStyle().set("marginRight", "10px");
-        this.add(actions);
+        getActions().add(aceitarButton, arquivarButton);
     }
 }
