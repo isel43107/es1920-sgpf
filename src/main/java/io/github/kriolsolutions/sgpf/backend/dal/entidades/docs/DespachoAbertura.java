@@ -34,14 +34,26 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "doc_desp_abertura", schema="documentos")
+@Table(name = "doc_desp_abertura", schema = "documentos")
 @Entity
-public class DespachoAbertura extends BaseEntity{
-    
+public class DespachoAbertura extends BaseEntity {
+
+    /**
+     * @TODO : FIX user class Utilizador em vez de Long
+     * devera ser uma reference para Utilizador (Apos implementar Autenticaçao)
+     * 
+     * 
+     */
+    @Column(name = "gestor_fin", nullable = true)
+    private Long gestorFinanciamento;
+
+    @Column(name = "descricao", nullable = true)
+    private String descricao;
+
     @ManyToOne
     @JoinColumn(name = "fk_documento")
     private DocumentoCabecalho documento;
-    
+
     @Column(name = "desicao")
     @Enumerated(EnumType.STRING)
     private Despacho.DespachoDecisao decisao;

@@ -39,6 +39,12 @@ import lombok.NoArgsConstructor;
 @Entity
 public class DespachoFinReforco extends BaseEntity{
     
+    @Column(name = "mnt_aprovado", nullable = true)
+    private double montanteAprovado;
+    
+    @Column(name = "descricao", nullable = true)
+    private String descricao;
+    
     @ManyToOne
     @JoinColumn(name = "fk_documento")
     private DocumentoCabecalho documento;

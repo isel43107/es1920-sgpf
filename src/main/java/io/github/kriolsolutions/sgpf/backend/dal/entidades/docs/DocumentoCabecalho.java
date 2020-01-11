@@ -55,6 +55,7 @@ public class DocumentoCabecalho extends BaseEntity{
         DESPACHO_FIN_BONIFICACAO,
         DESPACHO_FIN_INCENTIVO,
         DESPACHO_FIN_REFORCO,
+        PEDIDO_REFORCO,
         PAGAMENTO,
     }
 }

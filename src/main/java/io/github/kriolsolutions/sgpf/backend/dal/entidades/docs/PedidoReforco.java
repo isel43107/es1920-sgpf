@@ -16,6 +16,7 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
@@ -34,6 +35,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "documento_pedido_reforco", schema="documentos")
 @Entity
 public class PedidoReforco extends BaseEntity{
+    
+    
+    @Column(name = "mnt_solicitado", nullable = true)
+    private double montanteSolicitado;
+    
+    @Column(name = "descricao", nullable = true)
+    private String descricao;
       
     @ManyToOne
     @JoinColumn(name = "fk_documento")

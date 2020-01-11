@@ -36,8 +36,11 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Pagamento extends BaseEntity{
     
-    @Column(name = "pag_valor")
-    private double pagValor;
+    @Column(name = "mnt_pago", nullable = false)
+    private double mntPago;
+
+    @Column(name = "descricao", nullable = true)
+    private String descricao;
 
     @ManyToOne
     @JoinColumn(name = "fk_documento")

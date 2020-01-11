@@ -37,8 +37,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "documento_parecer_tecnico", schema="documentos")
 @Entity
 public class ParecerTecnico extends BaseEntity{
-    
-    
+
     @Column(name = "parecer")
     private String parecer;
     
