@@ -414,6 +414,9 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinIncentivoForm candForm = new DespachoFinIncentivoForm(sgpfacade.getDespachoIncentivoAcoes(), projeto);
                 Dialog candDialog = new Dialog(candForm);
                 candDialog.open();
+                 candForm.getFecharButton().addClickListener((e) -> {
+                    candDialog.close();
+                });
             });
         });
     }
