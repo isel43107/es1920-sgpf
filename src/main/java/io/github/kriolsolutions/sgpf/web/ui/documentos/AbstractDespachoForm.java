@@ -51,12 +51,6 @@ public abstract class AbstractDespachoForm extends FormLayout {
     }
     
     public AbstractDespachoForm() {
-        this.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("25em", 1),
-                new FormLayout.ResponsiveStep("32em", 2),
-                new FormLayout.ResponsiveStep("40em", 3));
-        
-        
         cancelButton();
     }
     

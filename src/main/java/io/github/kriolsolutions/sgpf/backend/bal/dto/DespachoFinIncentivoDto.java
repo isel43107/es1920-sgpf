@@ -28,5 +28,5 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class DespachoFinIncentivoDto extends AbstractDespachoFinDto{
-    private Date prazoExecucao;
+    private java.time.LocalDate prazoExecucao;
 }
