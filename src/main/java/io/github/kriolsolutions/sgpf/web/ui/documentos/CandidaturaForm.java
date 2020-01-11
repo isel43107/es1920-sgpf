@@ -15,7 +15,6 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
-import com.vaadin.cdi.annotation.UIScoped;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
@@ -33,9 +32,10 @@ public class CandidaturaForm extends AbstractProjetoForm {
     private final AceitacaoCandidaturaAcoes aceitacaoCandidaturaAcoes;
 
     private final Projeto projeto = new Projeto();
-    
+
     private final Button aceitarButton = new Button("Aceitar");
     private final Button arquivarButton = new Button("Canelar");
+    private final Button fecharButton = new Button("Fechar");
 
     public CandidaturaForm(AceitacaoCandidaturaAcoes aceitacaoCandidaturaAcoes) {
         super();
@@ -48,7 +48,6 @@ public class CandidaturaForm extends AbstractProjetoForm {
         //this.getBinder().setBean(projeto);
         /* */
         // Button bar
-        
         aceitarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aceitarButton.addClickListener((event) -> {
 
@@ -57,19 +56,18 @@ public class CandidaturaForm extends AbstractProjetoForm {
 
                 if (getBinder().validate().isOk()) {
                     aceitacaoCandidaturaAcoes.aceitar(projeto);
-                    Notification.show("Candidatura foi aceite com sucesso");
+                    AlertUtils.sucess("Submetido com Sucesso").open();
                 }
             } catch (ValidationException e) {
                 notifyValidationException(e);
-                
+
             }
         });
 
-        
         arquivarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         HorizontalLayout actions = new HorizontalLayout();
-        actions.add(aceitarButton, arquivarButton);
+        actions.add(fecharButton, aceitarButton, arquivarButton);
         actions.getStyle().set("marginRight", "10px");
         this.add(actions);
     }
@@ -77,13 +75,9 @@ public class CandidaturaForm extends AbstractProjetoForm {
     private void notifyValidationException(ValidationException e) {
         Notification.show("Erro ao aceitar candidatura");
     }
-
-    public Button getAceitarButton() {
-        return aceitarButton;
-    }
-
-    public Button getArquivarButton() {
-        return arquivarButton;
-    }
     
+    public Button getFecharButton() {
+        return fecharButton;
+    }
+
 }

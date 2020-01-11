@@ -82,6 +82,7 @@ public class DespachoFinBonificacaoForm extends AbstractDespachoForm {
             try {
                 binder.writeBean(despacho);
                 this.bonificacaoAccoes.aprovar(despacho);
+                    AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(DespachoFinBonificacaoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);
@@ -94,6 +95,7 @@ public class DespachoFinBonificacaoForm extends AbstractDespachoForm {
             try {
                 binder.writeBean(despacho);
                 this.bonificacaoAccoes.rejeitar(despacho);
+                    AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(DespachoFinBonificacaoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);

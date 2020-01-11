@@ -15,6 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -23,7 +24,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
-import com.vaadin.flow.data.validator.RegexpValidator;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 
 /**
@@ -122,14 +122,5 @@ public abstract class AbstractProjetoForm extends FormLayout {
 
     public Binder<Projeto> getBinder() {
         return binder;
-    }
-
-    class MontandValidator{
-
-        private static final String PATTERN = "^@[0-9]+\\.[0-9]{1,2}$";
-
-        public MontandValidator(String errorMessage) {
-            //super(errorMessage, PATTERN);
-        }
     }
 }

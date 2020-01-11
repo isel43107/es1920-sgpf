@@ -15,9 +15,11 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -37,37 +39,35 @@ import java.util.logging.Logger;
  * @author pauloborges
  */
 public abstract class AbstractDespachoForm extends FormLayout {
-    
+
     Button fecharButton = new Button("Fechar");
 
     public Button getFecharButton() {
         return fecharButton;
     }
-    
+
     private HorizontalLayout actions = new HorizontalLayout();
 
     protected HorizontalLayout getActions() {
         return actions;
     }
-    
+
     public AbstractDespachoForm() {
-        cancelButton();
+        fecharButton();
     }
-    
+
     protected abstract void setupFields();
-    
-    
-    private void cancelButton(){
+
+    private void fecharButton() {
         fecharButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         actions.add(fecharButton);
         actions.getStyle().set("marginRight", "10px");
         this.add(actions);
     }
-    
-    protected  void handleException (ValidationException exception )
-    {
-        System.out.println("io.github.kriolsolutions.sgpf.web.ui.documentos.AbstractDespachoForm.handleException()");
-        Notification.show(exception.getMessage());
+
+    protected void handleException(ValidationException exception) {
+        AlertUtils.danger("ERROR! Não foi possivel executar a ação.").open();
+
     }
-    
+
 }

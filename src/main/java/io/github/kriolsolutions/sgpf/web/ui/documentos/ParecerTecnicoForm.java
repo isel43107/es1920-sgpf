@@ -17,12 +17,8 @@ package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.ParecerTecnicoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.ParecerTecnicoAcoes;
@@ -35,6 +31,7 @@ import java.util.logging.Logger;
  * @author pauloborges
  */
 public class ParecerTecnicoForm extends AbstractDespachoForm {
+
     private final BeanValidationBinder<ParecerTecnicoDto> binder = new BeanValidationBinder<>(ParecerTecnicoDto.class);
 
     Button favoravelButton = new Button("Favoravel");
@@ -44,30 +41,32 @@ public class ParecerTecnicoForm extends AbstractDespachoForm {
     private ParecerTecnicoAcoes parecerAccoes;
     private ParecerTecnicoDto parecer = new ParecerTecnicoDto();
 
-    public ParecerTecnicoForm ( ParecerTecnicoAcoes parecerAccoes  , Projeto projecto ) {
-        this.projecto = projecto ; 
-        this.parecerAccoes = parecerAccoes; 
+    public ParecerTecnicoForm(ParecerTecnicoAcoes parecerAccoes, Projeto projecto) {
+        this.projecto = projecto;
+        this.parecerAccoes = parecerAccoes;
         this.parecer.setProjetoId(projecto.getId());
         setupFields();
     }
-    
-    public ParecerTecnicoForm( ){
+
+    public ParecerTecnicoForm() {
         setupFields();
     }
+
     @Override
     protected void setupFields() {
-        
+
         texto.setLabel("Texto");
-        
+
         binder.forMemberField(texto);
         binder.bindInstanceFields(this);
         this.add(texto);
-        
+
         favoravelButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         favoravelButton.addClickListener((event) -> {
             try {
                 binder.writeBean(parecer);
                 this.parecerAccoes.favoravel(parecer);
+                AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(ParecerTecnicoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);
@@ -78,12 +77,13 @@ public class ParecerTecnicoForm extends AbstractDespachoForm {
             try {
                 binder.writeBean(parecer);
                 this.parecerAccoes.desfavoravel(parecer);
+                AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(ParecerTecnicoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);
             }
         });
-        
+
         getActions().add(favoravelButton, desfavoravelButton);
     }
 }

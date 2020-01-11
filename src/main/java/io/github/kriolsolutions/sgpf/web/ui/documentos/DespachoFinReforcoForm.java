@@ -18,13 +18,9 @@ package io.github.kriolsolutions.sgpf.web.ui.documentos;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
-import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoReforcoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
@@ -36,31 +32,30 @@ import java.util.logging.Logger;
  * @author pauloborges
  */
 public class DespachoFinReforcoForm extends AbstractDespachoForm {
+
     private final BeanValidationBinder<PedidoReforcoDto> binder = new BeanValidationBinder<>(PedidoReforcoDto.class);
 
     private NumberField montanteReforco = new NumberField();
     private DatePicker dataPedido = new DatePicker();
-    
+
     Button aprovarButton = new Button("Aprovar");
     Button rejeitarButton = new Button("Rejeitar");
     private final DespachoFinanciamentoReforcoAcoes despachoAccoes;
     private final PedidoReforcoDto despacho = new PedidoReforcoDto();
-    
-    public DespachoFinReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes , Projeto projeto ){
-    
+
+    public DespachoFinReforcoForm(DespachoFinanciamentoReforcoAcoes despachoAccoes, Projeto projeto) {
+
         this.despachoAccoes = despachoAccoes;
         this.despacho.setProjetoId(projeto.getId());
         setupFields();
     }
 
-
     @Override
     protected void setupFields() {
-     montanteReforco.setLabel("Montante Requerido");
+        montanteReforco.setLabel("Montante Requerido");
         binder.forMemberField(montanteReforco);
-        this.add( montanteReforco);
-        
-        
+        this.add(montanteReforco);
+
         binder.bindInstanceFields(this);
         /* */
         // Button bar
@@ -69,23 +64,25 @@ public class DespachoFinReforcoForm extends AbstractDespachoForm {
             try {
                 binder.writeBean(despacho);
                 this.despachoAccoes.aprovar(despacho);
+                AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(DespachoFinReforcoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);
-                
+
             }
         });
-        
+
         rejeitarButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         rejeitarButton.addClickListener((event) -> {
             try {
                 binder.writeBean(despacho);
                 this.despachoAccoes.rejeitar(despacho);
+                AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(DespachoFinReforcoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);
             }
         });
-        getActions().add(aprovarButton, rejeitarButton );
+        getActions().add(aprovarButton, rejeitarButton);
     }
 }

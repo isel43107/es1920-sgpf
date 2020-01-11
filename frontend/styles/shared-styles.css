@@ -124,3 +124,30 @@ body {
 .projeto-estado-supenso {
     color: #F5AA49;
 }
+
+/* ------------- SPGF ALERT -------------*/
+.sgpf-alert {
+  padding: 10px;
+  background-color: #CCCCCC;
+  color: white;
+}
+
+.sgpf-alert-closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sgpf-alert-cclosebtn:hover {
+  color: black;
+}
+
+.sgpf-alert.danger {background-color: #F44336;}
+.sgpf-alert.success {background-color: #4CAF50;}
+.sgpf-alert.info {background-color: #2196F3;}
+.sgpf-alert.warning {background-color: #ff9800;}

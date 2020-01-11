@@ -17,20 +17,12 @@ package io.github.kriolsolutions.sgpf.web.ui.documentos;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PagamentoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoReforcoAcoes;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.PagamentoAcoes;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,25 +31,27 @@ import java.util.logging.Logger;
  * @author pauloborges
  */
 public class PagamentoForm extends AbstractDespachoForm {
+
     private final BeanValidationBinder<PagamentoDto> binder = new BeanValidationBinder<>(PagamentoDto.class);
 
     private NumberField montantePagamento = new NumberField();
     Button efectuarButton = new Button("Efectuar Pagamento");
     private final PagamentoAcoes pagamentoAccoes;
     private final PagamentoDto despacho = new PagamentoDto();
-    
-    public PagamentoForm(PagamentoAcoes despachoAccoes, Projeto projeto){
-    
+
+    public PagamentoForm(PagamentoAcoes despachoAccoes, Projeto projeto) {
+
         this.pagamentoAccoes = despachoAccoes;
         this.despacho.setProjetoId(projeto.getId());
         setupFields();
     }
+
     @Override
     protected void setupFields() {
-    montantePagamento.setLabel("Montante a ser pago");
+        montantePagamento.setLabel("Montante a ser pago");
         this.add(montantePagamento);
         binder.forMemberField(montantePagamento);
-        
+
         binder.bindInstanceFields(this);
 
         efectuarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -65,10 +59,11 @@ public class PagamentoForm extends AbstractDespachoForm {
             try {
                 binder.writeBean(despacho);
                 pagamentoAccoes.efectuarPagamento(despacho);
+                AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(PagamentoForm.class.getName()).log(Level.SEVERE, null, ex);
                 handleException(ex);
-            }  
+            }
         });
         getActions().add(efectuarButton);
     }

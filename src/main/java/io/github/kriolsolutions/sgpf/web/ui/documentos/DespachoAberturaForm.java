@@ -18,6 +18,7 @@ package io.github.kriolsolutions.sgpf.web.ui.documentos;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -40,7 +41,7 @@ public class DespachoAberturaForm extends AbstractDespachoForm {
     private final BeanValidationBinder<DespachoAberturaDto> binder = new BeanValidationBinder<>(DespachoAberturaDto.class);
 
     //Campos - PROMOTOR
-    private IntegerField gestorFinanciamentoId = new IntegerField();
+    private final IntegerField gestorFinanciamentoId = new IntegerField();
     private final DespachoAberturaDto despacho = new DespachoAberturaDto();
     
     
@@ -63,7 +64,7 @@ public class DespachoAberturaForm extends AbstractDespachoForm {
     protected void setupFields() {
         gestorFinanciamentoId.setLabel("Gestor de financiamento");
         
-        binder.forMemberField(gestorFinanciamentoId);
+        binder.forMemberField(gestorFinanciamentoId).asRequired("Campo obrigatorio");
         
         this.add(gestorFinanciamentoId);
         binder.bindInstanceFields(this);
@@ -73,12 +74,15 @@ public class DespachoAberturaForm extends AbstractDespachoForm {
                 binder.writeBean(this.despacho);
                 despacho.setProjetoId(this.projeto.getId());
                 this.aberturaAccoes.aprovar(despacho);
+                AlertUtils.sucess("Submetido com Sucesso").open();
             } catch (ValidationException ex) {
                 Logger.getLogger(DespachoAberturaForm.class.getName()).log(Level.SEVERE, null, ex);
+                handleException(ex);
             }
             
         });
-        arquivarButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        /*
+        arquivarButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         arquivarButton.addClickListener((event) -> {
             try {
                 binder.writeBean(this.despacho);
@@ -89,7 +93,8 @@ public class DespachoAberturaForm extends AbstractDespachoForm {
             despacho.setProjetoId(this.projeto.getId());
             this.aberturaAccoes.aprovar(despacho);
         });
+        */
         
-        getActions().add(aceitarButton, arquivarButton);
+        getActions().add(aceitarButton);
     }
 }
