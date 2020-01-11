@@ -43,11 +43,14 @@ public class DespachoFinanciamentoReforcoAcoesImpl implements DespachoFinanciame
 
     @Override
     public void aprovar(PedidoReforcoDto despacho) {
-        
+        // TODO ir para o estado anterior 
         ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
+        HistoricoRepository historicoRepository = repositoryFace.getHistoricoRepository();
+        
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
+            //historicoRepository.
             projetoRepository.saveAndFlush(projeto);
         });
         
@@ -57,6 +60,7 @@ public class DespachoFinanciamentoReforcoAcoesImpl implements DespachoFinanciame
     @Override
     public void rejeitar(PedidoReforcoDto despacho) {
         
+        // TODO ir para o estado anterior
         ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
