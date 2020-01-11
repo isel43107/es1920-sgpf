@@ -16,12 +16,14 @@
 package io.github.kriolsolutions.sgpf.backend.bal.services.impl;
 
 import io.github.kriolsolutions.sgpf.backend.bal.dto.AbstractDespachoFinDto;
-import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinIncentivoDto;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoAberturaAcoes;
+import io.github.kriolsolutions.sgpf.backend.bal.dto.DespachoFinBonificacaoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoBonificacaoAcoes;
-import io.github.kriolsolutions.sgpf.backend.bal.services.api.DespachoFinanciamentoIncentivoAcoes;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinBonificacao;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
+import io.github.kriolsolutions.sgpf.backend.dal.repo.DespachoFinBonificacaoRepository;
+import io.github.kriolsolutions.sgpf.backend.dal.repo.DocumentoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
@@ -47,21 +49,56 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl implements DespachoFinanc
         projetoOptional.ifPresent( projeto -> {
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
             projetoRepository.saveAndFlush(projeto);
+            
+            saveHistorico(projeto, SGPFStateMachine.EVENT_APROVADO);
         });
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.aprovar()");
+       
     }
 
     @Override
     public void rejeitar(AbstractDespachoFinDto despacho) {
+        
+        DespachoFinBonificacaoDto desBoni = (DespachoFinBonificacaoDto)despacho;
+        
+        DespachoFinBonificacao desFinBonificacao = new DespachoFinBonificacao();
+        desFinBonificacao.setMntMaxBonificacao(desBoni.getMntMaxBonificacao());
+        
+        desFinBonificacao.setPeriodo(desBoni.getPeriodo());
         
         ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
         Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
             projetoRepository.saveAndFlush(projeto);
+            
+            saveHistorico(projeto, SGPFStateMachine.EVENT_REJEITADO);
         });
-        
-        System.out.println("io.github.kriolsolutions.sgpf.backend.bal.services.impl.DespachoFinanciamentoIncentivoAcoesImpl.rejeitar()");
     }
+    
+    //TODO Necessario definir extensao - DUPLICADO (COPY PASTE)
+    private void saveHistorico(Projeto projeto, String sgpfStateMachine){
 
+        DocumentoRepository documentoRepository = repositoryFace.getDocumentoRepository();
+        HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
+        DespachoFinBonificacaoRepository boniRepo = repositoryFace.getDespachoFinBonificacaoRepository();
+        
+        //Guarda Cabeçalho do documento
+        DocumentoCabecalho doc = new DocumentoCabecalho();
+        doc.setProjeto(projeto);
+        doc.setDocTipo(DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO);
+
+        doc = documentoRepository.saveAndFlush(doc);
+        
+        /* */
+        
+        // Guardar no historico o evento(Evolução maquina estado)
+        Historico his = new Historico();
+        his.setDocumento(doc);
+        his.setProjeto(projeto);
+        his.setProjNumero(projeto.getProjNumero());
+        his.setEstadoAtual(projeto.getProjEstado());
+        his.setEvento(sgpfStateMachine);
+        historicoRepo.saveAndFlush(his);
+
+    }
 }
