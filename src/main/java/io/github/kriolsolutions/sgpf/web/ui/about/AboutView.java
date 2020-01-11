@@ -1,5 +1,7 @@
 package io.github.kriolsolutions.sgpf.web.ui.about;
 
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -16,11 +18,12 @@ public class AboutView extends HorizontalLayout {
 
     public AboutView() {
         setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setAlignItems(Alignment.CENTER);
+        //setJustifyContentMode(JustifyContentMode.START);
+        //setAlignItems(Alignment.START);
         
-        add(VaadinIcon.INFO_CIRCLE.create());
-        add(new Span( " Informação sobre SGPF 2019 "));
-        add(new Paragraph( " Desenvolvido por: Paulo Borges, Rafael Delgado"));
+        add(new H1(VaadinIcon.INFO_CIRCLE.create(), new Span( "Informação sobre SGPF 2019 " )) );
+        add(new H3( "Autores" ));
+        add(new Paragraph( "Paulo Borges" ));
+        add(new Paragraph( "Rafael Delgado" ));
     }
 }
