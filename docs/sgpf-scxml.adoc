@@ -1,0 +1,71 @@
+// Global settings
+:ascii-ids:
+:encoding: UTF-8
+:lang: pt_PT
+:icons: font
+:toc:
+:toc-placement!:
+:toclevels: 3
+:numbered:
+:stem:
+
+ifdef::env-github[]
+:imagesdir: images/
+endif::[]
+
+[[doc]]
+= SGFP - SCXML
+:author: SGPF Team
+:revnumber: 
+:revdate: {docdatetime}
+:version-label!:
+
+
+toc::[]
+
+[[doc.summary]]
+== Summary
+
+Utilização do W3C SCXML para descrever a maquina de estado do sistema
+
+== Maquina de estado
+
+
+.ESTADOS POSSIVEIS
+|====
+|Estado 
+|====
+
+=== SCXML
+
+Para executar o ficheiro xml (SCXML) utilizaremos a implementação Apache Common SCXML
+
+* org.apache.commons.scxml2
+
+Conceitos no Apache Common SCXML
+
+* SCXMLExecutor
+* SCXMLExecutionContext
+
+* SCXML - Representação em java do Modelo descrito no xml 
+* SCInstance - Instancia da maquina de estado
+
+Conceitos 
+
+* Evaluator
+* Dispatcher (EventDispatcher
+* SCXMLListener 
+
+
+Caso de utilização 
+
+* Cameo State Machine Simulator
+* Hippo CMS (BloomReach Experience) -  Document Worflow Aproval
+* 
+
+
+== Alternativa
+
+* BPM (Business Process Modeling)
+** BPMN (Business Process Modeling Notation) - Representação Grafica
+** jBPM Process Definition Language (JPDL) - https://docs.jboss.org/jbpm/v3/userguide/jpdl.html
