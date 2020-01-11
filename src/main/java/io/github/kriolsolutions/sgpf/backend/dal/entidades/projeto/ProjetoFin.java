@@ -30,6 +30,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -37,6 +38,7 @@ import lombok.NoArgsConstructor;
  * @author pauloborges
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class ProjetoFin extends BaseEntity{
