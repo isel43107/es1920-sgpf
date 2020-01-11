@@ -25,7 +25,7 @@ https://github.com/payara/Payara/raw/master/appserver/connectors/descriptors/src
 <resources>
 	<jdbc-resource jndi-name="jdbc/sgpf_datasource" pool-name="SGPF_Pool" enabled="true"  />
 
-	<jdbc-connection-pool name="SGPF_Pool" res-type="javax.sql.DataSource"
+	<jdbc-connection-pool name="SGPF_Pool" res-type="javax.sql.XADataSource"
 		datasource-classname="org.hsqldb.jdbc.JDBCPool">
 		<property name="user" value="sa" />
 		<property name="password" value="sa" />
