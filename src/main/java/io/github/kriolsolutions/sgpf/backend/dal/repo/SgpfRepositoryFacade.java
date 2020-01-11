@@ -43,6 +43,18 @@ public class SgpfRepositoryFacade {
     
     @Inject
     private DespachoFinReforcoRepository despachoFinReforcoRepository;
+    
+    @Inject
+    private DespachoAberturaRepository despachoAberturaRepository;
+    
+    @Inject
+    private PedidoReforcoRepository pedidoReforcoRepository;
+    
+    @Inject
+    private ParecerTecnicoRepository parecerTecnicoRepository;
+    
+    @Inject
+    private PagamentoRepository pagamentoRepository;
 
     public ProjetoRepository getProjetoRepository() {
         return projetoRepository;
@@ -71,5 +83,22 @@ public class SgpfRepositoryFacade {
     public HistoricoRepository getHistoricoRepository() {
         return historicoRepository;
     }
+
+    public DespachoAberturaRepository getDespachoAberturaRepository() {
+        return despachoAberturaRepository;
+    }
+
+    public PedidoReforcoRepository getPedidoReforcoRepository() {
+        return pedidoReforcoRepository;
+    }
+
+    public ParecerTecnicoRepository getParecerTecnicoRepository() {
+        return parecerTecnicoRepository;
+    }
+
+    public PagamentoRepository getPagamentoRepository() {
+        return pagamentoRepository;
+    }
+    
     
 }
