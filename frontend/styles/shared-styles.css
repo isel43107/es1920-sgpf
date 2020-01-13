@@ -127,7 +127,7 @@ body {
 
 /* ------------- SPGF ALERT -------------*/
 .sgpf-alert {
-  padding: 10px;
+  padding: 1px;
   background-color: #CCCCCC;
   color: white;
 }

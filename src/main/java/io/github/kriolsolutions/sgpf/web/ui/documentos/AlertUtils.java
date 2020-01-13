@@ -27,9 +27,11 @@ import com.vaadin.flow.component.notification.Notification;
 public class AlertUtils {
 
         static private Notification buildNotification(String cssClass, String message) {
+            String classButtonClose = "  <span class=\"sgpf-alert-closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>";
+            classButtonClose = ""; //PARA NAO APARECER O BUTTON close
             return new Notification(
                     new Html(" <div class=\"sgpf-alert " + cssClass + "\">"
-                            + "  <span class=\"sgpf-alert-closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>"
+                            + classButtonClose
                             + "  " + message
                             + "</div> ")
             );
