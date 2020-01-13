@@ -20,22 +20,18 @@ endif::[]
 :revdate: {docdatetime}
 :version-label!:
 
+NOTE: Edited: 2020-01-12. Generated: {localdate} {localtime}
 
 toc::[]
 
 [[doc.summary]]
 == Summary
 
-Visaão 
-Documentação de eq
-Arqui
+Este documento apresenta detalhes de implementação do SGPF
 
 
 
-Relatorio
-
-
-== Fram
+== Framework
 
 * CDI (Alternative Spring)
 * DeltaSkipe 
@@ -46,8 +42,6 @@ Relatorio
 
 == Infraestrtura de acesso a dados 
 
-
-NOTE: Ver catalog
 
 JPA - Definição script criação schemas (documentos, auth, )
 
@@ -66,7 +60,7 @@ Datasource - Base de dados HSQL (javax.Datasource)
 
 == JPA - Estrategias de Herança
 
-A herança de classes não é possivel em base de dados relacional, logo é necessario definir uma estrategia para a representação "fisica/tabelas"
+A herança de classes não é possivel em base de dados relacional, logo é necessario definir uma estrategia para a implementação do conceito de herança. "fisica/tabelas"
 
 JPA
 
@@ -80,9 +74,70 @@ JPA
 @DiscriminatorValue 
 ----
 
+Neste caso usamos "manualmente" 
+
 
 == Dados 
 
+
+Documento 
+
+Documentos no sistema
+
+* Despacho de abertura (DespachoAberturaDoc)
+
+
+O Ato Administrativo: 
+
+* Validade e eficácia; Extinção do ato
+* Revogação
+
+[plantuml]
+----
+class Historico
+
+
+package "Documentos" #DDDDDD {
+
+interface Documento 
+
+class DespachoAberturaDoc
+
+abstract class DespachoFinanciamento
+
+class DespachoFinanciamentoIncentivo
+
+class DespachoFinanciamentoBonificacao
+
+class Candidatura
+
+}
+
+class Projeto
+
+#1168bd
+class EstadoCorrente {
+
+    Projeto: Integer 
+    Entidade: String
+    EntidadeId: String 
+    
+}
+
+
+Documento <|-- DespachoAberturaDoc
+
+
+Documento <|-- DespachoFinanciamento
+
+----
+
+== Definições Gerais 
+
+Bonificação::
+
+Os apoios financeiros do Estado, concedidos pela DGTF sob a forma de bonificação de juros de operações financiadas pelas Instituições de Crédito, têm diferentes destinatários e são normalmente concedidas no âmbito de Linhas de Crédito.
+Bonificação de taxa de juro
 
 == Reference
 

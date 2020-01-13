@@ -20,6 +20,7 @@ endif::[]
 :revdate: {docdatetime}
 :version-label!:
 
+NOTE: Edited: 2020-01-12. Generated: {localdate} {localtime}
 
 toc::[]
 
