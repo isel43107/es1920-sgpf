@@ -17,7 +17,6 @@ package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoEstado;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -60,12 +59,4 @@ public class Historico extends BaseEntity {
 
     @Column(name = "stm_evento", nullable = false)
     private String evento; //TODO devera ser alterado para "enum SgpfEvent"
-    
-    /**
-     * Chave estrangeira (Uidirecional) header do documento
-     * TODO MAY BETTER ser provavelmente do tipo OneToOne(MUST: Documento Imutavel)
-     */
-    @ManyToOne
-    @JoinColumn(name = "fk_documento", nullable = true)
-    private DocumentoCabecalho documento; 
 }

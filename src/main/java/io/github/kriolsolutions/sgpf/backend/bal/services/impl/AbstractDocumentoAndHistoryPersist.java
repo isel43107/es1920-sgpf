@@ -51,11 +51,22 @@ abstract class AbstractDocumentoAndHistoryPersist<T> {
         DocumentoRepository documentoRepository = repositoryFace.getDocumentoRepository();
         HistoricoRepository historicoRepo = repositoryFace.getHistoricoRepository();
 
+        // Guardar no historico o evento (evento de transiçao da maquina estado)
+        Historico his = new Historico();
+        his.setProjeto(projeto);
+        his.setProjNumero(projeto.getProjNumero());
+        his.setEstadoAnterior(estadoAnterior);
+        his.setEstadoAtual(projeto.getProjEstado());
+        his.setEvento(evento);
+        historicoRepo.saveAndFlush(his);
+        
         //Guarda Cabeçalho do documento
         //se o tipo for null não guarda documento, mas historico
-        DocumentoCabecalho doc = null;
+        DocumentoCabecalho doc = new DocumentoCabecalho();
+        doc.setHistorico(his);
+        
         if (docTipo != null) {
-            doc = new DocumentoCabecalho();
+            
             doc.setProjeto(projeto);
             doc.setDocTipo(docTipo);
             doc = documentoRepository.saveAndFlush(doc);
@@ -65,18 +76,6 @@ abstract class AbstractDocumentoAndHistoryPersist<T> {
             //boniRepo.save(desDetalhe);
             saveDocDetalhe(doc, detalheDoc);
         }
-
-        // Guardar no historico o evento (evento de transiçao da maquina estado)
-        Historico his = new Historico();
-        if (doc != null) {
-            his.setDocumento(doc);
-        }
-        his.setProjeto(projeto);
-        his.setProjNumero(projeto.getProjNumero());
-        his.setEstadoAnterior(estadoAnterior);
-        his.setEstadoAtual(projeto.getProjEstado());
-        his.setEvento(evento);
-        historicoRepo.saveAndFlush(his);
 
     }
 

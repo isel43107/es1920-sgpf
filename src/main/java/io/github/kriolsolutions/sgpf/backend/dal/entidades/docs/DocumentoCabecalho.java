@@ -16,6 +16,7 @@
 package io.github.kriolsolutions.sgpf.backend.dal.entidades.docs;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,6 +43,10 @@ public class DocumentoCabecalho extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "fk_projeto")
     private Projeto projeto;
+    
+    @ManyToOne
+    @JoinColumn(name = "fk_historico", nullable = true)
+    private Historico historico; 
     
     @Column(name = "doc_tipo")
     @Enumerated(EnumType.STRING)
