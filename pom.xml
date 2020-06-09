@@ -34,11 +34,11 @@ limitations under the License.
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         
-        <deltaspike.version>1.9.1</deltaspike.version>
-        <version.payara>1.0.6</version.payara>
+        <deltaspike.version>1.9.3</deltaspike.version>
+        <version.payara>1.0.7</version.payara>
 
         <!-- Dependencies -->
-        <vaadin.version>14.1.3</vaadin.version>
+        <vaadin.version>14.2.0</vaadin.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
