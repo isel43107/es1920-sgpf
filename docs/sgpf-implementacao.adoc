@@ -94,8 +94,6 @@ O Ato Administrativo:
 
 [plantuml]
 ----
-class Historico
-
 
 package "Documentos" #DDDDDD {
 
@@ -113,9 +111,15 @@ class Candidatura
 
 }
 
-class Projeto
+package "Projeto" #DDDCCC {
 
-#1168bd
+class Projeto
+class EstadoCorrente
+class Historico
+
+}
+
+
 class EstadoCorrente {
 
     Projeto: Integer 

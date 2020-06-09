@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?><?asciidoc-toc maxdepth="3"?><?asciidoc-numbered?><article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:id="doc" xml:lang="pt_PT">
+<info>
+<title>SGFP - Overview</title>
+<date>2020-02-04 22:59:48 UTC</date>
+<author>
+<personname>
+<firstname>SGPF</firstname>
+<surname>Team</surname>
+</personname>
+</author>
+<authorinitials>ST</authorinitials>
+<revhistory>
+<revision>
+<revnumber/>
+<date>2020-02-04 22:59:48 UTC</date>
+<authorinitials>ST</authorinitials>
+</revision>
+</revhistory>
+</info>
+<note>
+<simpara>Edited: 2020-01-12. Generated: 2020-02-04 22:59:48 UTC</simpara>
+</note>
+
+<section xml:id="doc.summary">
+<title>Summary</title>
+<simpara>Sistema de gestão de projectos de financiamento para apoio à criação de redes de investigação e desenvolvimento (I&amp;D).</simpara>
+<simpara>Link</simpara>
+<itemizedlist>
+<listitem>
+<simpara><link xl:href="https://github.com/isel43107/es1920-sgpf">https://github.com/isel43107/es1920-sgpf</link></simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_grupo_24">
+<title>Grupo 24</title>
+<itemizedlist>
+<listitem>
+<simpara>Rafael Delgado (37486)</simpara>
+</listitem>
+<listitem>
+<simpara>Paulo Borges (43107)</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_detalhe_do_problema">
+<title>Detalhe do Problema</title>
+<simpara>TODO…​</simpara>
+<section xml:id="_actores_papeis">
+<title>Actores (Papeis)</title>
+<itemizedlist>
+<listitem>
+<simpara>Técnico (TC)</simpara>
+</listitem>
+<listitem>
+<simpara>Gestor de Financiamento (GF)</simpara>
+</listitem>
+<listitem>
+<simpara>Membro da comissão de financiamento (CF)</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_autorização">
+<title>Autorização</title>
+<simpara>Funcionalidades</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Aceitação de candidatura;</simpara>
+</listitem>
+<listitem>
+<simpara>Abertura de projecto;</simpara>
+</listitem>
+<listitem>
+<simpara>Parecer técnico;</simpara>
+</listitem>
+<listitem>
+<simpara>Despacho da comissão de financiamento;</simpara>
+</listitem>
+<listitem>
+<simpara>Suspensão de projeto;</simpara>
+</listitem>
+<listitem>
+<simpara>Reactivação de projeto;</simpara>
+</listitem>
+<listitem>
+<simpara>Reforço de projecto;</simpara>
+</listitem>
+<listitem>
+<simpara>Realização de pagamento;</simpara>
+</listitem>
+<listitem>
+<simpara>Alteração de dados de projeto;</simpara>
+</listitem>
+<listitem>
+<simpara>Relatório de informação de projeto;</simpara>
+</listitem>
+<listitem>
+<simpara>Relatório de pagamentos por projeto;</simpara>
+</listitem>
+</orderedlist>
+<table colsep="1" frame="all" rowsep="1">
+<title>Matriz de Permisões</title>
+<tgroup cols="4">
+<colspec colname="col_1" colwidth="25*"/>
+<colspec colname="col_2" colwidth="25*"/>
+<colspec colname="col_3" colwidth="25*"/>
+<colspec colname="col_4" colwidth="25*"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Acões</simpara></entry>
+<entry align="left" valign="top"><simpara>TC</simpara></entry>
+<entry align="left" valign="top"><simpara>GF</simpara></entry>
+<entry align="left" valign="top"><simpara>CF</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>a</simpara></entry>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"/>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>b</simpara></entry>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>c</simpara></entry>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+<entry align="left" valign="top"/>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>d</simpara></entry>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>e</simpara></entry>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"/>
+<entry align="left" valign="top"><simpara>X</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<screen>Actions</screen>
+</section>
+<section xml:id="_divisão_areas">
+<title>Divisão Areas</title>
+<simpara>Por</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Grupo Funcionalidades</simpara>
+</listitem>
+<listitem>
+<simpara>Fases do projeto</simpara>
+</listitem>
+<listitem>
+<simpara>Papel do utilizador</simpara>
+</listitem>
+</itemizedlist>
+<section xml:id="_fases_do_projeto">
+<title>Fases do projeto</title>
+<itemizedlist>
+<listitem>
+<simpara>Candidatura</simpara>
+</listitem>
+<listitem>
+<simpara>Projeto</simpara>
+</listitem>
+<listitem>
+<simpara>Pagamento</simpara>
+</listitem>
+<listitem>
+<simpara>Fechado</simpara>
+</listitem>
+<listitem>
+<simpara>Arquivado</simpara>
+</listitem>
+<listitem>
+<simpara>Rejeitado (SO CONSULTA)</simpara>
+</listitem>
+<listitem>
+<simpara>Suspenso</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_perfil">
+<title>Perfil</title>
+<simpara>TC</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Candidatura</simpara>
+</listitem>
+</itemizedlist>
+<simpara>GF</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Parecer</simpara>
+</listitem>
+<listitem>
+<simpara>Pagamento</simpara>
+</listitem>
+</itemizedlist>
+<simpara>CF</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Despachos</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section xml:id="_dados_candidatura">
+<title>Dados Candidatura</title>
+<simpara>Dados do promotor e do projecto</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Promotor (Designação, Nacionalidade)</simpara>
+</listitem>
+<listitem>
+<simpara>Responsável por contactos (Nome, telefone, e-mail)</simpara>
+</listitem>
+<listitem>
+<simpara>Projeto</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Montante de financiamento solicitado</simpara>
+</listitem>
+<listitem>
+<simpara>Tipo de projecto (incentivo, bonificação)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_dados_projeto">
+<title>Dados Projeto</title>
+<itemizedlist>
+<listitem>
+<simpara>Promotor (Designação, Nacionalidade, NIF)</simpara>
+</listitem>
+<listitem>
+<simpara>Responsável por contactos (Nome, Telefone, e-mail)</simpara>
+</listitem>
+<listitem>
+<simpara>Projeto (Designação, Descrição, NIB)</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Montante de financiamento solicitado</simpara>
+</listitem>
+<listitem>
+<simpara>Tipo de projecto (Incentivo ou Bonificação)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_despacho_financiamento">
+<title>Despacho Financiamento</title>
+<itemizedlist>
+<listitem>
+<simpara>Custo Elegivel</simpara>
+</listitem>
+<listitem>
+<simpara>Montante de Financiamento</simpara>
+</listitem>
+<listitem>
+<simpara>Prazo de execução</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Tipos de despachos financiado:</simpara>
+</section>
+<section xml:id="_despacho_financiamento_bonificação">
+<title>Despacho Financiamento - Bonificação:</title>
+<itemizedlist>
+<listitem>
+<simpara>Taxa bonificação,</simpara>
+</listitem>
+<listitem>
+<simpara>Periodo : Data inicio, Data Fim</simpara>
+</listitem>
+<listitem>
+<simpara>Montante máximo de bonificação</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section xml:id="_despacho_financiamento_incentivo">
+<title>Despacho Financiamento - Incentivo:</title>
+<itemizedlist>
+<listitem>
+<simpara>Prazo validade: Data fim de pagamento</simpara>
+</listitem>
+<listitem>
+<simpara>Numero prestações</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_casos_de_utilizaçãouse_cases">
+<title>Casos de utilização(Use Cases)</title>
+<itemizedlist>
+<listitem>
+<simpara>US-1 - Autenticar no Sistema</simpara>
+</listitem>
+<listitem>
+<simpara>US-2 - Registar Candidatura</simpara>
+</listitem>
+<listitem>
+<simpara>US-3 - Abrir Candidatura</simpara>
+</listitem>
+<listitem>
+<simpara>US-4 - Arquivar Candidatura</simpara>
+</listitem>
+<listitem>
+<simpara>US-5 - Reenquadrar Candidatura</simpara>
+</listitem>
+</itemizedlist>
+<section xml:id="_despacho_da_comissão_de_financiamento_dados">
+<title>Despacho da comissão de financiamento - DADOS</title>
+<itemizedlist>
+<listitem>
+<simpara>Custo elegível,</simpara>
+</listitem>
+<listitem>
+<simpara>Montante de financiamento</simpara>
+</listitem>
+<listitem>
+<simpara>Prazo de execução</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_financiamento_do_tipo_incentivo">
+<title>Financiamento do tipo Incentivo</title>
+<itemizedlist>
+<listitem>
+<simpara>Custo elegível</simpara>
+</listitem>
+<listitem>
+<simpara>Montante de financiamento/Limite de financiamento</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_financiamento_do_tipo_bonificação_extends_incentivo">
+<title>Financiamento do tipo Bonificação (<emphasis>extends</emphasis> Incentivo)</title>
+<itemizedlist>
+<listitem>
+<simpara>Montante máximo de bonificação</simpara>
+</listitem>
+<listitem>
+<simpara>Taxa de bonificação</simpara>
+</listitem>
+<listitem>
+<simpara>Período</simpara>
+</listitem>
+</itemizedlist>
+<screen>Uma bonificação é um subsídio aos juros de um empréstimo, previamente contratado com um banco, para
+desenvolvimento de um projecto de I&amp;D.
+
+A percentagem é relativa ao juro do empréstimo.</screen>
+</section>
+<section xml:id="_atos_administrativos">
+<title>Atos Administrativos:</title>
+<simpara>Aceitação Candidatura</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Campos: Designação, Tipo Financiamento</simpara>
+</listitem>
+<listitem>
+<simpara>Decisão: Enquadre, Não Enquadre</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Parecer Técnico</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Compos: Parecer (texto livre)</simpara>
+</listitem>
+<listitem>
+<simpara>Decisão: Favoravel, Arquivar</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Despacho Abertura</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Campos: Gestor Financeiro</simpara>
+</listitem>
+<listitem>
+<simpara>Decisão: Abrir,</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Despacho Financiamento</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Decisão: (aprovar, rejeitar ou transformar em bonificação)</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_alterações_dos_dados_do_projecto">
+<title>Alterações dos dados do projecto</title>
+<simpara>TODO …​</simpara>
+</section>
+</section>
+<section xml:id="_casos_de_utilização">
+<title>Casos de Utilização</title>
+<simpara>TODO…​</simpara>
+</section>
+<section xml:id="_modelo_de_analise_opcional">
+<title>Modelo de Analise (OPCIONAL)</title>
+<simpara>TODO..</simpara>
+</section>
+<section xml:id="_modelo_de_projeto">
+<title>Modelo de Projeto</title>
+<simpara>TODO..</simpara>
+</section>
+<section xml:id="_realização_casos_de_utililização">
+<title>Realização Casos de Utililização</title>
+<simpara>TODO…​</simpara>
+</section>
+</article>
