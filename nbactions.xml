@@ -55,4 +55,14 @@
             <goal>javadoc:javadoc</goal>
         </goals>
     </action>
+    <action>
+            <actionName>CUSTOM-liberty:dev</actionName>
+            <displayName>liberty:dev</displayName>
+            <goals>
+                <goal>liberty:dev</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>openliberty</activatedProfile>
+            </activatedProfiles>
+        </action>
 </actions>

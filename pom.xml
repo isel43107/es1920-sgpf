@@ -42,6 +42,14 @@ limitations under the License.
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
+        
+        
+        <!-- Liberty configuration -->
+        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
+        <liberty.var.app.context.root>${finalName}</liberty.var.app.context.root>
+        <liberty.var.app.id>${project.artifactId}</liberty.var.app.id>
+        <liberty.var.app.location>${finalName}.war</liberty.var.app.location>
     </properties>
     
     <organization>
@@ -318,21 +326,6 @@ limitations under the License.
         <finalName>es-sgpf</finalName>
         <defaultGoal>install tomee:run</defaultGoal>
         <plugins>
-            <plugin>
-                <groupId>org.apache.tomee.maven</groupId>
-                <artifactId>tomee-maven-plugin</artifactId>
-                <version>8.0.0</version>
-                <configuration>
-                    <!-- <tomeeClassifier>plus</tomeeClassifier>-->
-                    <tomeeClassifier>webprofile</tomeeClassifier>
-                    <context>ROOT</context>
-                    <args>-Xmx256m -XX:PermSize=128m</args>
-                    <libs>
-                        <lib>org.hsqldb:hsqldb:2.5.0</lib>
-                    </libs>
-                </configuration>
-            </plugin>
-
             <!--
                 Take care of synchronizing java dependencies and imports in
                 package.json and main.js files.
@@ -356,6 +349,29 @@ limitations under the License.
     <profiles>
         <profile>
             <id>tomee</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <defaultGoal>install tomee:run</defaultGoal>
+                <plugins>
+                    
+                    <plugin>
+                        <groupId>org.apache.tomee.maven</groupId>
+                        <artifactId>tomee-maven-plugin</artifactId>
+                        <version>8.0.0</version>
+                        <configuration>
+                            <!-- <tomeeClassifier>plus</tomeeClassifier>-->
+                            <tomeeClassifier>webprofile</tomeeClassifier>
+                            <context>ROOT</context>
+                            <args>-Xmx256m -XX:PermSize=128m</args>
+                            <libs>
+                                <lib>org.hsqldb:hsqldb:2.5.0</lib>
+                            </libs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         
         <profile>
@@ -379,6 +395,23 @@ limitations under the License.
                             <deployWar>false</deployWar>
                             <daemon>false</daemon>
                             <payaraVersion>5.183</payaraVersion>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>openliberty</id>
+                    
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.openliberty.tools</groupId>
+                        <artifactId>liberty-maven-plugin</artifactId>
+                        <version>3.2</version>
+                        <configuration>
+                            <serverName>sgpf-server</serverName>
                         </configuration>
                     </plugin>
                 </plugins>
