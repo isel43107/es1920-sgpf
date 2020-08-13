@@ -15,14 +15,11 @@
  */
 package io.github.kriolsolutions.sgpf.backend;
 
-import com.vaadin.cdi.annotation.VaadinSessionScoped;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
