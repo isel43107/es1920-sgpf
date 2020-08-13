@@ -368,6 +368,17 @@ limitations under the License.
                             <libs>
                                 <lib>org.hsqldb:hsqldb:2.5.0</lib>
                             </libs>
+                            
+                            <synchronization>
+                                <extensions>
+                                    <extension>.class</extension>
+                                </extensions>
+                            </synchronization>
+                            <reloadOnUpdate>true</reloadOnUpdate>
+                            <systemVariables>
+                                <openejb.system.apps>true</openejb.system.apps>
+                                <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
+                            </systemVariables>
                         </configuration>
                     </plugin>
                 </plugins>
