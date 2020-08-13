@@ -38,7 +38,7 @@ limitations under the License.
         <version.payara>1.0.7</version.payara>
 
         <!-- Dependencies -->
-        <vaadin.version>14.2.0</vaadin.version>
+        <vaadin.version>14.3.3</vaadin.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
