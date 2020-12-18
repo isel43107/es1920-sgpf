@@ -1,50 +1,14 @@
-////
- *******************************************************************************
- * Copyright 2020 Paulo Borges(poolborges)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *******************************************************************************
-////
-// Global settings
-:ascii-ids:
-:encoding: UTF-8
-:lang: pt_PT
-:icons: font
-:toc2:
-:toc-placement: left
-:toclevels: 3
-:numbered!:
-:stem:
-:icon: font
-
-ifdef::env-github[]
-:imagesdir: images/
-endif::[]
-
-[[doc]]
 = Overview
+:navtitle: Overview
 :author: SGPF Team
-:revnumber: 2020-01-12
+:revnumber: 2020-12-18
 :revdate: {docdatetime}
 :version-label!:
-:category: MEIC
-:edited: 2020-01-12
+:edited: 2020-12-18
 :generated: {localdate} {localtime}
 
-NOTE: ISEL, MEIC 
 
 
-[[doc.summary]]
 == Summary
 
 Sistema de gestão de projectos de financiamento para apoio à criação de redes de investigação e desenvolvimento (I&D).
