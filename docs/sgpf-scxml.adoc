@@ -1,3 +1,20 @@
+////
+ *******************************************************************************
+ * Copyright 2020 Paulo Borges(poolborges)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************
+////
 // Global settings
 :ascii-ids:
 :encoding: UTF-8
@@ -5,7 +22,7 @@
 :icons: font
 :toc:
 :toc-placement!:
-:toclevels: 3
+:toclevels: 2
 :numbered:
 :stem:
 
@@ -14,7 +31,7 @@ ifdef::env-github[]
 endif::[]
 
 [[doc]]
-= SGFP - SCXML
+= SGFP - SCXML (State Chart XML)
 :author: SGPF Team
 :revnumber: 
 :revdate: {docdatetime}
@@ -61,8 +78,9 @@ Conceitos
 Caso de utilização 
 
 * Cameo State Machine Simulator
-* Hippo CMS (BloomReach Experience) -  Document Worflow Aproval
-* 
+* Hippo CMS (BloomReach Experience) - Use Internal for Document Worflow Aproval
+* WSO2 Enterprise Store (ES) - Defining the lifecycle in a SCXML file
+** https://docs.wso2.com/display/ES200/Working+with+Lifecycles
 
 
 == Alternativa
@@ -70,3 +88,10 @@ Caso de utilização
 * BPM (Business Process Modeling)
 ** BPMN (Business Process Modeling Notation) - Representação Grafica
 ** jBPM Process Definition Language (JPDL) - https://docs.jboss.org/jbpm/v3/userguide/jpdl.html
+* Spring Webflow
+* Eclipse Papyrus 
+* Spring State Machine (can read state machine from XMI, using Papyrus library )
+
+== Reference
+
+TODO

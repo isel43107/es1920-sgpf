@@ -1,3 +1,20 @@
+////
+ *******************************************************************************
+ * Copyright 2020 Paulo Borges(poolborges)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************
+////
 // Global settings
 :ascii-ids:
 :encoding: UTF-8
@@ -80,8 +97,6 @@ Neste caso usamos "manualmente"
 == Dados 
 
 
-Documento 
-
 Documentos no sistema
 
 * Despacho de abertura (DespachoAberturaDoc)
@@ -94,7 +109,6 @@ O Ato Administrativo:
 
 [plantuml]
 ----
-
 package "Documentos" #DDDDDD {
 
 interface Documento 
@@ -125,15 +139,10 @@ class EstadoCorrente {
     Projeto: Integer 
     Entidade: String
     EntidadeId: String 
-    
 }
 
-
 Documento <|-- DespachoAberturaDoc
-
-
 Documento <|-- DespachoFinanciamento
-
 ----
 
 == Definições Gerais 
@@ -142,6 +151,37 @@ Bonificação::
 
 Os apoios financeiros do Estado, concedidos pela DGTF sob a forma de bonificação de juros de operações financiadas pelas Instituições de Crédito, têm diferentes destinatários e são normalmente concedidas no âmbito de Linhas de Crédito.
 Bonificação de taxa de juro
+
+
+== Vaadin (DEV)
+
+For documentation on using Vaadin Flow and CDI, 
+visit [vaadin.com/docs](https://vaadin.com/docs/v14/flow/cdi/tutorial-cdi-basic.html)
+
+For more information on Vaadin Flow, visit https://vaadin.com/flow.
+
+Vaadin Flow Scoped
+
+* @VaadinSessionScoped 
+* @RouteScoped
+
+Vaadin Framework
+
+* @ViewScoped
+
+CDI Scoped
+
+* javax.enterprise.context
+* @Dependent - is a "pseudo-scoped", what means: 
+
+
+Vaadin Form binding 
+
+Documentation fo Vaddin 8 to understand Binder (Is not vaadin-flow)
+
+* https://vaadin.com/blog/vaadin-8-binder
+* https://vaadin.com/docs/v8/framework/datamodel/datamodel-forms.html
+
 
 == Reference
 

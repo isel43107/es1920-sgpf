@@ -1,13 +1,31 @@
+////
+ *******************************************************************************
+ * Copyright 2020 Paulo Borges(poolborges)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************
+////
 // Global settings
 :ascii-ids:
 :encoding: UTF-8
 :lang: pt_PT
 :icons: font
-:toc:
-:toc-placement!:
+:toc2:
+:toc-placement: left
 :toclevels: 3
-:numbered:
+:numbered!:
 :stem:
+:icon: font
 
 ifdef::env-github[]
 :imagesdir: images/
@@ -16,13 +34,15 @@ endif::[]
 [[doc]]
 = SGFP - Overview
 :author: SGPF Team
-:revnumber: 
+:revnumber: 2020-01-12
 :revdate: {docdatetime}
 :version-label!:
+:category: MEIC
+:edited: 2020-01-12
+:generated: {localdate} {localtime}
 
-NOTE: Edited: 2020-01-12. Generated: {localdate} {localtime}
+NOTE: ISEL, MEIC 
 
-toc::[]
 
 [[doc.summary]]
 == Summary
@@ -48,10 +68,21 @@ TODO...
 * Gestor de Financiamento (GF)
 * Membro da comissão de financiamento (CF)
 
+TC
 
-=== Autorização
+* Candidatura
 
-Funcionalidades
+GF 
+
+* Parecer
+* Pagamento
+
+CF 
+
+* Despachos
+
+
+=== Funcionalidades 
 
 a. Aceitação de candidatura;
 b. Abertura de projecto;
@@ -65,6 +96,8 @@ i. Alteração de dados de projeto;
 j. Relatório de informação de projeto;
 k. Relatório de pagamentos por projeto;
 
+=== Autorização
+
 .Matriz de Permisões 
 |====
 |Acões  |TC |GF |CF
@@ -74,11 +107,6 @@ k. Relatório de pagamentos por projeto;
 |d      |   |   |X
 |e      |   |   |X
 |====
-
-
-----
-Actions
-----
 
 
 === Divisão Areas
@@ -100,22 +128,6 @@ Por
 * Rejeitado (SO CONSULTA)
 * Suspenso
 
-==== Perfil 
-
-TC
-
-* Candidatura
-
-GF 
-
-* Parecer
-* Pagamento
-
-CF 
-
-* Despachos
-
-
 === Dados Candidatura
 
 Dados do promotor e do projecto
@@ -126,7 +138,6 @@ Dados do promotor e do projecto
 ** Montante de financiamento solicitado
 ** Tipo de projecto (incentivo, bonificação)
 
-
 === Dados Projeto 
 
 * Promotor (Designação, Nacionalidade, NIF)
@@ -134,7 +145,6 @@ Dados do promotor e do projecto
 * Projeto (Designação, Descrição, NIB)
 ** Montante de financiamento solicitado
 ** Tipo de projecto (Incentivo ou Bonificação)
-
 
 === Despacho Financiamento 
 
@@ -144,47 +154,26 @@ Dados do promotor e do projecto
 
 Tipos de despachos financiado: 
 
-=== Despacho Financiamento - Bonificação: 
+* Bonificação
+* Incentivo
 
-* Taxa bonificação,  
+=== Despacho Financiamento - Incentivo: 
+
+* Prazo validade: Data fim de pagamento
+* Numero prestações
+* Custo elegível
+* Montante de financiamento/Limite de financiamento
+
+=== Despacho Financiamento - Bonificação (__extends__ Incentivo)
+
+* Taxa de bonificação,  
 * Periodo : Data inicio, Data Fim
 * Montante máximo de bonificação 
 
 
-== Despacho Financiamento - Incentivo: 
+== Definições/Glossario
 
-* Prazo validade: Data fim de pagamento
-* Numero prestações
-
-
-== Casos de utilização(Use Cases)
-
-* US-1 - Autenticar no Sistema
-* US-2 - Registar Candidatura
-* US-3 - Abrir Candidatura 
-* US-4 - Arquivar Candidatura
-* US-5 - Reenquadrar Candidatura
-
-
-
-
-=== Despacho da comissão de financiamento - DADOS
-
-* Custo elegível, 
-* Montante de financiamento
-* Prazo de execução
-
-=== Financiamento do tipo Incentivo
-
-* Custo elegível
-* Montante de financiamento/Limite de financiamento
-
-=== Financiamento do tipo Bonificação (__extends__ Incentivo)
-
-* Montante máximo de bonificação
-* Taxa de bonificação
-* Período
-
+.Bonificação
 ----
 Uma bonificação é um subsídio aos juros de um empréstimo, previamente contratado com um banco, para
 desenvolvimento de um projecto de I&D. 
@@ -193,7 +182,7 @@ A percentagem é relativa ao juro do empréstimo.
 ----
 
 
-=== Atos Administrativos:
+== Atos Administrativos:
 
 Aceitação Candidatura
 
@@ -217,14 +206,13 @@ Despacho Financiamento
 * Decisão: (aprovar, rejeitar ou transformar em bonificação)
 
 
-=== Alterações dos dados do projecto
+== Casos de utilização (Use Cases)
 
-TODO ...
-
-
-== Casos de Utilização 
-
-TODO...
+* US-1 - Autenticar no Sistema
+* US-2 - Registar Candidatura
+* US-3 - Abrir Candidatura 
+* US-4 - Arquivar Candidatura
+* US-5 - Reenquadrar Candidatura
 
 
 == Modelo de Analise (OPCIONAL)

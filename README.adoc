@@ -10,27 +10,52 @@
 :stem:
 
 ifdef::env-github[]
-:imagesdir: images/
+:imagesdir: https://raw.githubusercontent.com/isel43107/es1920-sgpf/master/docs/images/
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
 endif::[]
 
 [[doc]]
-= ES Projeto SGFP - Arquitetura
-:author: Copyright (c) 2019-2019 KriolSystems.
-:revnumber: SGPF-2019
-:revdate: {last-update-label} {docdatetime}
+= Projeto SGFP
+:author: Copyright (c) 2019-2020 KriolSystems.
+:revnumber: 2020-12-18
+:revdate: {docdatetime}
 :version-label!:
+:category: MEIC
+:edited: 2020-01-12
+:generated: {localdate} {localtime}
+:doctype: book
+:copyright: CC-BY-SA 3.0
 
+NOTE: Generated: {localdate} {localtime}
 
-toc::[]
+ifdef::status[]
+image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[GPL v3 License, link=#copyright-and-license]
+image:https://github.com/poolborges/es1920-sgpf/workflows/Build%20CI/badge.svg?branch=master[Build Status (Github CI), link={url-ci-github}]
+endif::[]
 
 [[doc.summary]]
 == Summary
 
 * Browse to [http://localhost:8080/](http://localhost:8080/)
 
+== Technology Stack 
+
+* Vaadin 14 (Vaadin Flow)
+* JPA (Entity)
+* Apache DeltaSpike (Data Module)
+* Lombok
+
+Future
+
+* Apache DeltaSpike (Security Module)
+
 == Build - Pre-requisite
 
-* Install Java (JDK)
+* Install Java (JDK 8)
 * Execute next command to download frontend-maven-plugin and install on local maven repo (~/-m2)
 
 .Comando to download frontend plugin (ONLY FIRST 1 TIME)
@@ -57,31 +82,13 @@ mvnw com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -Dnode
 mvn clean package tomee:run
 ----
 
-== Framework (DEV)
-
-For documentation on using Vaadin Flow and CDI, 
-visit [vaadin.com/docs](https://vaadin.com/docs/v14/flow/cdi/tutorial-cdi-basic.html)
-
-For more information on Vaadin Flow, visit https://vaadin.com/flow.
-
-Vaadin Flow Scoped
-
-* @VaadinSessionScoped 
-* @RouteScoped
-
-Vaadin Framework
-
-* @ViewScoped
-
-CDI Scoped
-
-* javax.enterprise.context
-* @Dependent - is a "pseudo-scoped", what means: 
+== Screenshot 
 
 
-Vaadin Form binding 
+image::krpos-screenshot.gif[]
 
-Documentação Vaddin 8 (Não é vaadin-flow), mas o conceito é o mesmo
 
-* https://vaadin.com/blog/vaadin-8-binder
-* https://vaadin.com/docs/v8/framework/datamodel/datamodel-forms.html
+
+[[copyright-and-license]]
+== Copyright & License
+
