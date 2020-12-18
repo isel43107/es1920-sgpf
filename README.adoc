@@ -83,9 +83,7 @@ mvn clean package tomee:run
 ----
 
 
-Go to 
-
-* Browse to [http://localhost:8080/](http://localhost:8080/)
+Browse to  "http://localhost:8080[http://localhost:8080]"
 
 
 == Screenshot 
@@ -100,8 +98,6 @@ image::sgpf-screenshot-01.png[Submit a project]
 
 Screenshot 2 
 
-image::sgpf-screenshot-02.png[Listar Projetos]
-
 [#img-sgpf-screenshot-02] 
 .List of projects
 [link=#] 
@@ -112,3 +108,9 @@ image::sgpf-screenshot-02.png[List of projects]
 [[copyright-and-license]]
 == Copyright & License
 
+TODO...
+
+[[doc.reference]]
+== References
+
+TODO...
