@@ -31,7 +31,8 @@ ifdef::env-github[]
 endif::[]
 
 [[doc]]
-= SGFP - SCXML (State Chart XML)
+= State Chart XML (SCXML)
+:navtitle: SCXML
 :author: SGPF Team
 :revnumber: 
 :revdate: {docdatetime}

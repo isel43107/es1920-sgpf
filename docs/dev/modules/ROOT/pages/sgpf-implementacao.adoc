@@ -31,7 +31,7 @@ ifdef::env-github[]
 endif::[]
 
 [[doc]]
-= SGFP - Implementação
+= Implementação
 :author: SGPF Team
 :revnumber: 
 :revdate: {docdatetime}

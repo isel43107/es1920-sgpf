@@ -1,0 +1,13 @@
+name: dev
+title: SGPF Development Guide
+version: '1.0.0'
+prerelease: '-SNAPSHOT'
+start_page: ROOT:index.adoc
+asciidoc:
+  attributes:
+    source-language: asciidoc@
+    xrefstyle: short@
+    listing-caption: Example@
+    example-caption: false
+nav:
+- modules/ROOT/nav.adoc

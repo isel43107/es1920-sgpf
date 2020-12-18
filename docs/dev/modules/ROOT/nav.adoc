@@ -1,0 +1,8 @@
+* xref:whats-new.adoc[]
+* xref:sgpf-overview.adoc[]
+* xref:features.adoc[]
+* xref:sgpf-arquitetura.adoc[]
+* xref:sgpf-implementacao.adoc[]
+* xref:sgpf-scxml.adoc[]
+* xref:install-and-run-quickstart.adoc[]
+

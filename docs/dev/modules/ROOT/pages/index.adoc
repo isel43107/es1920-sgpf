@@ -1,0 +1,10 @@
+= SGPF Development Guide
+:keywords: SGPF, Sistema de Gestão de Projeto de Financimaneto, poolborges
+
+[discrete.tagline]
+=== Sistema de Gestão de Projeto de Financimaneto
+
+This site hosts the technical documentation for SGPF.
+
+SGPF is a hypothetical system to based on requirement of a paper based process
+

@@ -33,7 +33,8 @@ ifdef::env-github[]
 endif::[]
 
 [[doc]]
-= SGFP - Arquitetura
+= Arquitetura
+:navtitle: Arquitetura
 :author: SGPF Team
 :revnumber: 
 :revdate: {docdatetime}

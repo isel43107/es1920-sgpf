@@ -1,0 +1,16 @@
+= What's New in SGPF {page-component-version}
+:doctype: book
+:url-releases-asciidoctor: https://github.com/asciidoctor/asciidoctor/releases
+:url-releases-asciidoctorjs: https://github.com/asciidoctor/asciidoctor.js/releases
+:url-gitlab: https://gitlab.com
+:url-git-antora: {url-gitlab}/antora/antora
+:url-issues: {url-git-antora}/issues
+:url-milestone-1-0-0: {url-issues}?scope=all&state=closed&label_name%5B%5D=%5BVersion%5D%201.0.0
+:url-mr: {url-git-antora}/merge_requests
+
+IMPORTANT: The added features and changes described below are in *ALPHA* and subject to change.
+
+
+== SGPF 1.0.0-alpha.1
+
+_**Release date:** 2020.12.18 | *Issue label:* {url-milestone-1.0.0}[1.0.0^]_
