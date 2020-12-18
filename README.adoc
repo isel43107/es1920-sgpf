@@ -84,8 +84,14 @@ mvn clean package tomee:run
 
 == Screenshot 
 
+First Page 
 
-image::krpos-screenshot.gif[]
+image::sgpf-screenshot-01.png[Submeter novo Projeto]
+
+
+First Page 
+
+image::sgpf-screenshot-02.png[Listar Projetos]
 
 
 
