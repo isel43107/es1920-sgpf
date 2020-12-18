@@ -299,7 +299,7 @@ limitations under the License.
             <scope>test</scope>
         </dependency>
         
-        <!-- A Java Implementation of a State Chart XML Engine  -->
+        <!-- A Java Implementation of a State Chart XML Engine(SCXML)  -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-scxml2</artifactId>
@@ -358,7 +358,7 @@ limitations under the License.
                     <plugin>
                         <groupId>org.apache.tomee.maven</groupId>
                         <artifactId>tomee-maven-plugin</artifactId>
-                        <version>8.0.0</version>
+                        <version>8.0.5</version>
                         <configuration>
                             <!-- <tomeeClassifier>plus</tomeeClassifier>-->
                             <tomeeClassifier>webprofile</tomeeClassifier>
