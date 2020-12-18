@@ -6,7 +6,7 @@
 :toc:
 :toc-placement!:
 :toclevels: 3
-:numbered:
+:numbered!:
 :stem:
 
 ifdef::env-github[]
@@ -16,6 +16,7 @@ ifdef::env-github[]
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
+:status: trues
 endif::[]
 
 [[doc]]
@@ -30,17 +31,16 @@ endif::[]
 :doctype: book
 :copyright: CC-BY-SA 3.0
 
-NOTE: Generated: {localdate} {localtime}
-
 ifdef::status[]
-image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[GPL v3 License, link=#copyright-and-license]
+image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[Apache 2.0 License, xrefs=#copyright-and-license]
 image:https://github.com/poolborges/es1920-sgpf/workflows/Build%20CI/badge.svg?branch=master[Build Status (Github CI), link={url-ci-github}]
 endif::[]
 
 [[doc.summary]]
 == Summary
 
-* Browse to [http://localhost:8080/](http://localhost:8080/)
+NOTE: Generated: {localdate} {localtime}
+
 
 == Technology Stack 
 
@@ -82,16 +82,30 @@ mvnw com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -Dnode
 mvn clean package tomee:run
 ----
 
+
+Go to 
+
+* Browse to [http://localhost:8080/](http://localhost:8080/)
+
+
 == Screenshot 
 
-First Page 
+Screenshot 1
 
-image::sgpf-screenshot-01.png[Submeter novo Projeto]
+[#img-sgpf-screenshot-01] 
+.Submit a project
+[link=#] 
+image::sgpf-screenshot-01.png[Submit a project]
 
 
-First Page 
+Screenshot 2 
 
 image::sgpf-screenshot-02.png[Listar Projetos]
+
+[#img-sgpf-screenshot-02] 
+.List of projects
+[link=#] 
+image::sgpf-screenshot-02.png[List of projects]
 
 
 
