@@ -33,7 +33,7 @@ endif::[]
 
 ifdef::status[]
 image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[Apache 2.0 License, xrefs=#copyright-and-license]
-image:https://github.com/poolborges/es1920-sgpf/workflows/Build%20CI/badge.svg?branch=master[Build Status (Github CI), link={url-ci-github}]
+image:https://github.com/isel43107/es1920-sgpf/workflows/Java%20CI/badge.svg?branch=master&event=push[CI Status, link={url-ci-github}]
 endif::[]
 
 [[doc.summary]]
