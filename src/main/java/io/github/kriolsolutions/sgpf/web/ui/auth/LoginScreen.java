@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.github.kriolsolutions.sgpf.backend.auth.AccessControl;
+import javax.inject.Inject;
 
 /**
  * UI content when the user is not logged in yet.
@@ -24,6 +25,7 @@ public class LoginScreen extends FlexLayout {
     
     private final AccessControl accessControl;
 
+    @Inject
     public LoginScreen(AccessControl accessControl) {
         this.accessControl = accessControl;
         buildUI();
