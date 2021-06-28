@@ -35,7 +35,7 @@ limitations under the License.
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Dependencies -->
-        <vaadin.version>14.5.3</vaadin.version>
+        <vaadin.version>14.6.2</vaadin.version>
         <deltaspike.version>1.9.5</deltaspike.version>
         <hsqldb.version>2.6.0</hsqldb.version>
 
