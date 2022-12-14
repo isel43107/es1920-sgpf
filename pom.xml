@@ -37,7 +37,7 @@ limitations under the License.
         <!-- Dependencies -->
         <vaadin.version>14.6.8</vaadin.version>
         <deltaspike.version>1.9.5</deltaspike.version>
-        <hsqldb.version>2.6.0</hsqldb.version>
+        <hsqldb.version>2.7.1</hsqldb.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
