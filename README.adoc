@@ -65,22 +65,23 @@ mvnw com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -Dnode
 ----
 
 
-== Compile and Run (PROD)
 
-.Generate artifact to run in the production mode
+== Compile and run 
+
+.Run application using (DEV)
 [source, bash]
 ----
--P production clean install tomee:build
+mvn -P tomee clean package tomee:run
 ----
 
 
-== Compile and run (DEV)
-
-.Run application using
+.Generate artifact to run in the production mode (PROD)
 [source, bash]
 ----
-mvn clean package tomee:run
+mvn -P production,tomee clean install tomee:build
 ----
+
+
 
 
 Browse to  "http://localhost:8080[http://localhost:8080]"
