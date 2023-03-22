@@ -73,21 +73,25 @@ O Ato Administrativo:
 * Validade e eficácia; Extinção do ato
 * Revogação
 
-[plantuml]
+[plantuml, design-system-datadiagram, png]
 ----
 package "Documentos" #DDDDDD {
 
 interface Documento 
 
-class DespachoAberturaDoc
+class DespachoAbertura
 
 abstract class DespachoFinanciamento
 
-class DespachoFinanciamentoIncentivo
+class DespachoFinIncentivo
 
-class DespachoFinanciamentoBonificacao
+class DespachoFinBonificacao
+
+class DespachoFinReforco
 
 class Candidatura
+
+class Pagamento
 
 }
 
@@ -107,8 +111,13 @@ class EstadoCorrente {
     EntidadeId: String 
 }
 
-Documento <|-- DespachoAberturaDoc
+Documento <|-- DespachoAbertura
 Documento <|-- DespachoFinanciamento
+Documento <|-- Candidatura
+Documento <|-- Pagamento
+DespachoFinanciamento <|-- DespachoFinBonificacao
+DespachoFinanciamento <|-- DespachoFinIncentivo
+DespachoFinanciamento <|-- DespachoFinReforco
 ----
 
 == Definições Gerais 
