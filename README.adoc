@@ -19,6 +19,8 @@ ifdef::env-github[]
 :status: trues
 endif::[]
 
+ifndef::imagesdir[:imagesdir: ./docs/images]
+
 [[doc]]
 = Projeto SGFP
 :author: Copyright (c) 2019-2020 KriolSystems.
