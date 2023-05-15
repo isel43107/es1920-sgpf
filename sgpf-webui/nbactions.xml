@@ -8,6 +8,9 @@
             <goal>install</goal>
             <goal>tomee:build</goal>
         </goals>
+        <activatedProfiles>
+            <activatedProfile>tomee</activatedProfile>
+        </activatedProfiles>
     </action>
     <action>
         <actionName>CUSTOM-tomee:run</actionName>
@@ -17,6 +20,9 @@
             <goal>install</goal>
             <goal>tomee:run</goal>
         </goals>
+        <activatedProfiles>
+            <activatedProfile>tomee</activatedProfile>
+        </activatedProfiles>
     </action>
     <action>
         <actionName>CUSTOM-payara-micro:bundle</actionName>
@@ -42,6 +48,16 @@
         </activatedProfiles>
     </action>
     <action>
+        <actionName>CUSTOM-liberty:dev</actionName>
+        <displayName>liberty:dev</displayName>
+        <goals>
+            <goal>liberty:dev</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>openliberty</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
         <actionName>CUSTOM-package</actionName>
         <displayName>package</displayName>
         <goals>
@@ -55,14 +71,4 @@
             <goal>javadoc:javadoc</goal>
         </goals>
     </action>
-    <action>
-            <actionName>CUSTOM-liberty:dev</actionName>
-            <displayName>liberty:dev</displayName>
-            <goals>
-                <goal>liberty:dev</goal>
-            </goals>
-            <activatedProfiles>
-                <activatedProfile>openliberty</activatedProfile>
-            </activatedProfiles>
-        </action>
 </actions>
