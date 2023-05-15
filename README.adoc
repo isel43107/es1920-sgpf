@@ -83,10 +83,14 @@ mvn -P tomee clean package tomee:run
 mvn -P production,tomee clean install tomee:build
 ----
 
-
-
-
 Browse to  "http://localhost:8080[http://localhost:8080]"
+
+=== Others Runner
+
+* Payara
+* Liberty
+* Cargo (Multi Container Runner) - Very powerful maven plugin
+** https://codehaus-cargo.github.io/cargo/Home.html
 
 
 == Screenshot 
