@@ -16,12 +16,12 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository
-public interface HistoricoRepository extends EntityRepository<Historico, Long>{}
+
+public interface HistoricoRepository extends JpaRepository<Historico, Long>{}

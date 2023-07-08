@@ -24,13 +24,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import jakarta.enterprise.context.Dependent;
 import java.util.Optional;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class DespachoAberturaAcoesImpl extends AbstractDocumentoAndHistoryPersist<DespachoAbertura> implements DespachoAberturaAcoes {
 
     @Inject
@@ -43,12 +45,12 @@ public class DespachoAberturaAcoesImpl extends AbstractDocumentoAndHistoryPersis
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
             projeto.setProjEstado(Projeto.ProjetoEstado.PARECER_TECNICO);
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
             
             DespachoAbertura docDetalhe = buildDespachoDetalhe(despacho);
             docDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
@@ -68,6 +70,6 @@ public class DespachoAberturaAcoesImpl extends AbstractDocumentoAndHistoryPersis
 
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoAbertura detalheDoc) {
-        getRepositoryFace().getDespachoAberturaRepository().saveAndFlush(detalheDoc);
+        getRepositoryFace().getDespachoAberturaRepository().save(detalheDoc);
     }
 }

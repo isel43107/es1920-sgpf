@@ -16,12 +16,12 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Candidatura;
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.repository.CrudRepository;
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository
-public interface CandidaturaRepository  extends EntityRepository<Candidatura, Long>{}
+
+public interface CandidaturaRepository  extends CrudRepository<Candidatura, Long>{}

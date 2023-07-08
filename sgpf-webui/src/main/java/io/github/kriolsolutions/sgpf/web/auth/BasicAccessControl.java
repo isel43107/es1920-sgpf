@@ -6,6 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinSession;
+import jakarta.enterprise.context.Dependent;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * This implementation accepts any string as a user if the password is the same string, and
  * considers the user "admin" as the only administrator.
  */
+@Dependent
 public class BasicAccessControl implements AccessControl {
     
     /**

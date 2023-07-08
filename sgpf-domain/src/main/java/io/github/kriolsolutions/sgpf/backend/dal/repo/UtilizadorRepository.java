@@ -19,15 +19,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.auth.Utilizador;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.auth.Utilizador.UtilizadorPerfil;
 import java.util.List;
 import java.util.Optional;
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.repository.CrudRepository;
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository
-public interface UtilizadorRepository extends EntityRepository<Utilizador, Long>{
+
+public interface UtilizadorRepository extends CrudRepository<Utilizador, Long>{
 
     public Optional<Utilizador> findByUsername(String username);
     public List<Utilizador> findByPerfil(UtilizadorPerfil perfil);

@@ -16,12 +16,12 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DocumentoCabecalho;
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.repository.CrudRepository;
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository
-public interface DocumentoRepository extends EntityRepository<DocumentoCabecalho, Long>{}
+
+public interface DocumentoRepository extends CrudRepository<DocumentoCabecalho, Long>{}

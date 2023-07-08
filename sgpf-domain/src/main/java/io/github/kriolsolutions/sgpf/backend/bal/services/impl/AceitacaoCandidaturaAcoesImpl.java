@@ -23,13 +23,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.CandidaturaRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import jakarta.enterprise.context.Dependent;
 import java.util.Date;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPersist implements AceitacaoCandidaturaAcoes {
 
     @Inject
@@ -56,7 +58,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
         numProjeto = ProjetoGeneradorNumero.gerarNumeroProjeto(projeto.getId());
         projeto.setProjNumero(numProjeto);
 
-        projeto = projetoRepository.saveAndFlush(projeto);
+        projeto = projetoRepository.save(projeto);
 
         //Documento Detalhe
         Candidatura candidatura = new Candidatura();
@@ -73,7 +75,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
         Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
         projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_ABERTURA);
-        projetoRepository.saveAndFlush(projeto);
+        projetoRepository.save(projeto);
 
         //doc detalhe nao há
         saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_ENQUADRADO, null, null);
@@ -88,7 +90,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
         Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
         projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
-        projetoRepository.saveAndFlush(projeto);
+        projetoRepository.save(projeto);
 
         ///doc detalhe nao há
         saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_DESENQUADRADO, null, null);
@@ -104,7 +106,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
             Candidatura candidatura = (Candidatura) detalheDoc;
             //Guarda Detable do Candidatura
             candidatura.setDocumento(doc);
-            candidaturaRepository.saveAndFlush(candidatura);
+            candidaturaRepository.save(candidatura);
         }
     }
 

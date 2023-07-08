@@ -5,26 +5,20 @@ import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.server.VaadinService;
-import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 import io.github.kriolsolutions.sgpf.backend.auth.AccessControl;
 import io.github.kriolsolutions.sgpf.web.auth.AccessControlFactory;
 import io.github.kriolsolutions.sgpf.web.ui.about.AboutView;
@@ -33,8 +27,6 @@ import io.github.kriolsolutions.sgpf.web.ui.projeto.HistoricoView;
 /**
  * The main layout. Contains the navigation menu.
  */
-@Theme(value = Lumo.class, variant = Lumo.LIGHT)
-@PWA(name = "Sistema de Gestão de Projeto de Financiamento", shortName = "SGPF")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/menu-buttons.css", themeFor = "vaadin-button")
 public class MainLayout extends AppLayout implements RouterLayout {
@@ -58,11 +50,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
         // Note! Image resource url is resolved here as it is dependent on the
         // execution mode (development or production) and browser ES level
         // support
-        final String resolvedImage = VaadinService.getCurrent().resolveResource(
-                "img/table-logo.png", VaadinSession.getCurrent().getBrowser());
 
-        final Image image = new Image(resolvedImage, "");
-        final Label title = new Label("SGPF");
+        final Image image = new Image("img/table-logo.png", "Application logo");
+        final Text title = new Text("SGPF");
         top.add(image, title);
         top.add(title);
         addToNavbar(top);
@@ -92,7 +82,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
     private RouterLink createMenuLink(Class<? extends Component> viewClass,
             String caption, Icon icon) {
-        final RouterLink routerLink = new RouterLink(null, viewClass);
+        final RouterLink routerLink = new RouterLink("", viewClass);
         routerLink.setClassName("menu-link");
         routerLink.add(icon);
         routerLink.add(new Span(caption));

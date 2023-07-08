@@ -17,21 +17,21 @@ package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import java.util.List;
-import org.apache.deltaspike.data.api.AbstractEntityRepository;
-import org.apache.deltaspike.data.api.FirstResult;
-import org.apache.deltaspike.data.api.MaxResults;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository(forEntity = Projeto.class)
-public abstract class ProjetoRepository extends AbstractEntityRepository<Projeto, Long>{ 
+public interface ProjetoRepository extends JpaRepository<Projeto, Long>{ 
     
     @Query("select p from Projeto p where p.projNumero LIKE CONCAT('%',?1,'%')")
     public abstract List<Projeto> findByProjNumero(String projNumero);
     
-    public abstract List<Projeto> findByProjNumeroLike(String projNumero, @FirstResult int offset, @MaxResults int pageSize);
+    public List<Projeto> findByProjNumeroLike(String projNumero, Pageable pageable);
 }

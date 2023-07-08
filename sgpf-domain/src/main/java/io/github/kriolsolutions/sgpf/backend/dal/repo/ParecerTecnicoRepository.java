@@ -16,12 +16,12 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.ParecerTecnico;
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.repository.CrudRepository;
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository
-public interface ParecerTecnicoRepository  extends EntityRepository<ParecerTecnico, Long>{}
+
+public interface ParecerTecnicoRepository  extends CrudRepository<ParecerTecnico, Long>{}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>io.github.kriolsolutions.sgpf</groupId>
         <artifactId>sgpf-parent</artifactId>
@@ -12,51 +12,27 @@
     <artifactId>sgpf-domain</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <name>ISEL.ES :: SGPF :: Domain</name>
-    
+
     <dependencies>
         <!-- Hibernate ORM -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-spring-data-jpa</artifactId>
         </dependency>
-        
+
+        <!-- Bean validation -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-validator</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        
-        <!-- CDI -->
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <!-- Deltaspike Data -->
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-data-module-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        
-        <!-- Common Annotations for the JavaTM Platform API  -->
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <!-- Bean validation implementation: Should be 6.0 for javax since 6.1 is Jakarta 9 -->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        
+
         <!-- A Java Implementation of a State Chart XML Engine(SCXML)  -->
         <dependency>
             <groupId>org.apache.commons</groupId>

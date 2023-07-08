@@ -16,13 +16,13 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinIncentivo;
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import org.springframework.data.repository.CrudRepository;
+
 
 /**
  *
  * @author pauloborges
  */
-@Repository
-public interface DespachoFinIncentivoRepository  extends EntityRepository<DespachoFinIncentivo, Long>{}
+
+public interface DespachoFinIncentivoRepository  extends CrudRepository<DespachoFinIncentivo, Long>{}
 

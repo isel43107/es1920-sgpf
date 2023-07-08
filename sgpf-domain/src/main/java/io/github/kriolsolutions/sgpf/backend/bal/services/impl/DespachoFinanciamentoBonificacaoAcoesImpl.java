@@ -26,13 +26,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.repo.DespachoFinBonificacaoRepo
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import jakarta.enterprise.context.Dependent;
 import java.util.Optional;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumentoAndHistoryPersist<DespachoFinBonificacao> implements DespachoFinanciamentoBonificacaoAcoes {
 
 
@@ -46,11 +48,11 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumento
     public void aprovar(AbstractDespachoFinDto despacho ) {
         DespachoFinBonificacaoDto desBoni = (DespachoFinBonificacaoDto)despacho;
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
         projetoOptional.ifPresent( (Projeto projeto) -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
-            projetoRepository.saveAndFlush(projeto);;
+            projetoRepository.save(projeto);;
             DespachoFinBonificacao desDetalhe = buildDespachoDetalhe(desBoni);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
             DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO;
@@ -70,12 +72,12 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumento
         desFinBonificacao.setPeriodo(desDto.getPeriodo());
         
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
         projetoOptional.ifPresent((Projeto projeto) -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
             DespachoFinBonificacao desDetalhe = buildDespachoDetalhe(desDto);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.REJEITADO);
             DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO;
@@ -98,7 +100,7 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumento
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoFinBonificacao detalheDoc) {
         DespachoFinBonificacaoRepository detalheDocRepo = getRepositoryFace().getDespachoFinBonificacaoRepository();
-        detalheDocRepo.saveAndFlush(detalheDoc);
+        detalheDocRepo.save(detalheDoc);
     }
 
 }

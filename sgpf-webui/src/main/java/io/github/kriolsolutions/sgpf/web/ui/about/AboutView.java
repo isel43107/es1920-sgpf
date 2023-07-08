@@ -7,9 +7,9 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
+import io.github.kriolsolutions.sgpf.web.ui.MainLayout1;
 
-@Route(value = "About", layout = MainLayout.class)
+@Route(value = "About", layout = MainLayout1.class)
 @PageTitle("About")
 public class AboutView extends VerticalLayout {
 

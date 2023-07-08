@@ -15,7 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.dto;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -15,8 +15,9 @@
  */
 package io.github.kriolsolutions.sgpf.web.ui.i18n;
 
-import com.vaadin.cdi.annotation.VaadinServiceScoped;
+
 import com.vaadin.flow.i18n.I18NProvider;
+import com.vaadin.quarkus.annotation.VaadinServiceScoped;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;

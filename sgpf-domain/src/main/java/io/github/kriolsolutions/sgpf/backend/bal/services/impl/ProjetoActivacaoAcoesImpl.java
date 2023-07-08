@@ -19,12 +19,14 @@ import io.github.kriolsolutions.sgpf.backend.bal.services.api.ProjetoActivacaoAc
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
-import javax.inject.Inject;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class ProjetoActivacaoAcoesImpl implements ProjetoActivacaoAcoes{
 
     @Inject 
@@ -45,7 +47,7 @@ public class ProjetoActivacaoAcoesImpl implements ProjetoActivacaoAcoes{
     private void saveProjeto(Projeto projeto){
         
         ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        projetoRepository.saveAndFlush(projeto);
+        projetoRepository.save(projeto);
     }
 
     @Override

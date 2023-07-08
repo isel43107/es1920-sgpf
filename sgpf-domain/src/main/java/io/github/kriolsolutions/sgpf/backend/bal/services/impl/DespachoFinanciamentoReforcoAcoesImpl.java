@@ -25,13 +25,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import jakarta.enterprise.context.Dependent;
 import java.util.Optional;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class DespachoFinanciamentoReforcoAcoesImpl extends AbstractDocumentoAndHistoryPersist implements DespachoFinanciamentoReforcoAcoes {
 
     @Inject
@@ -43,13 +45,13 @@ public class DespachoFinanciamentoReforcoAcoesImpl extends AbstractDocumentoAndH
     public void aprovar(PedidoReforcoDto despacho) {
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
         projetoOptional.ifPresent(projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
             
             DespachoFinReforco pr = new DespachoFinReforco();
             pr.setMontanteAprovado(despacho.getMontanteReforco());
@@ -65,13 +67,13 @@ public class DespachoFinanciamentoReforcoAcoesImpl extends AbstractDocumentoAndH
     public void rejeitar(PedidoReforcoDto despacho) {
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
         projetoOptional.ifPresent(projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
             
             DespachoFinReforco pr = new DespachoFinReforco();
             pr.setMontanteAprovado(despacho.getMontanteReforco());
@@ -87,13 +89,13 @@ public class DespachoFinanciamentoReforcoAcoesImpl extends AbstractDocumentoAndH
     public void solicitar(PedidoReforcoDto despacho) {
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
         projetoOptional.ifPresent(projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
             projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_REFORCO);
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
 
             PedidoReforco pr = new PedidoReforco();
             pr.setMontanteSolicitado(despacho.getMontanteReforco());
@@ -112,13 +114,13 @@ public class DespachoFinanciamentoReforcoAcoesImpl extends AbstractDocumentoAndH
 
             PedidoReforco data = (PedidoReforco) detalheDoc;
             data.setDocumento(doc);
-            getRepositoryFace().getPedidoReforcoRepository().saveAndFlush(data);
+            getRepositoryFace().getPedidoReforcoRepository().save(data);
 
         } else if (detalheDoc != null && detalheDoc instanceof DespachoFinReforco) {
 
             DespachoFinReforco data = (DespachoFinReforco) detalheDoc;
             data.setDocumento(doc);
-            getRepositoryFace().getDespachoFinReforcoRepository().saveAndFlush(data);
+            getRepositoryFace().getDespachoFinReforcoRepository().save(data);
         }
     }
 

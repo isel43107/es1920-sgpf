@@ -16,8 +16,8 @@
 package io.github.kriolsolutions.sgpf.common.log;
 
 import java.util.logging.Logger;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.InjectionPoint;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.InjectionPoint;
 
 /**
  *

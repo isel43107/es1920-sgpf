@@ -23,10 +23,6 @@ import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.crud.BinderCrudEditor;
-import com.vaadin.flow.component.crud.CrudEditor;
-import com.vaadin.flow.component.crud.CrudFilter;
-import com.vaadin.flow.component.crud.CrudGrid;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -38,36 +34,39 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.AbstractBackEndDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.SgpfServiceFacade;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinReforco;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
+import io.github.kriolsolutions.sgpf.web.ui.MainLayout1;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinBonificacaoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinIncentivoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinReforcoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.PagamentoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.ParecerTecnicoForm;
-import io.github.kriolsolutions.sgpf.web.ui.documentos.SolicitarReforcoForm;
+import jakarta.inject.Inject;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-import javax.inject.Inject;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * UI
  *
  * @author pauloborges
  */
-@Route(value = "projetos", layout = MainLayout.class)
+@Route(value = "projetos", layout = MainLayout1.class)
 @PageTitle("Projetos")
 public class ProjetoManagerView extends VerticalLayout {
 
@@ -79,7 +78,7 @@ public class ProjetoManagerView extends VerticalLayout {
 
     private final SgpfServiceFacade sgpfacade;
 
-    private final CrudGrid<Projeto> projetoGrid = new CrudGrid<>(Projeto.class, false);
+    private final Grid<Projeto> projetoGrid = new Grid<>(Projeto.class, false);
 
     @Inject
     public ProjetoManagerView(ProjetoRepository projetoRepository, SgpfServiceFacade sgpfacade) {
@@ -112,11 +111,11 @@ public class ProjetoManagerView extends VerticalLayout {
                 e -> setColumnVisibility(projetoGrid, e.getWidth()));
     }
 
-    private CrudEditor<Projeto> createProjetoEditor() {
+    private Component createProjetoEditor() {
 
         CandidaturaForm candidaturaForm = new CandidaturaForm(sgpfacade.getAceitacaoCandidaturaAcoes());
 
-        return new BinderCrudEditor<>(candidaturaForm.getBinder(), candidaturaForm);
+        return candidaturaForm;
     }
 
     private Component createTopBar() {
@@ -176,15 +175,15 @@ public class ProjetoManagerView extends VerticalLayout {
             List<Projeto> projetos = this.projetoRepository.findByProjNumero(filterText);
             if (projetos != null) {
 
-                AbstractBackEndDataProvider<Projeto, CrudFilter> dp = new AbstractBackEndDataProvider<Projeto, CrudFilter>() {
+                AbstractBackEndDataProvider<Projeto, Object> dp = new AbstractBackEndDataProvider<Projeto, Object>() {
                     @Override
                     protected Stream<Projeto> fetchFromBackEnd(
-                            Query<Projeto, CrudFilter> query) {
+                            Query<Projeto, Object> query) {
                         return projetos.stream();
                     }
 
                     @Override
-                    protected int sizeInBackEnd(Query<Projeto, CrudFilter> query) {
+                    protected int sizeInBackEnd(Query<Projeto, Object> query) {
                         return projetos.size();
                     }
                 };
@@ -232,8 +231,24 @@ public class ProjetoManagerView extends VerticalLayout {
         grid.addComponentColumn(item -> this.createOptionsButton(item))
                 .setHeader("Ações").setKey("acoesDisponiveis");
 
-        //Dataprovider
+        /*
+        Executors.newCachedThreadPool().submit(() -> {
+            var lst = this.projetoRepository.findAll();
+            //Dataprovider
+            ListDataProvider<Projeto> dataProvider = new ListDataProvider<>(lst);
+
+            UI.getCurrent().access(() -> {
+                grid.setDataProvider(dataProvider);
+            });
+
+            return null;
+        });*/
+        
+        //grid.setDataProvider(dataProvider(projetoRepository));
+
+        /*
         DataProvider<Projeto, Void> dataProvider
+                
                 = DataProvider.fromCallbacks(
                         // First callback fetches items based on a query
                         query -> {
@@ -243,13 +258,50 @@ public class ProjetoManagerView extends VerticalLayout {
                             // The number of items to load
                             int limit = query.getLimit();
 
-                            List<Projeto> projetos = this.projetoRepository.findAll(offset, limit);
+                            List<Projeto> projetos = this.projetoRepository.findAll();
                             return projetos.stream();
                         },
-                        count -> this.projetoRepository.count().intValue()
+                        count -> (int)this.projetoRepository.count()
                 );
+         */
+    }
 
-        projetoGrid.setDataProvider(dataProvider);
+    private DataProvider<Projeto, Void> dataProvider(ProjetoRepository hisRepository) {
+
+        var Exec = Executors.newCachedThreadPool();
+
+        return new AbstractBackEndDataProvider<Projeto, Void>() {
+            @Override
+            protected Stream<Projeto> fetchFromBackEnd(Query<Projeto, Void> query) {
+
+                Stream<Projeto> res = Stream.empty();
+                try {
+                     res = Exec.submit(() -> {
+                        var pag = PageRequest.of(query.getPage(), query.getPageSize());
+                        return hisRepository.findAll(pag).stream();
+                    }).get();
+                    
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(ProjetoManagerView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return res;
+            }
+
+            @Override
+            protected int sizeInBackEnd(Query<Projeto, Void> query) {
+                
+                int res = 0;
+                try {
+                     res = Exec.submit(() -> {
+                        return (int) hisRepository.count();
+                    }).get();
+                    
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(ProjetoManagerView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return res;
+            }
+        };
     }
 
     private void setColumnVisibility(Grid<Projeto> grid, int width) {
@@ -329,7 +381,7 @@ public class ProjetoManagerView extends VerticalLayout {
             case DESPACHO_FIN_INCENTIVO:
                 despachoFinIncentivoOptions(contextMenu);
                 break;
-           case DESPACHO_FIN_BONIFICACAO:
+            case DESPACHO_FIN_BONIFICACAO:
                 despachoFinBonificacaoOptions(contextMenu);
                 break;
             case DESPACHO_REFORCO:
@@ -354,8 +406,7 @@ public class ProjetoManagerView extends VerticalLayout {
     }
 
     /* ACOES DE CONTEXTO - DE ACORDO COM O ESTADO DO PROJETO */
-    /* */
-    
+ /* */
     private Component candidaturaOptions(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Abrir projeto", event -> {
             Notification.show("Abrir projeto");
@@ -429,7 +480,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinBonificacaoForm form = new DespachoFinBonificacaoForm(sgpfacade.getDespachoBonificacaoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
-                                
+
             });
         });
     }
@@ -441,7 +492,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 DespachoFinReforcoForm form = new DespachoFinReforcoForm(sgpfacade.getDespachoFinanciamentoReforcoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
-                
+
                 form.getFecharButton().addClickListener((e) -> {
                     candDialog.close();
                 });
@@ -456,7 +507,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 PagamentoForm form = new PagamentoForm(sgpfacade.getPagamentoAcoes(), projeto);
                 Dialog candDialog = new Dialog(form);
                 candDialog.open();
-                
+
                 form.getFecharButton().addClickListener((e) -> {
                     candDialog.close();
                 });
@@ -464,7 +515,7 @@ public class ProjetoManagerView extends VerticalLayout {
         });
         opcaoSolicitarReforco(contextMenu);
     }
-    
+
     private void projetoFechadoOptions(ProjetoContextMenu<Projeto> contextMenu) {
         opcaoSolicitarReforco(contextMenu);
     }
@@ -497,7 +548,7 @@ public class ProjetoManagerView extends VerticalLayout {
             });
         });
     }
-    
+
     private void opcaoSolicitarReforco(ProjetoContextMenu<Projeto> contextMenu) {
         contextMenu.addItem("Solicitar Reforço", event -> {
             Notification.show("Solicitar Reforço");

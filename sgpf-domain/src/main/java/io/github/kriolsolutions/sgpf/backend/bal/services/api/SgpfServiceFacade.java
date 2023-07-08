@@ -15,12 +15,15 @@
  */
 package io.github.kriolsolutions.sgpf.backend.bal.services.api;
 
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@ApplicationScoped 
 public class SgpfServiceFacade {
 
     @Inject

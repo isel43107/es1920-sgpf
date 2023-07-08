@@ -23,13 +23,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import jakarta.enterprise.context.Dependent;
 import java.util.Optional;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist<ParecerTecnico> implements ParecerTecnicoAcoes{
     
     @Inject
@@ -40,7 +42,7 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
     @Override
     public void favoravel(ParecerTecnicoDto parecer) {
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(parecer.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(parecer.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
@@ -51,7 +53,7 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
             else{
                 projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_INCENTIVO);
             }
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
             
             ParecerTecnico pr = new ParecerTecnico();
             pr.setParecer(parecer.getTexto());
@@ -63,13 +65,13 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
     @Override
     public void desfavoravel(ParecerTecnicoDto parecer) {
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(parecer.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(parecer.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
-            projetoRepository.saveAndFlush(projeto);
+            projetoRepository.save(projeto);
             
             ParecerTecnico pr = new ParecerTecnico();
             pr.setParecer(parecer.getTexto());
@@ -80,6 +82,6 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
 
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, ParecerTecnico detalheDoc) {
-        getRepositoryFace().getParecerTecnicoRepository().saveAndFlush(detalheDoc);
+        getRepositoryFace().getParecerTecnicoRepository().save(detalheDoc);
     }
 }

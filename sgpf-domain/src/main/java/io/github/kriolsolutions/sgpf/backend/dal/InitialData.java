@@ -15,17 +15,11 @@
  */
 package io.github.kriolsolutions.sgpf.backend.dal;
 
-import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoTipo;
-import java.util.Arrays;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Destroyed;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Destroyed;
+import jakarta.enterprise.event.Observes;
 
 /**
  *

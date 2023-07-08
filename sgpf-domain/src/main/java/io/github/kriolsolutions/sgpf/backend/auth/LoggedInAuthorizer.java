@@ -15,7 +15,7 @@
  */
 package io.github.kriolsolutions.sgpf.backend.auth;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  *

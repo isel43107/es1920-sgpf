@@ -24,13 +24,15 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.SgpfRepositoryFacade;
 import io.github.kriolsolutions.sgpf.backend.scxml.SGPFStateMachine;
+import jakarta.enterprise.context.Dependent;
 import java.util.Optional;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *
  * @author pauloborges
  */
+@Dependent
 public class PagamentoAcoesImpl extends AbstractDocumentoAndHistoryPersist<Pagamento> implements PagamentoAcoes {
 
     @Inject
@@ -42,13 +44,13 @@ public class PagamentoAcoesImpl extends AbstractDocumentoAndHistoryPersist<Pagam
     public void efectuarPagamento(PagamentoDto pagDto) {
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findOptionalBy(pagDto.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findById(pagDto.getProjetoId());
         projetoOptional.ifPresent(projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
             //TODO verificar se MontanteFinanciado  e/ou Prazo nao foi atingido mantem estado pagamento
-            //projetoRepository.saveAndFlush(projeto);
+            //projetoRepository.save(projeto);
             if (estadoAnterior == Projeto.ProjetoEstado.EM_PAGAMENTO) {
 
                 Pagamento pr = new Pagamento();
@@ -63,7 +65,7 @@ public class PagamentoAcoesImpl extends AbstractDocumentoAndHistoryPersist<Pagam
 
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, Pagamento detalheDoc) {
-        getRepositoryFace().getPagamentoRepository().saveAndFlush(detalheDoc);
+        getRepositoryFace().getPagamentoRepository().save(detalheDoc);
     }
 
 }

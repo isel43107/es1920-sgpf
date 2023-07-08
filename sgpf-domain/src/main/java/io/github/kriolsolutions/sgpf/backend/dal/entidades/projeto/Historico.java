@@ -17,11 +17,11 @@ package io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.BaseEntity;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto.ProjetoEstado;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

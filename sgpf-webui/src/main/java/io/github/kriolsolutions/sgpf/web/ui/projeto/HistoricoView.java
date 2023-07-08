@@ -21,8 +21,6 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.crud.CrudFilter;
-import com.vaadin.flow.component.crud.CrudGrid;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -30,24 +28,30 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.AbstractBackEndDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.Command;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
+import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
 import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
+import io.github.kriolsolutions.sgpf.web.ui.MainLayout1;
+import jakarta.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-import javax.inject.Inject;
+import org.eclipse.microprofile.context.ManagedExecutor;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * UI
  *
  * @author pauloborges
  */
-@Route(value = "historicos", layout = MainLayout.class)
+@Route(value = "historicos", layout = MainLayout1.class)
 @PageTitle("Historicos")
 public class HistoricoView extends VerticalLayout {
 
@@ -57,13 +61,15 @@ public class HistoricoView extends VerticalLayout {
 
     private final HistoricoRepository hisRepository;
 
-    private final CrudGrid<Historico> grid = new CrudGrid<>(Historico.class, false);
+    private final Grid<Historico> grid = new Grid<>(Historico.class, false);
+
+    @Inject
+    ManagedExecutor executor;
 
     @Inject
     public HistoricoView(HistoricoRepository historicoRepository) {
 
         this.hisRepository = historicoRepository;
-
 
         init();
     }
@@ -85,7 +91,6 @@ public class HistoricoView extends VerticalLayout {
         this.add(barAndGridLayout);
     }
 
-
     private Component createTopBar() {
 
         TextField filterText = new TextField();
@@ -103,8 +108,6 @@ public class HistoricoView extends VerticalLayout {
         refreshButton.addClickListener((t) -> {
             loadItems();
         });
-
-
 
         final HorizontalLayout topLayout = new HorizontalLayout();
         topLayout.setWidth("100%");
@@ -126,18 +129,18 @@ public class HistoricoView extends VerticalLayout {
         List<Historico> historicos = null;
         if (filterText != null && !filterText.isEmpty()) {
             //SingularAttribute<Historico, ?>[] attributes = new SingularAttribute[] {};
-            //historicos = this.historicoRepository.findByProjNumero(filterText);
+            //historicos = this.hisRepository.findByProjNumero(filterText);
             if (historicos != null) {
 
-                AbstractBackEndDataProvider<Historico, CrudFilter> dp = new AbstractBackEndDataProvider<Historico, CrudFilter>() {
+                AbstractBackEndDataProvider<Historico, Object> dp = new AbstractBackEndDataProvider<Historico, Object>() {
                     @Override
                     protected Stream<Historico> fetchFromBackEnd(
-                            Query<Historico, CrudFilter> query) {
+                            Query<Historico, Object> query) {
                         return historicos.stream();
                     }
 
                     @Override
-                    protected int sizeInBackEnd(Query<Historico, CrudFilter> query) {
+                    protected int sizeInBackEnd(Query<Historico, Object> query) {
                         return historicos.size();
                     }
                 };
@@ -167,7 +170,7 @@ public class HistoricoView extends VerticalLayout {
 
         grid.addColumn(Historico::getEvento).setHeader("Evento")
                 .setFlexGrow(20).setSortable(false).setKey("evento");
-       
+
         grid.addColumn(Historico::getCreatedDate).setHeader("Data")
                 .setFlexGrow(20).setSortable(false).setKey("dateCreation");
 
@@ -179,25 +182,54 @@ public class HistoricoView extends VerticalLayout {
         
         grid.addComponentColumn(item -> projectoOptions.createOptionsButton(item))
                 .setHeader("Ações").setKey("acoesDisponiveis");
-        */
+         */
+        
+        
+        //grid.setDataProvider(dataProvider(hisRepository));
+        /*
+        executor.execute(() -> {
+            var lst = hisRepository.findAll();
+            ListDataProvider<Historico> dataProvider = new ListDataProvider<>(lst);
 
-        //Dataprovider
-        DataProvider<Historico, Void> dataProvider
-                = DataProvider.fromCallbacks(// First callback fetches items based on a query
-                        query -> {
-                            // The index of the first item to load
-                            int offset = query.getOffset();
+            UI.getCurrent().access(() -> {
+                grid.setDataProvider(dataProvider);
+            });
+        });*/
+        
+                    
+            /*
+            //Dataprovider
+            DataProvider<Historico, Void> dataProvider
+            = DataProvider.fromCallbacks(// First callback fetches items based on a query
+            query -> {
+            // The index of the first item to load
+            int offset = query.getOffset();
+            
+            // The number of items to load
+            int limit = query.getLimit();
+            
+            List<Historico> historicos = hisRepository.findAll();
+            return historicos.stream();
+            },
+            count -> (int) hisRepository.count()
+            );
+            */
+    }
+    
+    private DataProvider<Historico, Void> dataProvider(HistoricoRepository hisRepository) {
+        return new AbstractBackEndDataProvider<Historico, Void>() {
+            @Override
+            protected Stream<Historico> fetchFromBackEnd(Query<Historico, Void> query) {
+                
+                var pag = PageRequest.of(query.getPage(), query.getPageSize());
+                return hisRepository.findAll(pag).stream();
+            }
 
-                            // The number of items to load
-                            int limit = query.getLimit();
-
-                            List<Historico> historicos = this.hisRepository.findAll(offset, limit);
-                            return historicos.stream();
-                        },
-                        count -> this.hisRepository.count().intValue()
-                );
-
-        this.grid.setDataProvider(dataProvider);
+            @Override
+            protected int sizeInBackEnd(Query<Historico, Void> query) {
+                return (int) hisRepository.count();
+            }
+        };
     }
 
     private void setColumnVisibility(Grid<Historico> grid, int width) {
@@ -230,7 +262,7 @@ public class HistoricoView extends VerticalLayout {
             grid.getColumnByKey("contatoNome").setVisible(false);
             grid.getColumnByKey("acoesDisponiveis").setVisible(true);
         }
-        */
+         */
     }
 
     @Override
