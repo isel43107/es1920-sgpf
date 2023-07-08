@@ -43,7 +43,7 @@ import io.github.kriolsolutions.sgpf.backend.bal.dto.PedidoReforcoDto;
 import io.github.kriolsolutions.sgpf.backend.bal.services.api.SgpfServiceFacade;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.ProjetoRepository;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
-import io.github.kriolsolutions.sgpf.web.ui.MainLayout1;
+import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoAberturaForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinBonificacaoForm;
 import io.github.kriolsolutions.sgpf.web.ui.documentos.DespachoFinIncentivoForm;
@@ -66,7 +66,7 @@ import org.springframework.data.domain.PageRequest;
  *
  * @author pauloborges
  */
-@Route(value = "projetos", layout = MainLayout1.class)
+@Route(value = "projetos", layout = MainLayout.class)
 @PageTitle("Projetos")
 public class ProjetoManagerView extends VerticalLayout {
 

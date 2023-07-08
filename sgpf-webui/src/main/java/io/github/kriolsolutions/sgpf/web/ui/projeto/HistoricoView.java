@@ -37,8 +37,8 @@ import com.vaadin.flow.server.Command;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Historico;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import io.github.kriolsolutions.sgpf.backend.dal.repo.HistoricoRepository;
+import io.github.kriolsolutions.sgpf.web.ui.MainLayout2;
 import io.github.kriolsolutions.sgpf.web.ui.MainLayout;
-import io.github.kriolsolutions.sgpf.web.ui.MainLayout1;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
@@ -51,7 +51,7 @@ import org.springframework.data.domain.PageRequest;
  *
  * @author pauloborges
  */
-@Route(value = "historicos", layout = MainLayout1.class)
+@Route(value = "historicos", layout = MainLayout.class)
 @PageTitle("Historicos")
 public class HistoricoView extends VerticalLayout {
 

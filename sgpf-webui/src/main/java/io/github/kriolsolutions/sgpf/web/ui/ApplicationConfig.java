@@ -10,15 +10,15 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.shared.communication.PushMode;
 import com.vaadin.flow.shared.ui.Transport;
 import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 
-@Viewport("width=device-width, initial-scale=1")
-@PageTitle("OBiz (Open Business Platform)")
-@BodySize(height = "100vh", width = "100vw")
+
+@PageTitle("OBiz")
 @Meta(name = "author", content = "KriolOS")
-//@Inline(wrapping = Inline.Wrapping.AUTOMATIC,position = Inline.Position.APPEND,target = TargetElement.BODY,value = "custom.html")
-@Theme(variant = Lumo.LIGHT)
+@Meta(name = "description", content = "Open Business Platform")
 @PWA(name = "Sistema de Gestão de Projeto de Financiamento", shortName = "SGPF")
+@Viewport("width=device-width, initial-scale=1")
+@BodySize(height = "100vh", width = "100vw")
+@Theme(value = "sgpf")
 @Push(value = PushMode.MANUAL, transport = Transport.WEBSOCKET)
 public class ApplicationConfig implements AppShellConfigurator{
 
