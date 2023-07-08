@@ -16,12 +16,13 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.Pagamento;
-import org.springframework.data.repository.CrudRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 /**
  *
  * @author pauloborges
  */
-
-public interface PagamentoRepository  extends CrudRepository<Pagamento, Long>{}
+@ApplicationScoped
+public interface PagamentoRepository  extends PanacheRepositoryBase<Pagamento, Long>{}

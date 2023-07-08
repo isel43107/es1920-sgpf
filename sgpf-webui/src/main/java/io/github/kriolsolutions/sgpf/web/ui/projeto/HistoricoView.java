@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.eclipse.microprofile.context.ManagedExecutor;
-import org.springframework.data.domain.PageRequest;
 
 /**
  * UI
@@ -220,9 +219,8 @@ public class HistoricoView extends VerticalLayout {
         return new AbstractBackEndDataProvider<Historico, Void>() {
             @Override
             protected Stream<Historico> fetchFromBackEnd(Query<Historico, Void> query) {
-                
-                var pag = PageRequest.of(query.getPage(), query.getPageSize());
-                return hisRepository.findAll(pag).stream();
+     
+                return hisRepository.findAll().page(query.getPage(), query.getPageSize()).stream();
             }
 
             @Override

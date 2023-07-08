@@ -16,12 +16,13 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.ParecerTecnico;
-import org.springframework.data.repository.CrudRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 /**
  *
  * @author pauloborges
  */
-
-public interface ParecerTecnicoRepository  extends CrudRepository<ParecerTecnico, Long>{}
+@ApplicationScoped
+public interface ParecerTecnicoRepository  extends PanacheRepositoryBase<ParecerTecnico, Long>{}

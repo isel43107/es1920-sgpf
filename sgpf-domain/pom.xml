@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-spring-data-jpa</artifactId>
+            <artifactId>quarkus-hibernate-orm-panache</artifactId>
         </dependency>
 
         <!-- Bean validation -->
@@ -43,4 +43,23 @@
             <artifactId>commons-scxml2</artifactId>
         </dependency>
     </dependencies>
+    
+    <build>
+    <plugins>
+            <!-- https://quarkus.io/guides/cdi-reference#bean_discovery 
+        <plugin>
+            <groupId>io.smallrye</groupId>
+            <artifactId>jandex-maven-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+                <execution>
+                    <id>make-index</id>
+                    <goals>
+                        <goal>jandex</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>-->
+    </plugins>
+</build>
 </project>

@@ -59,8 +59,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-import org.springframework.data.domain.PageRequest;
-
 /**
  * UI
  *
@@ -277,8 +275,7 @@ public class ProjetoManagerView extends VerticalLayout {
                 Stream<Projeto> res = Stream.empty();
                 try {
                      res = Exec.submit(() -> {
-                        var pag = PageRequest.of(query.getPage(), query.getPageSize());
-                        return hisRepository.findAll(pag).stream();
+                        return hisRepository.findAll().page(query.getPage(), query.getPageSize()).stream();
                     }).get();
                     
                 } catch (InterruptedException | ExecutionException ex) {

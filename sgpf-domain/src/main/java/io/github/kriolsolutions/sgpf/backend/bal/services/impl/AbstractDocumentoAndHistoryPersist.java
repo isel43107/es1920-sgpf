@@ -58,7 +58,7 @@ abstract class AbstractDocumentoAndHistoryPersist<T> {
         his.setEstadoAnterior(estadoAnterior);
         his.setEstadoAtual(projeto.getProjEstado());
         his.setEvento(evento);
-        historicoRepo.save(his);
+        historicoRepo.persist(his);
         
         //Guarda Cabeçalho do documento
         //se o tipo for null não guarda documento, mas historico
@@ -69,11 +69,11 @@ abstract class AbstractDocumentoAndHistoryPersist<T> {
             
             doc.setProjeto(projeto);
             doc.setDocTipo(docTipo);
-            doc = documentoRepository.save(doc);
+            documentoRepository.persist(doc);
 
             /*Detalhes do */
             //desDetalhe.setDocumento(doc);
-            //boniRepo.save(desDetalhe);
+            //boniRepo.persist(desDetalhe);
             saveDocDetalhe(doc, detalheDoc);
         }
 

@@ -16,13 +16,14 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.DespachoFinIncentivo;
-import org.springframework.data.repository.CrudRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 /**
  *
  * @author pauloborges
  */
-
-public interface DespachoFinIncentivoRepository  extends CrudRepository<DespachoFinIncentivo, Long>{}
+@ApplicationScoped
+public interface DespachoFinIncentivoRepository  extends PanacheRepositoryBase<DespachoFinIncentivo, Long>{}
 

@@ -17,10 +17,8 @@ package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.projeto.Projeto;
 import java.util.List;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 
@@ -28,10 +26,11 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author pauloborges
  */
-public interface ProjetoRepository extends JpaRepository<Projeto, Long>{ 
+@ApplicationScoped
+public interface ProjetoRepository extends PanacheRepositoryBase<Projeto, Long>{ 
     
-    @Query("select p from Projeto p where p.projNumero LIKE CONCAT('%',?1,'%')")
-    public abstract List<Projeto> findByProjNumero(String projNumero);
+    //@Query("select p from Projeto p where p.projNumero LIKE CONCAT('%',?1,'%')")
+    public List<Projeto> findByProjNumero(String projNumero);
     
-    public List<Projeto> findByProjNumeroLike(String projNumero, Pageable pageable);
+    //public List<Projeto> findByProjNumero(String projNumero);
 }

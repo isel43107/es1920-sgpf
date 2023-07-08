@@ -48,11 +48,11 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumento
     public void aprovar(AbstractDespachoFinDto despacho ) {
         DespachoFinBonificacaoDto desBoni = (DespachoFinBonificacaoDto)despacho;
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(despacho.getProjetoId());
         projetoOptional.ifPresent( (Projeto projeto) -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
-            projetoRepository.save(projeto);;
+            projetoRepository.persist(projeto);;
             DespachoFinBonificacao desDetalhe = buildDespachoDetalhe(desBoni);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
             DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO;
@@ -72,12 +72,12 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumento
         desFinBonificacao.setPeriodo(desDto.getPeriodo());
         
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(despacho.getProjetoId());
         projetoOptional.ifPresent((Projeto projeto) -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
             DespachoFinBonificacao desDetalhe = buildDespachoDetalhe(desDto);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.REJEITADO);
             DocumentoCabecalho.DocumentoTipo docTipo = DocumentoCabecalho.DocumentoTipo.DESPACHO_FIN_BONIFICACAO;
@@ -100,7 +100,7 @@ public class DespachoFinanciamentoBonificacaoAcoesImpl extends AbstractDocumento
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoFinBonificacao detalheDoc) {
         DespachoFinBonificacaoRepository detalheDocRepo = getRepositoryFace().getDespachoFinBonificacaoRepository();
-        detalheDocRepo.save(detalheDoc);
+        detalheDocRepo.persist(detalheDoc);
     }
 
 }

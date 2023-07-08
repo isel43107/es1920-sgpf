@@ -35,10 +35,6 @@ limitations under the License.
     <dependencies>
         
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-spring-data-jpa</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-quarkus-extension</artifactId>
             <version>${vaadin.version}</version>
@@ -94,7 +90,7 @@ limitations under the License.
     <build>
         <defaultGoal>package quarkus:dev</defaultGoal>
         <plugins>
-            <!--
+            <!--  -->
             <plugin>
                 <groupId>io.smallrye</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
@@ -108,7 +104,7 @@ limitations under the License.
                     </execution>
                 </executions>
             </plugin>
-            -->
+           
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>

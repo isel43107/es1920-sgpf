@@ -45,12 +45,12 @@ public class DespachoAberturaAcoesImpl extends AbstractDocumentoAndHistoryPersis
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
         
-        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(despacho.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
             projeto.setProjEstado(Projeto.ProjetoEstado.PARECER_TECNICO);
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
             
             DespachoAbertura docDetalhe = buildDespachoDetalhe(despacho);
             docDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
@@ -70,6 +70,6 @@ public class DespachoAberturaAcoesImpl extends AbstractDocumentoAndHistoryPersis
 
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoAbertura detalheDoc) {
-        getRepositoryFace().getDespachoAberturaRepository().save(detalheDoc);
+        getRepositoryFace().getDespachoAberturaRepository().persist(detalheDoc);
     }
 }

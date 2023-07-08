@@ -42,7 +42,7 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
     @Override
     public void favoravel(ParecerTecnicoDto parecer) {
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findById(parecer.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(parecer.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
@@ -53,7 +53,7 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
             else{
                 projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_INCENTIVO);
             }
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
             
             ParecerTecnico pr = new ParecerTecnico();
             pr.setParecer(parecer.getTexto());
@@ -65,13 +65,13 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
     @Override
     public void desfavoravel(ParecerTecnicoDto parecer) {
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findById(parecer.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(parecer.getProjetoId());
         projetoOptional.ifPresent( projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
             
             ParecerTecnico pr = new ParecerTecnico();
             pr.setParecer(parecer.getTexto());
@@ -82,6 +82,6 @@ public class ParecerTecnicoAccoesImpl extends AbstractDocumentoAndHistoryPersist
 
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, ParecerTecnico detalheDoc) {
-        getRepositoryFace().getParecerTecnicoRepository().save(detalheDoc);
+        getRepositoryFace().getParecerTecnicoRepository().persist(detalheDoc);
     }
 }

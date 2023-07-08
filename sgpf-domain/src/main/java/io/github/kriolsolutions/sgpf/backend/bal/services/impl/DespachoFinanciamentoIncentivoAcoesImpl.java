@@ -54,12 +54,12 @@ public class DespachoFinanciamentoIncentivoAcoesImpl extends AbstractDocumentoAn
         DespachoFinIncentivoDto desDto = (DespachoFinIncentivoDto)despacho;
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
 
-        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(despacho.getProjetoId());
 
         projetoOptional.ifPresent(projeto -> {
             projeto.setProjTipo(Projeto.ProjetoTipo.BONIFICAO);
             projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_FIN_BONIFICACAO);
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
         });
     }
 
@@ -69,12 +69,12 @@ public class DespachoFinanciamentoIncentivoAcoesImpl extends AbstractDocumentoAn
         DespachoFinIncentivoDto desDto = (DespachoFinIncentivoDto)despacho;
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
 
-        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(despacho.getProjetoId());
 
         projetoOptional.ifPresent(projeto -> {
             ProjetoEstado estadoAnterior = projeto.getProjEstado();
             projeto.setProjEstado(Projeto.ProjetoEstado.EM_PAGAMENTO);
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
             
             DespachoFinIncentivo desDetalhe = buildDespachoDetalhe(desDto);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.APROVADO);
@@ -89,14 +89,14 @@ public class DespachoFinanciamentoIncentivoAcoesImpl extends AbstractDocumentoAn
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
 
-        Optional<Projeto> projetoOptional = projetoRepository.findById(despacho.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(despacho.getProjetoId());
 
         projetoOptional.ifPresent(projeto -> {
             
             ProjetoEstado estadoAnterior = projeto.getProjEstado();
             
             projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_REJEITADO);
-            projetoRepository.save(projeto);
+            projetoRepository.persist(projeto);
             
             DespachoFinIncentivo desDetalhe = buildDespachoDetalhe(desDto);
             desDetalhe.setDecisao(Despacho.DespachoDecisao.REJEITADO);
@@ -124,7 +124,7 @@ public class DespachoFinanciamentoIncentivoAcoesImpl extends AbstractDocumentoAn
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, DespachoFinIncentivo detalheDoc) {
         DespachoFinIncentivoRepository desDetalheRepo = getRepositoryFace().getDespachoFinIncentivoRepository();
-        desDetalheRepo.save(detalheDoc);
+        desDetalheRepo.persist(detalheDoc);
     }
 
 }

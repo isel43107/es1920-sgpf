@@ -78,7 +78,7 @@ public class InitialData {
                 new Projeto(2L, "ISEL", "Portugal", "1111", "nib", "Mendes", "mendes@isel", "1236", 3000.00, ProjetoTipo.BONIFICAO))
                 .stream()
                 .forEach(event -> {
-                    //this.projetoRepository.save(event);
+                    //this.projetoRepository.persist(event);
                 });
 */
     }

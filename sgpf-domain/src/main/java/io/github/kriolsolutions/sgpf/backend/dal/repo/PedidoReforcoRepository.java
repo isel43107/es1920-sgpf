@@ -16,12 +16,13 @@
 package io.github.kriolsolutions.sgpf.backend.dal.repo;
 
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.docs.PedidoReforco;
-import org.springframework.data.repository.CrudRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 /**
  *
  * @author pauloborges
  */
-
-public interface PedidoReforcoRepository  extends CrudRepository<PedidoReforco, Long>{}
+@ApplicationScoped
+public interface PedidoReforcoRepository  extends PanacheRepositoryBase<PedidoReforco, Long>{}

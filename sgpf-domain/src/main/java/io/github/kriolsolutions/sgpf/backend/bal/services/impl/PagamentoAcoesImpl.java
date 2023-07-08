@@ -44,13 +44,13 @@ public class PagamentoAcoesImpl extends AbstractDocumentoAndHistoryPersist<Pagam
     public void efectuarPagamento(PagamentoDto pagDto) {
 
         ProjetoRepository projetoRepository = getRepositoryFace().getProjetoRepository();
-        Optional<Projeto> projetoOptional = projetoRepository.findById(pagDto.getProjetoId());
+        Optional<Projeto> projetoOptional = projetoRepository.findByIdOptional(pagDto.getProjetoId());
         projetoOptional.ifPresent(projeto -> {
 
             Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
             //TODO verificar se MontanteFinanciado  e/ou Prazo nao foi atingido mantem estado pagamento
-            //projetoRepository.save(projeto);
+            //projetoRepository.persist(projeto);
             if (estadoAnterior == Projeto.ProjetoEstado.EM_PAGAMENTO) {
 
                 Pagamento pr = new Pagamento();
@@ -65,7 +65,7 @@ public class PagamentoAcoesImpl extends AbstractDocumentoAndHistoryPersist<Pagam
 
     @Override
     protected void saveDocDetalhe(DocumentoCabecalho doc, Pagamento detalheDoc) {
-        getRepositoryFace().getPagamentoRepository().save(detalheDoc);
+        getRepositoryFace().getPagamentoRepository().persist(detalheDoc);
     }
 
 }

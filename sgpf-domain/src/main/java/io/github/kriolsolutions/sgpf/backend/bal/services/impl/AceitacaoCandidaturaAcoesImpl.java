@@ -52,13 +52,13 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
         //PROJETO -  Num projeto temporario
         String numProjeto = "TMP_" + ProjetoGeneradorNumero.gerarNumeroProjeto(new Date().getTime());
         projeto.setProjNumero(numProjeto);
-        projeto = projetoRepository.save(projeto);
+        projetoRepository.persist(projeto);
 
         //PROJETO -  Num projeto Final
         numProjeto = ProjetoGeneradorNumero.gerarNumeroProjeto(projeto.getId());
         projeto.setProjNumero(numProjeto);
 
-        projeto = projetoRepository.save(projeto);
+        projetoRepository.persist(projeto);
 
         //Documento Detalhe
         Candidatura candidatura = new Candidatura();
@@ -75,7 +75,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
         Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
         projeto.setProjEstado(Projeto.ProjetoEstado.DESPACHO_ABERTURA);
-        projetoRepository.save(projeto);
+        projetoRepository.persist(projeto);
 
         //doc detalhe nao há
         saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_ENQUADRADO, null, null);
@@ -90,7 +90,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
         Projeto.ProjetoEstado estadoAnterior = projeto.getProjEstado();
 
         projeto.setProjEstado(Projeto.ProjetoEstado.PROJETO_ARQUIVADO);
-        projetoRepository.save(projeto);
+        projetoRepository.persist(projeto);
 
         ///doc detalhe nao há
         saveDocAndHistorico(projeto, estadoAnterior, SGPFStateMachine.EVENT_DESENQUADRADO, null, null);
@@ -106,7 +106,7 @@ public class AceitacaoCandidaturaAcoesImpl extends AbstractDocumentoAndHistoryPe
             Candidatura candidatura = (Candidatura) detalheDoc;
             //Guarda Detable do Candidatura
             candidatura.setDocumento(doc);
-            candidaturaRepository.save(candidatura);
+            candidaturaRepository.persist(candidatura);
         }
     }
 

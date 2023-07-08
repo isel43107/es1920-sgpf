@@ -47,7 +47,7 @@ public class ProjetoActivacaoAcoesImpl implements ProjetoActivacaoAcoes{
     private void saveProjeto(Projeto projeto){
         
         ProjetoRepository projetoRepository = repositoryFace.getProjetoRepository();
-        projetoRepository.save(projeto);
+        projetoRepository.persist(projeto);
     }
 
     @Override

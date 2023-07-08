@@ -19,15 +19,16 @@ import io.github.kriolsolutions.sgpf.backend.dal.entidades.auth.Utilizador;
 import io.github.kriolsolutions.sgpf.backend.dal.entidades.auth.Utilizador.UtilizadorPerfil;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.repository.CrudRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 
 
 /**
  *
  * @author pauloborges
  */
-
-public interface UtilizadorRepository extends CrudRepository<Utilizador, Long>{
+@ApplicationScoped
+public interface UtilizadorRepository extends PanacheRepositoryBase<Utilizador, Long>{
 
     public Optional<Utilizador> findByUsername(String username);
     public List<Utilizador> findByPerfil(UtilizadorPerfil perfil);
