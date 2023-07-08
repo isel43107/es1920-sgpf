@@ -23,12 +23,12 @@ ifndef::imagesdir[:imagesdir: ./docs/images]
 
 [[doc]]
 = Projeto SGFP
-:author: Copyright (c) 2019-2020 KriolSystems.
-:revnumber: 2020-12-18
+:author: Copyright (c) 2019-2023 KriolOS.
+:revnumber: 2020-07-08
 :revdate: {docdatetime}
 :version-label!:
-:category: MEIC
-:edited: 2020-01-12
+:category: Blueprint, Boilerplate
+:edited: 2020-07-08
 :generated: {localdate} {localtime}
 :doctype: book
 :copyright: CC-BY-SA 3.0
@@ -46,26 +46,19 @@ NOTE: Generated: {localdate} {localtime}
 
 == Technology Stack 
 
-* Vaadin 14 (Vaadin Flow)
+* Vaadin 23 (Vaadin Flow)
 * JPA (Entity)
-* Apache DeltaSpike (Data Module)
+* Spring Data
 * Lombok
+* Quarkus 3
 
 Future
 
-* Apache DeltaSpike (Security Module)
+* OICD
 
 == Build - Pre-requisite
 
-* Install Java (JDK 8)
-* Execute next command to download frontend-maven-plugin and install on local maven repo (~/-m2)
-
-.Comando to download frontend plugin (ONLY FIRST 1 TIME)
-[source, bash]
-----
-mvnw com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v12.13.0"
-----
-
+* Install Java (JDK 17)
 
 
 == Compile and run 
@@ -73,24 +66,17 @@ mvnw com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -Dnode
 .Run application using (DEV)
 [source, bash]
 ----
-mvn -P tomee clean package tomee:run
+mvnw quarkus:dev
 ----
 
 
 .Generate artifact to run in the production mode (PROD)
 [source, bash]
 ----
-mvn -P production,tomee clean install tomee:build
+mvn -Pproduction clean package
 ----
 
 Browse to  "http://localhost:8080[http://localhost:8080]"
-
-=== Others Runner
-
-* Payara
-* Liberty
-* Cargo (Multi Container Runner) - Very powerful maven plugin
-** https://codehaus-cargo.github.io/cargo/Home.html
 
 
 == Screenshot 
